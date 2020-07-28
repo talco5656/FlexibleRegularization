@@ -1,0 +1,339 @@
+import numpy as np
+from numpy.random import normal
+
+from cs231n.layers import *
+from cs231n.fast_layers import *
+from cs231n.layer_utils import *
+from gradiant_magnitude_approximation import GMA
+from online_avg import OnlineAvg
+from welford_var import Welford
+
+
+class ThreeLayerConvNet(object):
+    """
+    A three-layer convolutional network with the following architecture:
+
+    conv - relu - 2x2 max pool - affine - relu - affine - softmax
+
+    The network operates on minibatches of data that have shape (N, C, H, W)
+    consisting of N images, each with height H and width W and with C input
+    channels.
+    """
+
+    def __init__(self, input_dim=(3, 32, 32), num_filters=32, filter_size=7,
+                 hidden_dim=100, num_classes=10, weight_scale=1e-3, reg=0.0,
+                 dtype=np.float32, iter_length=100, divide_var_by_mean_var=True,
+                 adaptive_reg=0, dropconnect=1, adaptive_dropconnect=0,
+                 variance_calculation_method='naive', static_variance_update=True,
+                 var_normalizer=1, inverse_var=True, adaptive_avg_reg=False,
+                  mean_mean=False):
+        """
+        Initialize a new network.
+
+        Inputs:
+        - input_dim: Tuple (C, H, W) giving size of input data
+        - num_filters: Number of filters to use in the convolutional layer
+        - filter_size: Width/height of filters to use in the convolutional layer
+        - hidden_dim: Number of units to use in the fully-connected hidden layer
+        - num_classes: Number of scores to produce from the final affine layer.
+        - weight_scale: Scalar giving standard deviation for random initialization
+          of weights.
+        - reg: Scalar giving L2 regularization strength
+        - dtype: numpy datatype to use for computation.
+        """
+        self.params = {}
+        self.reg = reg
+        self.dtype = dtype
+        # self.param_var = {}
+        # self.param_trajectories = {}
+        self.iter_length = iter_length
+        self.divide_var_by_mean_var = divide_var_by_mean_var
+        self.adaptive_var_reg = adaptive_reg
+        self.dropconnect = dropconnect
+        self.adaptive_dropconnect = adaptive_dropconnect
+        self.variance_calculation_method = variance_calculation_method
+        self.static_variance_update = static_variance_update
+        self.var_normalizer = var_normalizer
+        self.dynamic_param_var = None
+        self.inverse_var = inverse_var
+        self.adaptive_avg_reg = adaptive_avg_reg
+        self.mean_mean = mean_mean
+        ############################################################################
+        # Initialize weights and biases for the three-layer convolutional          #
+        # network. Weights should be initialized from a Gaussian centered at 0.0   #
+        # with standard deviation equal to weight_scale; biases should be          #
+        # initialized to zero. All weights and biases should be stored in the      #
+        #  dictionary self.params. Store weights and biases for the convolutional  #
+        # layer using the keys 'W1' and 'b1'; use keys 'W2' and 'b2' for the       #
+        # weights and biases of the hidden affine layer, and keys 'W3' and 'b3'    #
+        # for the weights and biases of the output affine layer.                   #
+        #                                                                          #
+        # IMPORTANT: For this assignment, you can assume that the padding          #
+        # and stride of the first convolutional layer are chosen so that           #
+        # **the width and height of the input are preserved**. Take a look at      #
+        # the start of the loss() function to see how that happens.                #                           
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        if self.adaptive_var_reg or self.adaptive_dropconnect:
+            if self.variance_calculation_method in ['welform', 'GMA']:
+                self.dynamic_param_var = {}
+            else:
+                self.param_var = {}
+                self.param_trajectories = {}
+
+        if self.adaptive_avg_reg:
+            self.param_avg = {}
+
+        pad = (filter_size - 1) // 2
+        h_mid = 1 + (input_dim[1] + 2 * pad - filter_size) / 1  # 这里的参数固定,卷积后
+        w_mid = 1 + (input_dim[2] + 2 * pad - filter_size) / 1
+        h_out = 1 + (h_mid - 2) / 2  # max-pooling 后
+        w_out = 1 + (w_mid - 2) / 2
+
+        self.params['W1'] = normal(scale=weight_scale, size=(num_filters, input_dim[0], filter_size, filter_size))
+        self.params['b1'] = np.zeros(num_filters)
+        self.params['W2'] = normal(scale=weight_scale, size=(num_filters * int(h_out * w_out), hidden_dim))
+        self.params['b2'] = np.zeros(hidden_dim)
+        self.params['W3'] = normal(scale=weight_scale, size=(hidden_dim, num_classes))
+        self.params['b3'] = np.zeros(num_classes)
+        
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        for k, v in self.params.items():
+            self.params[k] = v.astype(dtype)
+            if (self.adaptive_var_reg and 'W' in k) or (self.adaptive_dropconnect and k in ('W1', 'W2')):
+                if self.variance_calculation_method == 'welford':
+                    self.dynamic_param_var[k] = Welford(dim=v.dim, var_normalizer=self.var_normalizer,
+                                divide_var_by_mean_var=self.divide_var_by_mean_var,
+                                static_var=self.static_variance_update)
+                elif self.variance_calculation_method == 'GMA':
+                    self.dynamic_param_var[k] = GMA(dim=v.dim, var_normalizer=self.var_normalizer,
+                            divide_var_by_mean_var=self.divide_var_by_mean_var,
+                            static_var=self.static_variance_update)
+                else:
+                    self.param_var[k] = np.ones(shape=v.shape).astype(dtype)
+                    self.param_trajectories[k] = []
+            if self.adaptive_avg_reg and 'W' in k:
+                self.param_avg[k] = OnlineAvg(dim=v.shape, static_calculation=True)
+
+        if self.dropconnect != 1:
+            self.dropconnect_param = {
+                'mode': 'train',
+                'p': dropconnect,
+                'mc dropconnect forword passes': 10}
+            if self.adaptive_dropconnect:
+                # if variance_calculation_method:
+                #     self.dropconnect_param['adaptive_p'] = \
+                #         {param_name: self.dynamic_param_var[param_name].get_var for param_name in self.dynamic_param_var.items()}
+                # else:
+                if self.variance_calculation_method == 'naive':
+                    self.dropconnect_param['adaptive_p'] = \
+                        {param_name: param_var for param_name, param_var in self.param_var.items()}
+                else:
+                    self.dropconnect_param['adaptive_p'] = \
+                        {param_name: self.dynamic_param_var[param_name].get_var() for param_name in
+                         self.dynamic_param_var}
+
+    def loss(self, X, y=None):
+        """
+        Evaluate loss and gradient for the three-layer convolutional network.
+
+        Input / output: Same API as TwoLayerNet in fc_net.py.
+        """
+        # print(self.params.keys())
+        W1, b1 = self.params['W1'], self.params['b1']
+        # W2, b2 = self.params['W2'], self.params['b2']
+        # W3, b3 = self.params['W3'], self.params['b3']
+
+        # pass conv_param to the forward pass for the convolutional layer
+        # Padding and stride chosen to preserve the input spatial size
+        filter_size = W1.shape[2]
+        conv_param = {'stride': 1, 'pad': (filter_size - 1) // 2}
+
+        # pass pool_param to the forward pass for the max-pooling layer
+        pool_param = {'pool_height': 2, 'pool_width': 2, 'stride': 2}
+
+        scores = None
+        ############################################################################
+        # Implement the forward pass for the three-layer convolutional net,        #
+        # computing the class scores for X and storing them in the scores          #
+        # variable.                                                                #
+        #                                                                          #
+        # Remember you can use the functions defined in cs231n/fast_layers.py and  #
+        # cs231n/layer_utils.py in your implementation (already imported).         #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        # w1, w2, w3 = self.params['W1'], self.params['W2'], self.params['W3']
+        if self.dropconnect != 1:
+            scores, cache1 = conv_relu_pool_forward(X, self.params['W1'], self.params['b1'], conv_param, pool_param)
+            scores, cache2 = affine_relu_dropconnect_forward(
+                scores, self.params['W2'], self.params['b2'],
+                self.dropconnect_param,
+                self.dropconnect_param['adaptive_p']['W2'] if self.adaptive_dropconnect else None)
+            scores, cache3 = affine_forward(scores, self.params['W3'], self.params['b3'])
+        else:
+            scores, cache1 = conv_relu_pool_forward(X, self.params['W1'], self.params['b1'], conv_param, pool_param)
+            scores, cache2 = affine_relu_forward(scores, self.params['W2'], self.params['b2'])
+            scores, cache3 = affine_forward(scores, self.params['W3'], self.params['b3'])
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        if y is None:
+            return scores
+
+        loss, grads = 0, {}
+        ############################################################################
+        # Implement the backward pass for the three-layer convolutional net,       #
+        # storing the loss and gradients in the loss and grads variables. Compute  #
+        # data loss using softmax, and make sure that grads[k] holds the gradients #
+        # for self.params[k]. Don't forget to add L2 regularization!               #
+        #                                                                          #
+        # NOTE: To ensure that your implementation matches ours and you pass the   #
+        # automated tests, make sure that your L2 regularization includes a factor #
+        # of 0.5 to simplify the expression for the gradient.                      #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        loss, dx = softmax_loss(scores, y)
+        
+        #todo: add weights here
+        if self.adaptive_var_reg or self.adaptive_avg_reg:
+            for w in self.params:
+                if 'W' in w and self.adaptive_var_reg:
+                    if self.adaptive_avg_reg:
+                        reg_term = (self.params[w] - self.param_avg[w].get_static_mean()) ** 2
+                        if self.mean_mean:
+                            reg_term /= np.mean(reg_term)
+                    else:
+                        reg_term = self.params[w] ** 2
+                    if self.adaptive_var_reg:
+                        if self.variance_calculation_method in ['welford', 'GMA']:
+                            var = self.dynamic_param_var[w].get_var()
+                        else:
+                            var = self.param_var[w]
+                        if not self.inverse_var:
+                            var = 1/var  # var type is float
+                        reg_term = reg_term.flatten() * var.flatten()
+                    # else:
+                    #     reg_term = reg_term.flatten
+                    loss += 0.5 * self.reg * np.sum(reg_term)  #reg_term.flatten() * var.flatten())
+        else:
+            loss += 0.5 * self.reg * \
+                    (np.sum(self.params['W1'] ** 2) + np.sum(self.params['W2'] ** 2) + np.sum(self.params['W3'] ** 2))
+        #todo: change backward by adding this furmula:
+        # grads[w] += self.reg * (self.params[w].flatten()*self.param_var[w].flatten()).reshape(self.params[w].shape)
+        dx, grads['W3'], grads['b3'] = affine_backward(dx, cache3)
+        dx, grads['W2'], grads['b2'] = affine_relu_backward(dx, cache2)
+        dx, grads['W1'], grads['b1'] = conv_relu_pool_backward(dx, cache1)
+        
+        for w in self.params:
+            if 'W' in w:
+                if self.adaptive_avg_reg or self.adaptive_var_reg:
+                    if self.adaptive_avg_reg:
+                        reg_grad = self.params[w] - self.param_avg[w].get_static_mean()
+                    else:
+                        reg_grad = self.params[w]
+                    if self.adaptive_var_reg:
+                        if self.adaptive_var_reg:
+                            if self.variance_calculation_method in ['welford', 'GMA']:
+                                var = self.dynamic_param_var[w].get_var()
+                            else:
+                                var = self.param_var[w]
+                            if not self.inverse_var:
+                                var = 1/var  # var type is float
+                            grads[w] = grads[w] + self.reg * \
+                                       (reg_grad.flatten()*var.flatten()).reshape(self.params[w].shape)
+                    else:
+                        grads[w] = grads[w] + self.reg * reg_grad
+                else:
+                    grads[w] = grads[w] + self.reg * (self.params[w])
+                
+        # grads['W3'] = grads['W3'] + self.reg * self.params['W3']
+        # grads['W2'] = grads['W2'] + self.reg * self.params['W2']
+        # grads['W1'] = grads['W1'] + self.reg * self.params['W1']
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        return loss, grads
+        
+    def loss_original(self, X, y=None):
+        """
+        Evaluate loss and gradient for the three-layer convolutional network.
+
+        Input / output: Same API as TwoLayerNet in fc_net.py.
+        """
+        W1, b1 = self.params['W1'], self.params['b1']
+        W2, b2 = self.params['W2'], self.params['b2']
+        W3, b3 = self.params['W3'], self.params['b3']
+
+        # pass conv_param to the forward pass for the convolutional layer
+        # Padding and stride chosen to preserve the input spatial size
+        filter_size = W1.shape[2]
+        conv_param = {'stride': 1, 'pad': (filter_size - 1) // 2}
+
+        # pass pool_param to the forward pass for the max-pooling layer
+        pool_param = {'pool_height': 2, 'pool_width': 2, 'stride': 2}
+
+        scores = None
+        ############################################################################
+        # Implement the forward pass for the three-layer convolutional net,        #
+        # computing the class scores for X and storing them in the scores          #
+        # variable.                                                                #
+        #                                                                          #
+        # Remember you can use the functions defined in cs231n/fast_layers.py and  #
+        # cs231n/layer_utils.py in your implementation (already imported).         #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        w1, w2, w3 = self.params['W1'], self.params['W2'], self.params['W3']
+        scores, cache1 = conv_relu_pool_forward(X, self.params['W1'], self.params['b1'], conv_param, pool_param)
+        scores, cache2 = affine_relu_forward(scores, self.params['W2'], self.params['b2'])
+        scores, cache3 = affine_forward(scores, self.params['W3'], self.params['b3'])
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        if y is None:
+            return scores
+
+        loss, grads = 0, {}
+        ############################################################################
+        # Implement the backward pass for the three-layer convolutional net,       #
+        # storing the loss and gradients in the loss and grads variables. Compute  #
+        # data loss using softmax, and make sure that grads[k] holds the gradients #
+        # for self.params[k]. Don't forget to add L2 regularization!               #
+        #                                                                          #
+        # NOTE: To ensure that your implementation matches ours and you pass the   #
+        # automated tests, make sure that your L2 regularization includes a factor #
+        # of 0.5 to simplify the expression for the gradient.                      #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        loss, dx = softmax_loss(scores, y)
+        
+        # todo: add weights here
+        
+        loss += 0.5 * self.reg * (np.sum(w1 ** 2) + np.sum(w2 ** 2) + np.sum(w3 ** 2))
+        # todo: change backward by adding this furmula:
+        dx, grads['W3'], grads['b3'] = affine_backward(dx, cache3)
+        dx, grads['W2'], grads['b2'] = affine_relu_backward(dx, cache2)
+        dx, grads['W1'], grads['b1'] = conv_relu_pool_backward(dx, cache1)
+        grads['W3'] = grads['W3'] + self.reg * self.params['W3']
+        grads['W2'] = grads['W2'] + self.reg * self.params['W2']
+        grads['W1'] = grads['W1'] + self.reg * self.params['W1']
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        return loss, grads
+

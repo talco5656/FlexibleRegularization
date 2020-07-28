@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/assignment2$FullyConnectedNets__1_.coverage" NAME="FullyConnectedNets (1) Coverage Results" MODIFIED="1592210401057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$with_optuna.coverage" NAME="with_optuna Coverage Results" MODIFIED="1593326781270" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$FullyConnectedNets_12_6.coverage" NAME="FullyConnectedNets_12_6 Coverage Results" MODIFIED="1592320959049" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$Unnamed.coverage" NAME="PyTorch.py Coverage Results" MODIFIED="1592043140769" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$FullyConnectedNets.coverage" NAME="FullyConnectedNets Coverage Results" MODIFIED="1592041871508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$Hone_py.coverage" NAME="Hone.py Coverage Results" MODIFIED="1594219321332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$train_and_eval.coverage" NAME="train_and_eval Coverage Results" MODIFIED="1594396036473" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$Nosetests_in_PyTorch_py.coverage" NAME="PyTorch.py Coverage Results" MODIFIED="1592042034011" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$with_optuna__1_.coverage" NAME="with_optuna (1) Coverage Results" MODIFIED="1594228066457" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$ConvolutionalNetworks.coverage" NAME="ConvolutionalNetworks Coverage Results" MODIFIED="1592336613186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$Nosetests_in_Hone_py.coverage" NAME="Nosetests Coverage Results" MODIFIED="1594218295092" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$cnn.coverage" NAME="cnn Coverage Results" MODIFIED="1592041381544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cs231n/classifiers" />
+    <SUITE FILE_PATH="coverage/assignment2$with_hyperopt.coverage" NAME="with_hyperopt Coverage Results" MODIFIED="1593249720120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$fc_net.coverage" NAME="fc_net Coverage Results" MODIFIED="1592899896919" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cs231n/classifiers" />
+    <SUITE FILE_PATH="coverage/assignment2$sgd.coverage" NAME="sgd Coverage Results" MODIFIED="1592042020582" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/.local/lib/python3.6/site-packages/torch/optim" />
+    <SUITE FILE_PATH="coverage/FlexibleRegularization$train_and_eval.coverage" NAME="train_and_eval Coverage Results" MODIFIED="1595326089164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$single_experiment.coverage" NAME="single_experiment Coverage Results" MODIFIED="1594044809857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/assignment2$train_scheme_evaluate_distribution_over_sample.coverage" NAME="train_scheme_evaluate_distribution_over_sample Coverage Results" MODIFIED="1594378161166" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_COMMON_BRANCH" value="without_dropconnect" />
+  </component>
+  <component name="JupyterTrust" id="2b8a9906-3dde-4ef3-bdbe-240fd8f2154b" />
+  <component name="ProjectId" id="1f8GF2u8kiUBeUlHM5FqXMLhUGj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.train_and_eval">
+    <configuration name="Hone.py" type="PythonConfigurationType" factoryName="Python">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python3.6" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Hone.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="adaptive_solver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cs231n" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cs231n/adaptive_solver.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="cnn" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cs231n/classifiers" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cs231n/classifiers/cnn.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="data_utils" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cs231n" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cs231n/data_utils.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train_and_eval" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="TRAINS_TASK_ID" value="75f88d5f341e4c21857b476cc8dfba2f " />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_and_eval.py" />
+      <option name="PARAMETERS" value="--iter_length 10 --num_of_repeats 1 --epochs 1 --batch_size 2 --num_trains 50 --adaptive_avg_reg 1 --test 0 --model cnn --reg_strength 0.0001 --adaptive_dropconnect 0 --baseline_as_well 1 --trains 0" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train_scheme_evaluate_distribution_over_sample" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_scheme_evaluate_distribution_over_sample.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.Hone.py" />
+      <item itemvalue="Python.train_and_eval" />
+      <item itemvalue="Python.train_scheme_evaluate_distribution_over_sample" />
+      <item itemvalue="Python.cnn" />
+      <item itemvalue="Python.data_utils" />
+      <item itemvalue="Python.adaptive_solver" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.train_and_eval" />
+        <item itemvalue="Python.cnn" />
+        <item itemvalue="Python.adaptive_solver" />
+        <item itemvalue="Python.data_utils" />
+        <item itemvalue="Python.train_scheme_evaluate_distribution_over_sample" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="" />
+      <created>1590306215690</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590306215690</updated>
+      <workItem from="1595592199950" duration="6565000" />
+      <workItem from="1595619002078" duration="2922000" />
+      <workItem from="1595674605533" duration="2579000" />
+      <workItem from="1595754152584" duration="439000" />
+      <workItem from="1595831396865" duration="908000" />
+      <workItem from="1595848186146" duration="17432000" />
+    </task>
+    <task id="LOCAL-00001" summary="Third commit">
+      <created>1592314894946</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1592314894946</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added verbose to arguments">
+      <created>1592330219265</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1592330219265</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added verbose to arguments">
+      <created>1592336376491</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1592336376491</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Nosetests_in_Hone_py - 2020.07.08 at 17h 24m 07s.xml">
+      <configuration name="Nosetests in Hone.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests - 2020.07.08 at 17h 24m 55s.xml">
+      <configuration name="Nosetests" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Third commit" />
+    <MESSAGE value="added verbose to arguments" />
+    <MESSAGE value="changed lr for momentum" />
+    <MESSAGE value="starting reimplement dropconnect" />
+    <MESSAGE value="del it all" />
+    <option name="LAST_COMMIT_MESSAGE" value="del it all" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="530" y="197" key="#Inspections" timestamp="1595831698123">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="530" y="197" key="#Inspections/0.23.1920.977@0.23.1920.977" timestamp="1595831698123" />
+    <state x="666" y="126" key="#cnn" timestamp="1595598819577">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="666" y="126" key="#cnn/0.23.1920.977@0.23.1920.977" timestamp="1595598819577" />
+    <state x="529" y="184" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1595931359235">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="529" y="184" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.977@0.23.1920.977" timestamp="1595931359235" />
+    <state x="424" y="173" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.978@0.23.1920.978" timestamp="1595852613746" />
+    <state x="748" y="272" key="FileChooserDialogImpl" timestamp="1595848527663">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="748" y="272" key="FileChooserDialogImpl/0.23.1920.977@0.23.1920.977" timestamp="1595848527663" />
+    <state width="1920" height="254" key="GridCell.Tab.0.bottom" timestamp="1595931936046">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state width="1920" height="254" key="GridCell.Tab.0.bottom/0.23.1920.977@0.23.1920.977" timestamp="1595931936046" />
+    <state width="1920" height="333" key="GridCell.Tab.0.bottom/0.23.1920.978@0.23.1920.978" timestamp="1595858226613" />
+    <state width="1920" height="254" key="GridCell.Tab.0.bottom/0.23.1920.980@0.23.1920.980" timestamp="1595616876525" />
+    <state width="1920" height="254" key="GridCell.Tab.0.center" timestamp="1595931936046">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state width="1920" height="254" key="GridCell.Tab.0.center/0.23.1920.977@0.23.1920.977" timestamp="1595931936046" />
+    <state width="1920" height="333" key="GridCell.Tab.0.center/0.23.1920.978@0.23.1920.978" timestamp="1595858226612" />
+    <state width="1920" height="254" key="GridCell.Tab.0.center/0.23.1920.980@0.23.1920.980" timestamp="1595616876524" />
+    <state width="1920" height="254" key="GridCell.Tab.0.left" timestamp="1595931936045">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state width="1920" height="254" key="GridCell.Tab.0.left/0.23.1920.977@0.23.1920.977" timestamp="1595931936045" />
+    <state width="1920" height="333" key="GridCell.Tab.0.left/0.23.1920.978@0.23.1920.978" timestamp="1595858226612" />
+    <state width="1920" height="254" key="GridCell.Tab.0.left/0.23.1920.980@0.23.1920.980" timestamp="1595616876524" />
+    <state width="1920" height="254" key="GridCell.Tab.0.right" timestamp="1595931936046">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state width="1920" height="254" key="GridCell.Tab.0.right/0.23.1920.977@0.23.1920.977" timestamp="1595931936046" />
+    <state width="1920" height="333" key="GridCell.Tab.0.right/0.23.1920.978@0.23.1920.978" timestamp="1595858226612" />
+    <state width="1920" height="254" key="GridCell.Tab.0.right/0.23.1920.980@0.23.1920.980" timestamp="1595616876524" />
+    <state width="1920" height="333" key="GridCell.Tab.1.bottom" timestamp="1595858226614">
+      <screen x="0" y="23" width="1920" height="978" />
+    </state>
+    <state width="1920" height="333" key="GridCell.Tab.1.bottom/0.23.1920.977@0.23.1920.977" timestamp="1595857646100" />
+    <state width="1920" height="333" key="GridCell.Tab.1.bottom/0.23.1920.978@0.23.1920.978" timestamp="1595858226614" />
+    <state width="1920" height="333" key="GridCell.Tab.1.center" timestamp="1595858226613">
+      <screen x="0" y="23" width="1920" height="978" />
+    </state>
+    <state width="1920" height="333" key="GridCell.Tab.1.center/0.23.1920.977@0.23.1920.977" timestamp="1595857646099" />
+    <state width="1920" height="333" key="GridCell.Tab.1.center/0.23.1920.978@0.23.1920.978" timestamp="1595858226613" />
+    <state width="1920" height="333" key="GridCell.Tab.1.left" timestamp="1595858226613">
+      <screen x="0" y="23" width="1920" height="978" />
+    </state>
+    <state width="1920" height="333" key="GridCell.Tab.1.left/0.23.1920.977@0.23.1920.977" timestamp="1595857646099" />
+    <state width="1920" height="333" key="GridCell.Tab.1.left/0.23.1920.978@0.23.1920.978" timestamp="1595858226613" />
+    <state width="1920" height="333" key="GridCell.Tab.1.right" timestamp="1595858226613">
+      <screen x="0" y="23" width="1920" height="978" />
+    </state>
+    <state width="1920" height="333" key="GridCell.Tab.1.right/0.23.1920.977@0.23.1920.977" timestamp="1595857646099" />
+    <state width="1920" height="333" key="GridCell.Tab.1.right/0.23.1920.978@0.23.1920.978" timestamp="1595858226613" />
+    <state x="401" y="98" key="SettingsEditor" timestamp="1595866797427">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="401" y="98" key="SettingsEditor/0.23.1920.977@0.23.1920.977" timestamp="1595866797427" />
+    <state x="100" y="123" width="1720" height="777" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1595928428667">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="100" y="123" width="1720" height="777" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1920.977@0.23.1920.977" timestamp="1595928428667" />
+    <state x="505" y="112" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1595596994639">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="505" y="112" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1920.977@0.23.1920.977" timestamp="1595596994639" />
+    <state x="432" y="84" width="1002" height="690" key="find.popup" timestamp="1595929224792">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="432" y="84" width="1002" height="690" key="find.popup/0.23.1920.977@0.23.1920.977" timestamp="1595929224792" />
+    <state x="251" y="66" width="1002" height="690" key="find.popup/0.23.1920.978@0.23.1920.978" timestamp="1595619182913" />
+    <state x="807" y="309" key="refactoring.ChangeSignatureDialog" timestamp="1595593617137">
+      <screen x="0" y="23" width="1920" height="977" />
+    </state>
+    <state x="807" y="309" key="refactoring.ChangeSignatureDialog/0.23.1920.977@0.23.1920.977" timestamp="1595593617137" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/adaptive_solver.py</url>
+          <line>393</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/fc_net.py</url>
+          <line>553</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/cnn.py</url>
+          <line>249</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/layers.py</url>
+          <line>85</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/solver.py</url>
+          <line>261</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/with_hyperopt.py</url>
+          <line>110</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/fc_net.py</url>
+          <line>327</line>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/fc_net.py</url>
+          <line>489</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/cnn.py</url>
+          <line>119</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/cnn.py</url>
+          <line>208</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/cnn.py</url>
+          <line>118</line>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/cnn.py</url>
+          <line>106</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/cnn.py</url>
+          <line>236</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/cnn.py</url>
+          <line>238</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/FlexibleRegularization$data_utils.coverage" NAME="data_utils Coverage Results" MODIFIED="1595619655496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cs231n" />
+    <SUITE FILE_PATH="coverage/FlexibleRegularization$train_and_eval.coverage" NAME="train_and_eval Coverage Results" MODIFIED="1595931936040" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/FlexibleRegularization$cnn.coverage" NAME="cnn Coverage Results" MODIFIED="1595930639895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cs231n/classifiers" />
+  </component>
+</project>
