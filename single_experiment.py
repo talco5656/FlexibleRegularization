@@ -72,7 +72,8 @@ def _get_models(args, reg_strenght=0.1):
     if args.model == 'mlp':
         original_model = FullyConnectedNetOriginal([args.fc_width]*5, weight_scale=5e-2, reg=reg_strenght)
         adaptive_model = FullyConnectedNet([args.fc_width] * 5, iter_length=args.iter_length, weight_scale=5e-2,
-                                           reg=1 if args.divide_var_by_mean_var else reg_strenght, addaptive_reg=args.adaptive_var_reg,
+                                           reg=1 if args.divide_var_by_mean_var else reg_strenght,
+                                           addaptive_reg=args.adaptive_var_reg,
                                            divide_var_by_mean_var=args.divide_var_by_mean_var,
                                            dropconnect=args.dropconnect, adaptive_dropconnect=args.adaptive_dropconnect)
     elif args.model == 'cnn':
@@ -143,7 +144,7 @@ def train_and_eval(args):
             #                                  verbose=args.verbose)
             # adaptive_solvers[update_rule] = adaptive_solver
             # adaptive_solver.meta_train()
-            adaptive_solver = Solver(adaptive_model, small_data, print_every=args.print_every,
+            adaptive_solver = AdaptiveSolver(adaptive_model, small_data, print_every=args.print_every,
                                      num_epochs=args.epochs, batch_size=args.batch_size,
                                      update_rule=update_rule,
                                      optim_config={
