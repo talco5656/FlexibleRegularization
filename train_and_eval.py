@@ -161,7 +161,7 @@ def train_and_eval(args):
             adaptive_solvers[update_rule] = adaptive_solver
             if not args.eval_distribution_sample:
                 # adaptive_solver.meta_train()
-                adaptive_model.train()
+                adaptive_solver.train()
             else:
                 adaptive_solver.meta_train_eval_distribuiton_sample()
             print()

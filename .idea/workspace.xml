@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -251,7 +249,7 @@
       <workItem from="1596205978720" duration="1305000" />
       <workItem from="1596276953942" duration="2054000" />
       <workItem from="1596311409841" duration="2277000" />
-      <workItem from="1596438807139" duration="1836000" />
+      <workItem from="1596438807139" duration="2437000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
