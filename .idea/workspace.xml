@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/single_experiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/single_experiment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cs231n/classifiers/cnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs231n/classifiers/cnn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_and_eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_and_eval.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -251,7 +251,9 @@
       <workItem from="1595831396865" duration="908000" />
       <workItem from="1595848186146" duration="18666000" />
       <workItem from="1596205978720" duration="1305000" />
-      <workItem from="1596276953942" duration="1752000" />
+      <workItem from="1596276953942" duration="2054000" />
+      <workItem from="1596311409841" duration="2277000" />
+      <workItem from="1596438807139" duration="1301000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>

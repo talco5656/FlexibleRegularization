@@ -26,7 +26,7 @@ class ThreeLayerConvNet(object):
                  adaptive_reg=0, dropconnect=1, adaptive_dropconnect=0,
                  variance_calculation_method='naive', static_variance_update=True,
                  var_normalizer=1, inverse_var=True, adaptive_avg_reg=False,
-                  mean_mean=False):
+                 mean_mean=False):
         """
         Initialize a new network.
 
@@ -79,8 +79,8 @@ class ThreeLayerConvNet(object):
                 self.param_var = {}
                 self.param_trajectories = {}
 
-        if self.adaptive_avg_reg:
-            self.param_avg = {}
+        # if self.adaptive_avg_reg:
+        #     self.param_avg = {}
 
         pad = (filter_size - 1) // 2
         h_mid = 1 + (input_dim[1] + 2 * pad - filter_size) / 1  # 这里的参数固定,卷积后
@@ -114,8 +114,8 @@ class ThreeLayerConvNet(object):
                 else:
                     self.param_var[k] = np.ones(shape=v.shape).astype(dtype)
                     self.param_trajectories[k] = []
-            if self.adaptive_avg_reg and 'W' in k:
-                self.param_avg[k] = OnlineAvg(dim=v.shape, static_calculation=True)
+            # if self.adaptive_avg_reg and 'W' in k:
+            #     self.param_avg[k] = OnlineAvg(dim=v.shape, static_calculation=True)
 
         if self.dropconnect != 1:
             self.dropconnect_param = {
