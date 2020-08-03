@@ -142,15 +142,22 @@ def train_and_eval(args):
             print(f'running adaptive with {update_rule}')
             original_model, adaptive_model = get_models(args, reg_strenght)
             # todo: changed from Solver to AdaptiveSolver
-            adaptive_solver = Solver(adaptive_model, small_data, print_every=args.print_every,
-                                             num_epochs=args.epochs, batch_size=args.batch_size,
-                                             update_rule=update_rule,
-                                             optim_config={
-                                                 'learning_rate': learning_rates[update_rule],
-                                             },
-                                             verbose=args.verbose,
-                                             logger=Task.current_task().get_logger() if args.trains else None,
-                                             eval_distribution_sample=args.eval_distribution_sample)
+            # adaptive_solver = AdaptiveSolver(adaptive_model, small_data, print_every=args.print_every,
+            #                                  num_epochs=args.epochs, batch_size=args.batch_size,
+            #                                  update_rule=update_rule,
+            #                                  optim_config={
+            #                                      'learning_rate': learning_rates[update_rule],
+            #                                  },
+            #                                  verbose=args.verbose,
+            #                                  logger=Task.current_task().get_logger() if args.trains else None,
+            #                                  eval_distribution_sample=args.eval_distribution_sample)
+            adaptive_solver = Solver(original_model, small_data, print_every=args.print_every,
+                            num_epochs=args.epochs, batch_size=args.batch_size,
+                            update_rule=update_rule,
+                            optim_config={
+                                'learning_rate': learning_rates[update_rule],
+                            },
+                            verbose=args.verbose)
             adaptive_solvers[update_rule] = adaptive_solver
             if not args.eval_distribution_sample:
                 # adaptive_solver.meta_train()
