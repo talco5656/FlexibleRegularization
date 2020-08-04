@@ -79,8 +79,8 @@ class ThreeLayerConvNet(object):
                 self.param_var = {}
                 self.param_trajectories = {}
 
-        # if self.adaptive_avg_reg:
-        #     self.param_avg = {}
+        if self.adaptive_avg_reg:
+            self.param_avg = {}
 
         pad = (filter_size - 1) // 2
         h_mid = 1 + (input_dim[1] + 2 * pad - filter_size) / 1  # 这里的参数固定,卷积后
@@ -201,7 +201,7 @@ class ThreeLayerConvNet(object):
         loss, dx = softmax_loss(scores, y)
         
         #todo: add weights here
-        if self.adaptive_var_reg or self.adaptive_avg_reg:
+        if self.adaptive_var_reg:  # or self.adaptive_avg_reg:
             for w in self.params:
                 if 'W' in w and self.adaptive_var_reg:
                     if self.adaptive_avg_reg:
@@ -234,7 +234,7 @@ class ThreeLayerConvNet(object):
         
         for w in self.params:
             if 'W' in w:
-                if self.adaptive_avg_reg or self.adaptive_var_reg:
+                if self.adaptive_var_reg:  # or self.adaptive_avg_reg:
                     if self.adaptive_avg_reg:
                         # reg_grad = self.params[w] - self.param_avg[w].get_static_mean()
                         #  todo: this is debug
