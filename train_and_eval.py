@@ -74,14 +74,15 @@ def parse_args():
     parser.add_argument("--adaptive_avg_reg", default=0, type=int)
     parser.add_argument("--mean_mean", default=0, type=int)
     parser.add_argument("--trains", default=1, type=int)
+    parser.add_argument("--hidden_layers", default=0, type=int)
     return parser.parse_args()
 
 
 def get_models(args, reg_strenght=0.1):
     if args.model == 'mlp':
-        original_model = FullyConnectedNetOriginal([args.fc_width]*5, weight_scale=5e-2, reg=reg_strenght,
+        original_model = FullyConnectedNetOriginal([args.fc_width]*args.hidden_layers, weight_scale=5e-2, reg=reg_strenght,
                                                    normalization="batchnorm" if args.batchnorm else None)
-        adaptive_model = FullyConnectedNet([args.fc_width] * 5, normalization="batchnorm" if args.batchnorm else None,
+        adaptive_model = FullyConnectedNet([args.fc_width] * args.hidden_layers, normalization="batchnorm" if args.batchnorm else None,
                                            iter_length=args.iter_length, weight_scale=5e-2,
                                            reg=1 if not args.divide_var_by_mean_var else reg_strenght,
                                            addaptive_reg=args.adaptive_var_reg,

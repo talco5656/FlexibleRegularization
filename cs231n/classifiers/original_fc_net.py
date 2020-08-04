@@ -305,23 +305,27 @@ class FullyConnectedNetOriginal(object):
         # parameters should be initialized to zeros.                               #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        for i in range(self.num_layers):
-            dim = []
-            if i == 0:
-                dim.append(input_dim)
-                dim.append(hidden_dims[i])
-            elif i == self.num_layers - 1:
-                dim.append(hidden_dims[i - 1])
-                dim.append(num_classes)
-            else:
-                dim.append(hidden_dims[i - 1])
-                dim.append(hidden_dims[i])
-            self.params['W' + str(i + 1)] = np.random.normal(scale=weight_scale, size=dim).astype(dtype)
-            self.params['b' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
-            if i != self.num_layers - 1 and (self.normalization == 'batchnorm' or self.normalization == 'layernorm'):
-                self.params['gamma' + str(i + 1)] = np.ones(dim[1], dtype=dtype)
-                self.params['beta' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
+        if self.num_layers == 1:
+            dim = [input_dim, num_classes]
+            self.params['W' + str(1)] = np.random.normal(scale=weight_scale, size=dim).astype(dtype)
+            self.params['b' + str(1)] = np.zeros(dim[1], dtype=dtype)
+        else:
+            for i in range(self.num_layers):
+                dim = []
+                if i == 0:
+                    dim.append(input_dim)
+                    dim.append(hidden_dims[i])
+                elif i == self.num_layers - 1:
+                    dim.append(hidden_dims[i - 1])
+                    dim.append(num_classes)
+                else:
+                    dim.append(hidden_dims[i - 1])
+                    dim.append(hidden_dims[i])
+                self.params['W' + str(i + 1)] = np.random.normal(scale=weight_scale, size=dim).astype(dtype)
+                self.params['b' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
+                if i != self.num_layers - 1 and (self.normalization == 'batchnorm' or self.normalization == 'layernorm'):
+                    self.params['gamma' + str(i + 1)] = np.ones(dim[1], dtype=dtype)
+                    self.params['beta' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################

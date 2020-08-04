@@ -299,7 +299,8 @@ class FullyConnectedNet(object):
         self.num_layers = 1 + len(hidden_dims)
         self.dtype = dtype
         self.params = {}
-        self.adaptive_reg = addaptive_reg
+        self.adaptive_var_reg = addaptive_reg
+        self.adaptive_avg_reg = False
         self.iter_length = iter_length
         self.divide_var_by_mean_var = divide_var_by_mean_var
         self.dropconnect = dropconnect
@@ -323,28 +324,19 @@ class FullyConnectedNet(object):
         # parameters should be initialized to zeros.                               #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-        if self.adaptive_reg or self.adaptive_dropconnect:
+        if self.adaptive_var_reg or self.adaptive_dropconnect:
             if self.variance_calculation_method == 'welford' or self.variance_calculation_method == 'GMA':
                 self.dynamic_param_var = {}
             else:
                 self.param_var = {}
                 self.param_trajectories = {}
-        
-        for i in range(self.num_layers):
-            dim = []
-            if i == 0:
-                dim.append(input_dim)
-                dim.append(hidden_dims[i])
-            elif i == self.num_layers - 1:
-                dim.append(hidden_dims[i - 1])
-                dim.append(num_classes)
-            else:
-                dim.append(hidden_dims[i - 1])
-                dim.append(hidden_dims[i])
-            self.params['W' + str(i + 1)] = np.random.normal(scale=weight_scale, size=dim).astype(dtype)
-            if self.adaptive_reg or self.adaptive_dropconnect:
+        if self.num_layers == 1:
+            dim = [input_dim, num_classes]
+            self.params['W' + str(1)] = np.random.normal(scale=weight_scale, size=dim).astype(dtype)
+            self.params['b' + str(1)] = np.zeros(dim[1], dtype=dtype)
+            if self.adaptive_var_reg or self.adaptive_dropconnect:
                 if self.variance_calculation_method == 'welford':
-                    self.dynamic_param_var['W' + str(i + 1)] =\
+                    self.dynamic_param_var['W' + str(i + 1)] = \
                         Welford(dim=dim, var_normalizer=self.var_normalizer,
                                 divide_var_by_mean_var=self.divide_var_by_mean_var,
                                 static_var=self.static_variance_update)
@@ -354,13 +346,40 @@ class FullyConnectedNet(object):
                             divide_var_by_mean_var=self.divide_var_by_mean_var,
                             static_var=self.static_variance_update)
                 else:
-                    self.param_var['W' + str(i + 1)] = np.ones(shape=dim).astype(dtype)
-                    self.param_trajectories['W' + str(i + 1)] = []
-            # self.param_trajectories['W' + str(i + 1)] = np.zeros(shape=[self.iter_length] + dim).astype(dtype)
-            self.params['b' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
-            if i != self.num_layers - 1 and (self.normalization == 'batchnorm' or self.normalization == 'layernorm'):
-                self.params['gamma' + str(i + 1)] = np.ones(dim[1], dtype=dtype)
-                self.params['beta' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
+                    self.param_var['W' + str(1)] = np.ones(shape=dim).astype(dtype)
+                    self.param_trajectories['W' + str(1)] = []
+        else:
+            for i in range(self.num_layers):
+                dim = []
+                if i == 0:
+                    dim.append(input_dim)
+                    dim.append(hidden_dims[i])
+                elif i == self.num_layers - 1:
+                    dim.append(hidden_dims[i - 1])
+                    dim.append(num_classes)
+                else:
+                    dim.append(hidden_dims[i - 1])
+                    dim.append(hidden_dims[i])
+                self.params['W' + str(i + 1)] = np.random.normal(scale=weight_scale, size=dim).astype(dtype)
+                if self.adaptive_var_reg or self.adaptive_dropconnect:
+                    if self.variance_calculation_method == 'welford':
+                        self.dynamic_param_var['W' + str(i + 1)] =\
+                            Welford(dim=dim, var_normalizer=self.var_normalizer,
+                                    divide_var_by_mean_var=self.divide_var_by_mean_var,
+                                    static_var=self.static_variance_update)
+                    elif self.variance_calculation_method == 'GMA':
+                        self.dynamic_param_var['W' + str(i + 1)] = \
+                            GMA(dim=dim, var_normalizer=self.var_normalizer,
+                                divide_var_by_mean_var=self.divide_var_by_mean_var,
+                                static_var=self.static_variance_update)
+                    else:
+                        self.param_var['W' + str(i + 1)] = np.ones(shape=dim).astype(dtype)
+                        self.param_trajectories['W' + str(i + 1)] = []
+                # self.param_trajectories['W' + str(i + 1)] = np.zeros(shape=[self.iter_length] + dim).astype(dtype)
+                self.params['b' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
+                if i != self.num_layers - 1 and (self.normalization == 'batchnorm' or self.normalization == 'layernorm'):
+                    self.params['gamma' + str(i + 1)] = np.ones(dim[1], dtype=dtype)
+                    self.params['beta' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
@@ -485,7 +504,7 @@ class FullyConnectedNet(object):
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         loss, dx = softmax_loss(scores, y)
         for i in range(self.num_layers):
-            if self.adaptive_reg:
+            if self.adaptive_var_reg:
                 w_sqr = self.params['W' + str(i + 1)] ** 2
                 if self.variance_calculation_method in ['welford', 'GMA']:
                     var = self.dynamic_param_var[f'W{i+1}'].get_var()
@@ -520,7 +539,7 @@ class FullyConnectedNet(object):
                 elif self.normalization == 'layernorm':
                     dx, grads[w], grads[b], grads[gamma], grads[beta] = affine_ln_relu_backward(dx, caches.pop())
 
-            if self.adaptive_reg:
+            if self.adaptive_var_reg:
                 if self.variance_calculation_method != 'naive':
                     var = self.dynamic_param_var[w].get_var()
                 else:

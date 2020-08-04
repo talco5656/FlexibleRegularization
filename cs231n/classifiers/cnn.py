@@ -114,8 +114,8 @@ class ThreeLayerConvNet(object):
                 else:
                     self.param_var[k] = np.ones(shape=v.shape).astype(dtype)
                     self.param_trajectories[k] = []
-            # if self.adaptive_avg_reg and 'W' in k:
-            #     self.param_avg[k] = OnlineAvg(dim=v.shape, static_calculation=True)
+            if self.adaptive_avg_reg and 'W' in k:
+                self.param_avg[k] = OnlineAvg(dim=v.shape, static_calculation=True)
 
         if self.dropconnect != 1:
             self.dropconnect_param = {
@@ -201,9 +201,9 @@ class ThreeLayerConvNet(object):
         loss, dx = softmax_loss(scores, y)
         
         #todo: add weights here
-        if self.adaptive_var_reg:  # or self.adaptive_avg_reg:
+        if self.adaptive_var_reg or self.adaptive_avg_reg:
             for w in self.params:
-                if 'W' in w and self.adaptive_var_reg:
+                if 'W' in w:  # and self.adaptive_var_reg or self.adaptive_avg_reg:
                     if self.adaptive_avg_reg:
                         #todo: this is debug
                         # reg_term = (self.params[w] - self.param_avg[w].get_static_mean()) ** 2
@@ -234,11 +234,13 @@ class ThreeLayerConvNet(object):
         
         for w in self.params:
             if 'W' in w:
-                if self.adaptive_var_reg:  # or self.adaptive_avg_reg:
+                if self.adaptive_var_reg or self.adaptive_avg_reg:
                     if self.adaptive_avg_reg:
-                        # reg_grad = self.params[w] - self.param_avg[w].get_static_mean()
+                        reg_grad = self.params[w] - self.param_avg[w].get_static_mean()
                         #  todo: this is debug
-                        reg_grad = self.params[w]
+                        # reg_grad = self.params[w]
+                        # grads[w] = grads[w] + self.reg * (self.params[w])
+
                     else:
                         reg_grad = self.params[w]
                     if self.adaptive_var_reg:
@@ -249,10 +251,12 @@ class ThreeLayerConvNet(object):
                                 var = self.param_var[w]
                             if not self.inverse_var:
                                 var = 1/var  # var type is float
-                            grads[w] = grads[w] + self.reg * \
-                                       (reg_grad.flatten()*var.flatten()).reshape(self.params[w].shape)
-                    else:
-                        grads[w] = grads[w] + self.reg * reg_grad
+                            # grads[w] = grads[w] + self.reg * \
+                            #            (reg_grad.flatten()*var.flatten()).reshape(self.params[w].shape)
+                            reg_grad = (reg_grad.flatten()*var.flatten()).reshape(self.params[w].shape)
+                    grads[w] = grads[w] + self.reg * reg_grad
+                    # else:
+                    #     grads[w] = grads[w] + self.reg * reg_grad
                 else:
                     grads[w] = grads[w] + self.reg * (self.params[w])
                 
