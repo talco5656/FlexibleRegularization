@@ -236,9 +236,9 @@ class ThreeLayerConvNet(object):
             if 'W' in w:
                 if self.adaptive_var_reg or self.adaptive_avg_reg:
                     if self.adaptive_avg_reg:
-                        reg_grad = self.params[w] - self.param_avg[w].get_static_mean()
+                        # reg_grad = self.params[w] - self.param_avg[w].get_static_mean()
                         #  todo: this is debug
-                        # reg_grad = self.params[w]
+                        reg_grad = self.params[w]
                         # grads[w] = grads[w] + self.reg * (self.params[w])
 
                     else:
