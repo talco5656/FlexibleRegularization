@@ -272,7 +272,8 @@ class FullyConnectedNet(object):
                  divide_var_by_mean_var=True,
                  dropconnect=1, adaptive_dropconnect=False, var_normalizer=1,
                  variance_calculation_method='naive', static_variance_update=True,
-                 inverse_var=True, adaptive_avg_reg=False, mean_mean=False):
+                 inverse_var=True, adaptive_avg_reg=False, mean_mean=False,
+                 lnn=False):
         """
         Initialize a new FullyConnectedNet.
 
@@ -313,7 +314,7 @@ class FullyConnectedNet(object):
         self.inverse_var = inverse_var
         self.adaptive_avg_reg = adaptive_avg_reg
         self.mean_mean = mean_mean
-
+        self.lnn = lnn
         ############################################################################
         # Initialize the parameters of the network, storing all values in          #
         # the self.params dictionary. Store weights and biases for the first layer #
@@ -356,7 +357,7 @@ class FullyConnectedNet(object):
                     self.param_var['W' + str(1)] = np.ones(shape=dim).astype(dtype)
                     self.param_trajectories['W' + str(1)] = []
             if self.adaptive_avg_reg:
-                self.param_avg[f'W{i}'] = OnlineAvg(dim=dim, static_calculation=True)
+                self.param_avg['W1'] = OnlineAvg(dim=dim, static_calculation=True)
         else:
             for i in range(self.num_layers):
                 dim = []
@@ -388,7 +389,7 @@ class FullyConnectedNet(object):
                 self.params['b' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
 
                 if self.adaptive_avg_reg:
-                    self.param_avg[f'W{i}'] = OnlineAvg(dim=dim, static_calculation=True)
+                    self.param_avg[f'W{i+1}'] = OnlineAvg(dim=dim, static_calculation=True)
 
                 if i != self.num_layers - 1 and (self.normalization == 'batchnorm' or self.normalization == 'layernorm'):
                     self.params['gamma' + str(i + 1)] = np.ones(dim[1], dtype=dtype)
@@ -481,7 +482,7 @@ class FullyConnectedNet(object):
                             adaptive_dropconnect_weight=self.dropconnect_param['adaptive_p'][f'W{i+1}'] if
                                 self.adaptive_dropconnect else None)
                     else:
-                        scores, cache = affine_relu_forward(scores, w, b)
+                        scores, cache = affine_relu_forward(scores, w, b, linear=False)
                 else:
                     gamma = self.params['gamma' + str(i + 1)]
                     beta = self.params['beta' + str(i + 1)]
@@ -519,7 +520,7 @@ class FullyConnectedNet(object):
         for i in range(self.num_layers):
             if self.adaptive_var_reg or self.adaptive_avg_reg:
                 if self.adaptive_avg_reg:
-                    reg_term = (self.params[w] - self.param_avg[w].get_static_mean()) ** 2
+                    reg_term = (self.params[f'W{i+1}'] - self.param_avg[f'W{i+1}'].get_static_mean()) ** 2
                     # reg_term = self.params[w] ** 2
                     if self.mean_mean:
                         reg_term /= np.mean(reg_term)
@@ -551,7 +552,7 @@ class FullyConnectedNet(object):
                     # if self.use_dropconnect:
                     #     dx, grads[w], grads[b] = affine_relu_droconnect_backward(dx, caches.pop())
                     # else:
-                    dx, grads[w], grads[b] = affine_relu_backward(dx, caches.pop())
+                    dx, grads[w], grads[b] = affine_relu_backward(dx, caches.pop(), linear=self.lnn)
                     
                 #todo: implement dropconnect for the following
                 elif self.normalization == 'batchnorm':
@@ -571,9 +572,9 @@ class FullyConnectedNet(object):
                     var = self.param_var[w]
                 if not self.inverse_var:
                     var = 1/var
-                reg_grad = reg_grad.flatten()*var.flatten().reshape(self.params[w].shape)
-            grads[w] += self.reg * (reg_grad)
-                # grads[w] += self.reg * (self.params[w].flatten()*self.param_var[w].flatten()).reshape(
+                reg_grad = reg_grad.flatten()*var.flatten()  #  .reshape(self.params[w].shape)
+            grads[w] += self.reg * (reg_grad.reshape(self.params[w].shape))
+                # grads[w] += self.reg * (self.params[w].flatten()*var.flatten()).reshape(
                 #     self.params[w].shape)
             # else:
             #     grads[w] += self.reg * self.params[w]

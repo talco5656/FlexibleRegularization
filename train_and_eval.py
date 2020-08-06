@@ -75,6 +75,7 @@ def parse_args():
     parser.add_argument("--mean_mean", default=0, type=int)
     parser.add_argument("--trains", default=1, type=int)
     parser.add_argument("--hidden_layers", default=0, type=int)
+    parser.add_argument("--lnn", default=0, type=int)
     return parser.parse_args()
 
 
@@ -91,7 +92,10 @@ def get_models(args, reg_strenght=0.1):
                                            static_variance_update=args.static_variance_update,
                                            variance_calculation_method=args.variance_calculation_method,
                                            var_normalizer=args.var_normalizer,
-                                           inverse_var=args.inverse_var)
+                                           inverse_var=args.inverse_var,
+                                           adaptive_avg_reg=args.adaptive_avg_reg,
+                                           mean_mean=args.mean_mean,
+                                           lnn=args.lnn)
     elif args.model == 'cnn':
         original_model = OriginalThreeLayerConvNet(weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght)
         adaptive_model = ThreeLayerConvNet(weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght,

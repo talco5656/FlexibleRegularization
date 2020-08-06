@@ -212,7 +212,7 @@ def affine_backward_original(dout, cache):
     return dx, dw, db
 
 
-def relu_forward(x):
+def relu_forward(x, linear=False):
     """
     Computes the forward pass for a layer of rectified linear units (ReLUs).
 
@@ -228,8 +228,10 @@ def relu_forward(x):
     # Implement the ReLU forward pass.                                  #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    out = np.maximum(x, 0)
+    if linear:
+        out = x
+    else:
+        out = np.maximum(x, 0)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -239,7 +241,7 @@ def relu_forward(x):
     return out, cache
 
 
-def relu_backward(dout, cache):
+def relu_backward(dout, cache, linear=False):
     """
     Computes the backward pass for a layer of rectified linear units (ReLUs).
 
@@ -257,7 +259,8 @@ def relu_backward(dout, cache):
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
     dx = dout
-    dx[x <= 0] = 0
+    if not linear:
+        dx[x <= 0] = 0
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #

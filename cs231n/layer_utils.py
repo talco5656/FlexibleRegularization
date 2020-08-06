@@ -29,7 +29,7 @@ def affine_relu_dropconnect_forward(x, w, b, dropconnect_param, adaptive_dropcon
 #     return dx, dw, db
 
 
-def affine_relu_forward(x, w, b):
+def affine_relu_forward(x, w, b, linear=False):
     """
     Convenience layer that perorms an affine transform followed by a ReLU
 
@@ -42,17 +42,17 @@ def affine_relu_forward(x, w, b):
     - cache: Object to give to the backward pass
     """
     a, fc_cache = affine_forward(x, w, b)
-    out, relu_cache = relu_forward(a)
+    out, relu_cache = relu_forward(a, linear)
     cache = (fc_cache, relu_cache)
     return out, cache
 
 
-def affine_relu_backward(dout, cache):
+def affine_relu_backward(dout, cache, linear=False):
     """
     Backward pass for the affine-relu convenience layer
     """
     fc_cache, relu_cache = cache
-    da = relu_backward(dout, relu_cache)
+    da = relu_backward(dout, relu_cache, linear)
     dx, dw, db = affine_backward(da, fc_cache)
     return dx, dw, db
 
