@@ -3,6 +3,7 @@ import numpy as np
 from cs231n.layers import *
 from cs231n.layer_utils import *
 from gradiant_magnitude_approximation import GMA
+from online_avg import OnlineAvg
 
 from welford_var import Welford
 #
@@ -271,7 +272,7 @@ class FullyConnectedNet(object):
                  divide_var_by_mean_var=True,
                  dropconnect=1, adaptive_dropconnect=False, var_normalizer=1,
                  variance_calculation_method='naive', static_variance_update=True,
-                 inverse_var=True):
+                 inverse_var=True, adaptive_avg_reg=False, mean_mean=False):
         """
         Initialize a new FullyConnectedNet.
 
@@ -310,6 +311,8 @@ class FullyConnectedNet(object):
         self.static_variance_update = static_variance_update
         self.dynamic_param_var = None
         self.inverse_var = inverse_var
+        self.adaptive_avg_reg = adaptive_avg_reg
+        self.mean_mean = mean_mean
 
         ############################################################################
         # Initialize the parameters of the network, storing all values in          #
@@ -330,6 +333,10 @@ class FullyConnectedNet(object):
             else:
                 self.param_var = {}
                 self.param_trajectories = {}
+
+        if self.adaptive_avg_reg:
+            self.param_avg = {}
+
         if self.num_layers == 1:
             dim = [input_dim, num_classes]
             self.params['W' + str(1)] = np.random.normal(scale=weight_scale, size=dim).astype(dtype)
@@ -348,6 +355,8 @@ class FullyConnectedNet(object):
                 else:
                     self.param_var['W' + str(1)] = np.ones(shape=dim).astype(dtype)
                     self.param_trajectories['W' + str(1)] = []
+            if self.adaptive_avg_reg:
+                self.param_avg[f'W{i}'] = OnlineAvg(dim=dim, static_calculation=True)
         else:
             for i in range(self.num_layers):
                 dim = []
@@ -377,6 +386,10 @@ class FullyConnectedNet(object):
                         self.param_trajectories['W' + str(i + 1)] = []
                 # self.param_trajectories['W' + str(i + 1)] = np.zeros(shape=[self.iter_length] + dim).astype(dtype)
                 self.params['b' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
+
+                if self.adaptive_avg_reg:
+                    self.param_avg[f'W{i}'] = OnlineAvg(dim=dim, static_calculation=True)
+
                 if i != self.num_layers - 1 and (self.normalization == 'batchnorm' or self.normalization == 'layernorm'):
                     self.params['gamma' + str(i + 1)] = np.ones(dim[1], dtype=dtype)
                     self.params['beta' + str(i + 1)] = np.zeros(dim[1], dtype=dtype)
@@ -504,16 +517,24 @@ class FullyConnectedNet(object):
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         loss, dx = softmax_loss(scores, y)
         for i in range(self.num_layers):
-            if self.adaptive_var_reg:
-                w_sqr = self.params['W' + str(i + 1)] ** 2
-                if self.variance_calculation_method in ['welford', 'GMA']:
-                    var = self.dynamic_param_var[f'W{i+1}'].get_var()
+            if self.adaptive_var_reg or self.adaptive_avg_reg:
+                if self.adaptive_avg_reg:
+                    reg_term = (self.params[w] - self.param_avg[w].get_static_mean()) ** 2
+                    # reg_term = self.params[w] ** 2
+                    if self.mean_mean:
+                        reg_term /= np.mean(reg_term)
                 else:
-                    var = self.param_var[f'W{i+1}']
-                if not self.inverse_var:
-                    var = 1/var
+                    reg_term = self.params['W' + str(i + 1)] ** 2
+                if self.adaptive_var_reg:
+                    if self.variance_calculation_method in ['welford', 'GMA']:
+                        var = self.dynamic_param_var[f'W{i+1}'].get_var()
+                    else:
+                        var = self.param_var[f'W{i+1}']
+                    if not self.inverse_var:
+                        var = 1/var
+                    reg_term = reg_term.flatten() * var.flatten()
                 # loss += 0.5 * self.reg * np.sum(w_sqr.flatten() * self.param_var[f'W{i+1}'].flatten())
-                loss += 0.5 * self.reg * np.sum(w_sqr.flatten() * var.flatten())
+                loss += 0.5 * self.reg * np.sum(reg_term)
             else:
                 loss += 0.5 * self.reg * np.sum(self.params['W' + str(i + 1)] ** 2)
         for i in reversed(range(self.num_layers)):
@@ -532,13 +553,17 @@ class FullyConnectedNet(object):
                     # else:
                     dx, grads[w], grads[b] = affine_relu_backward(dx, caches.pop())
                     
-                    
                 #todo: implement dropconnect for the following
                 elif self.normalization == 'batchnorm':
                     dx, grads[w], grads[b], grads[gamma], grads[beta] = affine_bn_relu_backward(dx, caches.pop())
                 elif self.normalization == 'layernorm':
                     dx, grads[w], grads[b], grads[gamma], grads[beta] = affine_ln_relu_backward(dx, caches.pop())
 
+            # if self.adaptive_var_reg or self.adaptive_avg_reg:
+            if self.adaptive_avg_reg:
+                reg_grad = self.params[w] - self.param_avg[w].get_static_mean()
+            else:
+                reg_grad = self.params[w]
             if self.adaptive_var_reg:
                 if self.variance_calculation_method != 'naive':
                     var = self.dynamic_param_var[w].get_var()
@@ -546,12 +571,12 @@ class FullyConnectedNet(object):
                     var = self.param_var[w]
                 if not self.inverse_var:
                     var = 1/var
-                grads[w] += self.reg * (self.params[w].flatten()*var.flatten()).reshape(
-                    self.params[w].shape)
+                reg_grad = reg_grad.flatten()*var.flatten().reshape(self.params[w].shape)
+            grads[w] += self.reg * (reg_grad)
                 # grads[w] += self.reg * (self.params[w].flatten()*self.param_var[w].flatten()).reshape(
                 #     self.params[w].shape)
-            else:
-                grads[w] += self.reg * self.params[w]
+            # else:
+            #     grads[w] += self.reg * self.params[w]
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
