@@ -126,8 +126,7 @@ def train_and_eval(args):
     else:
         update_rules = ['sgd', 'sgd_momentum', 'adam', 'rmsprop']
     solvers = {}
-    for name, value in args:
-        print(name, value)
+    print(args)
     # print("update rules: ", update_rules)
     # print("args.optimizer", args.optimizer)
     # print("args.reg_strengths", args.reg_strength)
