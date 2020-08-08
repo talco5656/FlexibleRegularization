@@ -127,6 +127,8 @@ def train_and_eval(args):
         update_rules = ['sgd', 'sgd_momentum', 'adam', 'rmsprop']
     solvers = {}
     print("update rules: ", update_rules)
+    print("args.optimizer", args.optimizer)
+    print("args.reg_strengths", args.reg_strengths)
     print("reg strengths: ", reg_strenghts)
     adaptive_solvers = {}
     result_dict = {}
