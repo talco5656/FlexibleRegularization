@@ -26,12 +26,11 @@ import argparse
 #                  )
 
 # task = Task.init(project_name='Flexible Regularization', task_name='Simple CNN')
-task = Task.init(project_name='Flexible Regularization', task_name='train_and_eval', reuse_last_task_id=False)
+task = Task.init(project_name='Flexible Regularization', task_name='123', reuse_last_task_id=False)
 # get_ipython().run_line_magic('matplotlib', 'inline')
-plt.rcParams['figure.figsize'] = (10.0, 8.0)  # set default size of plots
+plt.rcParams['figure.figsize'] = (10.0, 8.0) # set default size of plots
 plt.rcParams['image.interpolation'] = 'nearest'
 plt.rcParams['image.cmap'] = 'gray'
-
 
 # for auto-reloading external modules
 # see http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
@@ -62,7 +61,7 @@ def parse_args():
     parser.add_argument("--batch_size", type=int, default=100)
     parser.add_argument("--model", default='mlp', choices=['mlp', 'cnn'])
     parser.add_argument("--num_trains", default=1000, type=int)
-    parser.add_argument("--num_of_repeats", default=100, type=int)
+    parser.add_argument("--num_of_repeats", default=1, type=int)
     parser.add_argument("--dropconnect", default=1, type=float)
     parser.add_argument("--adaptive_var_reg", default=0, type=int)
     parser.add_argument("--reg_strength", default=None, type=float)
@@ -87,11 +86,9 @@ def parse_args():
 
 def get_models(args, reg_strenght=0.1):
     if args.model == 'mlp':
-        original_model = FullyConnectedNetOriginal([args.fc_width] * args.hidden_layers, weight_scale=5e-2,
-                                                   reg=reg_strenght,
+        original_model = FullyConnectedNetOriginal([args.fc_width]*args.hidden_layers, weight_scale=5e-2, reg=reg_strenght,
                                                    normalization="batchnorm" if args.batchnorm else None)
-        adaptive_model = FullyConnectedNet([args.fc_width] * args.hidden_layers,
-                                           normalization="batchnorm" if args.batchnorm else None,
+        adaptive_model = FullyConnectedNet([args.fc_width] * args.hidden_layers, normalization="batchnorm" if args.batchnorm else None,
                                            iter_length=args.iter_length, weight_scale=5e-2,
                                            reg=1 if not args.divide_var_by_mean_var else reg_strenght,
                                            adaptive_reg=args.adaptive_var_reg,
@@ -121,17 +118,17 @@ def get_models(args, reg_strenght=0.1):
 
 def train_and_eval(args, task):
     # if args.trains:
-    # task = Task.current_task()# Task.init(project_name='Flexible Regularization',
-    # task_name=task_nameΩ"train and eval",
-    # reuse_last_task_id=False
-    # )
+        # task = Task.current_task()# Task.init(project_name='Flexible Regularization',
+                         # task_name=task_nameΩ"train and eval",
+                         # reuse_last_task_id=False
+                         # )
     data = get_CIFAR10_data()
     num_train = min(args.num_trains, 49000)
     learning_rates = {'sgd': 5e-3, 'sgd_momentum': 1e-3, 'rmsprop': 1e-4, 'adam': 1e-3}
     if isinstance(args.reg_strength, float):
         reg_strenghts = [args.reg_strength]
     else:
-        reg_strenghts = [0.1, 0]  # [1, 0.5, 0.1, 1e-2, 5e-3, 0]
+        reg_strenghts = [0.1, 0]  #[1, 0.5, 0.1, 1e-2, 5e-3, 0]
     if args.optimizer:
         update_rules = [args.optimizer]
     else:
@@ -188,7 +185,8 @@ def train_and_eval(args, task):
             print()
             print('Train result: train acc: %f; val_acc: %f' % (
                 adaptive_solver.best_train_acc, adaptive_solver.best_val_acc))
-
+            
+            
             print(f'running with {update_rule}')
             solver = Solver(original_model, small_data, print_every=args.print_every,
                             num_epochs=args.epochs, batch_size=args.batch_size,
@@ -203,6 +201,7 @@ def train_and_eval(args, task):
                 print('Train result: train acc: %f; val_acc: %f' % (
                     solver.best_train_acc, solver.best_val_acc))
                 print()
+
 
             # plt.subplot(3, 1, 1)
             # plt.title('Training loss')
@@ -219,7 +218,7 @@ def train_and_eval(args, task):
             # for update_rule in ['sgd', 'sgd_momentum', 'adam', 'rmsprop']:
 
         plt.subplot(3, 1, 1)
-        plt.title(f'Training loss. \n Reg: {reg_strenght}, Num trains: {num_train},')  # LR: {lr}')
+        plt.title(f'Training loss. \n Reg: {reg_strenght}, Num trains: {num_train},')# LR: {lr}')
         plt.xlabel('Iteration')
 
         plt.subplot(3, 1, 2)
@@ -251,8 +250,7 @@ def train_and_eval(args, task):
                 best_val_acc, best_experiment = np.max(solver.val_acc_history), \
                                                 np.argmax(solver.val_acc_history)
                 result_dict[(num_train, reg_strenght, update_rule, 'nonadaptive',
-                             best_val_acc, solver.train_acc_history[best_experiment],
-                             solver.loss_history[best_experiment])] = solver
+                             best_val_acc, solver.train_acc_history[best_experiment], solver.loss_history[best_experiment])] = solver
         for update_rule, solver in adaptive_solvers.items():
             plt.subplot(3, 1, 1)
             plt.plot(representation(solver.loss_history), '-o', label="adaptive_loss_%s" % update_rule)
@@ -267,8 +265,7 @@ def train_and_eval(args, task):
             best_val_acc, best_experiment = np.max(solver.val_acc_history), \
                                             np.argmax(solver.val_acc_history)
             result_dict[(num_train, reg_strenght, update_rule, 'adaptive',
-                         best_val_acc, solver.train_acc_history[best_experiment],
-                         solver.loss_history[best_experiment])] = solver
+                         best_val_acc, solver.train_acc_history[best_experiment], solver.loss_history[best_experiment])] = solver
         for i in [1, 2, 3]:
             plt.subplot(3, 1, i)
             plt.legend(loc='upper center', ncol=4)
@@ -285,7 +282,7 @@ def train_and_eval(args, task):
 
     for desctiption, solver in result_dict.items():
         print(f"val acc history {solver.val_acc_history}")
-        val_acc = np.max(solver.val_acc_history)  # [-1]
+        val_acc = np.max(solver.val_acc_history)  #[-1]
         print(f"{desctiption}, val_acc {val_acc}")
         if desctiption[3] == 'nonadaptive':
             if val_acc > best_nonadaptive_val_acc:
@@ -318,7 +315,7 @@ def train_and_eval(args, task):
     table = pd.DataFrame(result_dict.keys(), columns=columns)
     if args.trains:
         task.get_logger().report_table(title='Accuracy', series='Accuracy',
-                                       iteration=num_train, table_plot=table)
+                           iteration=num_train, table_plot=table)
     # print(table)
 
     print(tabulate(table, headers=columns))
@@ -357,14 +354,14 @@ def mean_and_ci_result(args):
     print(tabulate(mean_values, headers=mean_values.columns))
     if args.trains:
         task.get_logger().report_table(title='Mean values', series='Mean values',
-                                       iteration=args.num_trains, table_plot=mean_values)
+                       iteration=args.num_trains, table_plot=mean_values)
     print("standard deviation")
     print(tabulate(std, headers=std.columns))
     if args.trains:
         task.get_logger().report_table(title='Standard deviation', series='Standard deviation',
-                                       iteration=args.num_trains, table_plot=std)
-
-
+                                   iteration=args.num_trains, table_plot=std)
+    
+    
 if __name__ == "__main__":
     args = parse_args()
     mean_and_ci_result(args)
