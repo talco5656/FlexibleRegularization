@@ -26,7 +26,7 @@ import argparse
 #                  )
 
 # task = Task.init(project_name='Flexible Regularization', task_name='Simple CNN')
-task = Task.init(project_name='Flexible Regularization', task_name='123')
+task = Task.init(project_name='Flexible Regularization', task_name='123', reuse_last_task_id=False)
 # get_ipython().run_line_magic('matplotlib', 'inline')
 plt.rcParams['figure.figsize'] = (10.0, 8.0) # set default size of plots
 plt.rcParams['image.interpolation'] = 'nearest'
