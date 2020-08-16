@@ -268,7 +268,7 @@ class FullyConnectedNet(object):
     def __init__(self, hidden_dims, input_dim=3 * 32 * 32, num_classes=10,
                  dropout=1, normalization=None, reg=0.0,
                  weight_scale=1e-2, dtype=np.float32, seed=None, iter_length=1000,
-                 addaptive_reg=False,
+                 adaptive_reg=False,
                  divide_var_by_mean_var=True,
                  dropconnect=1, adaptive_dropconnect=False, var_normalizer=1,
                  variance_calculation_method='naive', static_variance_update=True,
@@ -301,7 +301,7 @@ class FullyConnectedNet(object):
         self.num_layers = 1 + len(hidden_dims)
         self.dtype = dtype
         self.params = {}
-        self.adaptive_var_reg = addaptive_reg
+        self.adaptive_var_reg = adaptive_reg
         self.adaptive_avg_reg = False
         self.iter_length = iter_length
         self.divide_var_by_mean_var = divide_var_by_mean_var

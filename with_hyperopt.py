@@ -75,7 +75,7 @@ def get_model(args, reg_strenght=0.1):
     if args.model == 'mlp':
         if args.adaptive_var_reg or args.adaptive_dropconnect or args.dropconnect != 1:
             model = FullyConnectedNet([args.fc_width] * 5, iter_length=args.iter_length, weight_scale=5e-2,
-                                      reg=1 if args.divide_var_by_mean_var else reg_strenght, addaptive_reg=args.adaptive_var_reg,
+                                      reg=1 if args.divide_var_by_mean_var else reg_strenght, adaptive_reg=args.adaptive_var_reg,
                                       divide_var_by_mean_var=args.divide_var_by_mean_var,
                                       dropconnect=args.dropconnect, adaptive_dropconnect=args.adaptive_dropconnect)
         else:

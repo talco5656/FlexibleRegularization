@@ -73,7 +73,7 @@ def _get_models(args, reg_strenght=0.1):
         original_model = FullyConnectedNetOriginal([args.fc_width]*5, weight_scale=5e-2, reg=reg_strenght)
         adaptive_model = FullyConnectedNet([args.fc_width] * 5, iter_length=args.iter_length, weight_scale=5e-2,
                                            reg=1 if args.divide_var_by_mean_var else reg_strenght,
-                                           addaptive_reg=args.adaptive_var_reg,
+                                           adaptive_reg=args.adaptive_var_reg,
                                            divide_var_by_mean_var=args.divide_var_by_mean_var,
                                            dropconnect=args.dropconnect, adaptive_dropconnect=args.adaptive_dropconnect)
     elif args.model == 'cnn':
@@ -179,13 +179,13 @@ def get_model(args, data, reg_strenght=0.1, iter_length=500, learning_rate=1e-3,
     if args.adaptive_var_reg or args.adaptive_dropconnect or args.dropconnect != 1:
         if args.model == 'mlp':
             model = FullyConnectedNet([args.fc_width] * 5, iter_length=iter_length, weight_scale=5e-2,
-                                      reg=1 if args.divide_var_by_mean_var else reg_strenght, addaptive_reg=args.adaptive_var_reg,
+                                      reg=1 if args.divide_var_by_mean_var else reg_strenght, adaptive_reg=args.adaptive_var_reg,
                                       divide_var_by_mean_var=args.divide_var_by_mean_var,
                                       dropconnect=args.dropconnect, adaptive_dropconnect=args.adaptive_dropconnect,
                                       var_normalizer=1)
 
         elif args.model == 'cnn':
-        # if args.addaptive_reg or args.addaptive_dropconnect or arg.dropconnect != 1:
+        # if args.adaptive_reg or args.addaptive_dropconnect or arg.dropconnect != 1:
             model = ThreeLayerConvNet(weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght, iter_length=args.iter_length)
         solver = AdaptiveSolver(model, data, print_every=args.print_every,
                                 num_epochs=args.epochs, batch_size=args.batch_size,

@@ -19,9 +19,14 @@ from cs231n.solver import Solver
 
 import argparse
 
+# task = Task.init()
+# project_name='Flexible Regularization',
+#                  task_name="train and eval",
+#                  reuse_last_task_id=False
+#                  )
 
 # task = Task.init(project_name='Flexible Regularization', task_name='Simple CNN')
-# task = Task.init(project_name='Flexible Regularization', task_name='Train and Eval')
+task = Task.init(project_name='Flexible Regularization', task_name='123')
 # get_ipython().run_line_magic('matplotlib', 'inline')
 plt.rcParams['figure.figsize'] = (10.0, 8.0) # set default size of plots
 plt.rcParams['image.interpolation'] = 'nearest'
@@ -48,30 +53,30 @@ def representation(array, cycle=100):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Simple CNN')
-    parser.add_argument('--epochs', type=int, default=5)
+    parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--fc_width', type=int, default=200)
-    parser.add_argument("--print_every", type=int, default=20)
+    parser.add_argument("--print_every", type=int, default=200)
     parser.add_argument("--verbose", type=int, default=0)
-    parser.add_argument("--iter_length", type=int, default=500)
-    parser.add_argument("--batch_size", type=int, default=50)
+    parser.add_argument("--iter_length", type=int, default=10)
+    parser.add_argument("--batch_size", type=int, default=100)
     parser.add_argument("--model", default='mlp', choices=['mlp', 'cnn'])
-    parser.add_argument("--num_trains", default=49000, type=int)
-    parser.add_argument("--num_of_repeats", default=10, type=int)
+    parser.add_argument("--num_trains", default=1000, type=int)
+    parser.add_argument("--num_of_repeats", default=1, type=int)
     parser.add_argument("--dropconnect", default=1, type=float)
     parser.add_argument("--adaptive_var_reg", default=0, type=int)
     parser.add_argument("--reg_strength", default=None, type=float)
     parser.add_argument("--adaptive_dropconnect", default=0, type=int)
-    parser.add_argument("--divide_var_by_mean_var", default=0, type=int)
+    parser.add_argument("--divide_var_by_mean_var", default=1, type=int)
     parser.add_argument("--test", default=0, type=int)
-    parser.add_argument("--variance_calculation_method", default="naive", choices=["naive", "welford", "GMA"])
+    parser.add_argument("--variance_calculation_method", default="welford", choices=["naive", "welford", "GMA"])
     parser.add_argument("--static_variance_update", default=1, type=int)
-    parser.add_argument("--var_normalizer", default=1, type=float)
+    parser.add_argument("--var_normalizer", default=0, type=float)
     parser.add_argument("--batchnorm", default=0, type=int, help="Available only for MLP.")
-    parser.add_argument("--optimizer", default=None, choices=['sgd', 'sgd_momentum', 'adam', 'rmsprop', None])
+    parser.add_argument("--optimizer", default='sgd', choices=['sgd', 'sgd_momentum', 'adam', 'rmsprop', None])
     parser.add_argument("--baseline_as_well", default=1, type=int)
     parser.add_argument("--eval_distribution_sample", default=0, type=float)
     parser.add_argument("--inverse_var", default=1, type=int)
-    parser.add_argument("--adaptive_avg_reg", default=0, type=int)
+    parser.add_argument("--adaptive_avg_reg", default=1, type=int)
     parser.add_argument("--mean_mean", default=0, type=int)
     parser.add_argument("--trains", default=1, type=int)
     parser.add_argument("--hidden_layers", default=5, type=int)
@@ -86,7 +91,7 @@ def get_models(args, reg_strenght=0.1):
         adaptive_model = FullyConnectedNet([args.fc_width] * args.hidden_layers, normalization="batchnorm" if args.batchnorm else None,
                                            iter_length=args.iter_length, weight_scale=5e-2,
                                            reg=1 if not args.divide_var_by_mean_var else reg_strenght,
-                                           addaptive_reg=args.adaptive_var_reg,
+                                           adaptive_reg=args.adaptive_var_reg,
                                            divide_var_by_mean_var=args.divide_var_by_mean_var,
                                            dropconnect=args.dropconnect, adaptive_dropconnect=args.adaptive_dropconnect,
                                            static_variance_update=args.static_variance_update,
@@ -111,16 +116,19 @@ def get_models(args, reg_strenght=0.1):
     return original_model, adaptive_model
 
 
-def train_and_eval(args):
-    if args.trains:
-        task = Task.current_task()
+def train_and_eval(args, task):
+    # if args.trains:
+        # task = Task.current_task()# Task.init(project_name='Flexible Regularization',
+                         # task_name=task_nameΩ"train and eval",
+                         # reuse_last_task_id=False
+                         # )
     data = get_CIFAR10_data()
     num_train = min(args.num_trains, 49000)
     learning_rates = {'sgd': 5e-3, 'sgd_momentum': 1e-3, 'rmsprop': 1e-4, 'adam': 1e-3}
     if isinstance(args.reg_strength, float):
         reg_strenghts = [args.reg_strength]
     else:
-        reg_strenghts = [1, 0.5, 0.1, 1e-2, 5e-3, 0]
+        reg_strenghts = [0.1, 0]  #[1, 0.5, 0.1, 1e-2, 5e-3, 0]
     if args.optimizer:
         update_rules = [args.optimizer]
     else:
@@ -316,11 +324,18 @@ def train_and_eval(args):
 
 def mean_and_ci_result(args):
     if args.trains:
-        task = Task.get_task(project_name='Flexible Regularization', task_name='Simple CNN')
-        task = Task.init()
+        # task = Task.init(project_name='Flexible Regularization',
+        #                  task_name="train and eval",
+        #                  reuse_last_task_id=False
+        #                  )
+        # task = Task.get_task(project_name='Flexible Regularization', task_name='Simple CNN')
+        # task = Task.init()
+        task = Task.current_task()
+    else:
+        task = None
     tables = []
     for _ in range(args.num_of_repeats):
-        tables.append(train_and_eval(args))
+        tables.append(train_and_eval(args, task))
     pd.concat(tables)
     content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]
     stacked_content = np.stack(content)

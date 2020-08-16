@@ -328,7 +328,7 @@ iterations_so_far
         for meta_iteration in range(meta_iterations):
             print(f"Meta iteration {meta_iteration} out of {meta_iterations-1}")
             iterations_so_far = self.train(start_iteration=meta_iteration, update_var=True)
-            print(f"iteration so far: {iterations_so_far}")
+            # print(f"iteration so far: {iterations_so_far}")
             if self.model.adaptive_var_reg or self.model.adaptive_dropconnect:
                 self.update_param_variances()
             if self.model.adaptive_avg_reg:
@@ -397,7 +397,7 @@ iterations_so_far
         # if len(self.best_params) > 0:
         #     print('Train iteration result: (Epoch %d / %d) train acc: %f; val_acc: %f' % (
         #         self.epoch, self.num_epochs, self.best_train_acc, self.best_val_acc))
-        return start_iteration + num_iterations // meta_iterations  # t  # iterations_so_far
+        return end_at ## start_iteration + num_iterations // meta_iterations  # t  # iterations_so_far
 
     def train_original(self):
         """
