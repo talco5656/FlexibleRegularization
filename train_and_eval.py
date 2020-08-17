@@ -61,7 +61,7 @@ def parse_args():
     parser.add_argument("--iter_length", type=int, default=10)
     parser.add_argument("--batch_size", type=int, default=100)
     parser.add_argument("--model", default='mlp', choices=['mlp', 'cnn'])
-    parser.add_argument("--num_trains", default=1000, type=int)
+    parser.add_argument("--num_trains", default=49000, type=int)
     parser.add_argument("--num_of_repeats", default=100, type=int)
     parser.add_argument("--dropconnect", default=1, type=float)
     parser.add_argument("--adaptive_var_reg", default=0, type=int)
@@ -131,7 +131,7 @@ def train_and_eval(args, task):
     if isinstance(args.reg_strength, float):
         reg_strenghts = [args.reg_strength]
     else:
-        reg_strenghts = [0.1, 0]  # [1, 0.5, 0.1, 1e-2, 5e-3, 0]
+        reg_strenghts = [1, 0.1, 0]
     if args.optimizer:
         update_rules = [args.optimizer]
     else:
