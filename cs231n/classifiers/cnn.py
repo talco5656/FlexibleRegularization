@@ -104,11 +104,11 @@ class ThreeLayerConvNet(object):
             self.params[k] = v.astype(dtype)
             if (self.adaptive_var_reg and 'W' in k) or (self.adaptive_dropconnect and k in ('W1', 'W2')):
                 if self.variance_calculation_method == 'welford':
-                    self.online_param_var[k] = Welford(dim=v.dim, var_normalizer=self.var_normalizer,
+                    self.online_param_var[k] = Welford(dim=v.shape, var_normalizer=self.var_normalizer,
                                                        divide_var_by_mean_var=self.divide_var_by_mean_var,
                                                        static_var=self.static_variance_update)
                 elif self.variance_calculation_method == 'GMA':
-                    self.online_param_var[k] = GMA(dim=v.dim, var_normalizer=self.var_normalizer,
+                    self.online_param_var[k] = GMA(dim=v.shape, var_normalizer=self.var_normalizer,
                                                    divide_var_by_mean_var=self.divide_var_by_mean_var,
                                                    static_var=self.static_variance_update)
                 else:

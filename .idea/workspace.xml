@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_with_optuna.py" beforeDir="false" afterPath="$PROJECT_DIR$/_with_optuna.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/online_avg.py" beforeDir="false" afterPath="$PROJECT_DIR$/online_avg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_and_eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_and_eval.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +184,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_and_eval.py" />
-      <option name="PARAMETERS" value="--num_trains 49000 --iter_length 1000 --batch_size 100 --fc_width 200 --adaptive_var_reg 1 --hidden_layers 5 --epochs 10 --inverse_var 1 --reg_strength 0.1 --baseline_as_well 1" />
+      <option name="PARAMETERS" value="--num_trains 49000 --model cnn --iter_length 1000 --batch_size 100 --fc_width 200 --adaptive_var_reg 1 --hidden_layers 5 --epochs 10 --inverse_var 1 --reg_strength 0.1 --baseline_as_well 1" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -281,7 +278,7 @@
       <workItem from="1597565491057" duration="5407000" />
       <workItem from="1597653590825" duration="1874000" />
       <workItem from="1597738440486" duration="19119000" />
-      <workItem from="1598102717981" duration="10552000" />
+      <workItem from="1598102717981" duration="10886000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -344,11 +341,11 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="666" y="126" key="#cnn/0.23.1920.977@0.23.1920.977" timestamp="1595598819577" />
-    <state x="742" y="399" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598116980635">
+    <state x="742" y="399" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598118260566">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1596457676256" />
-    <state x="742" y="399" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1598116980635" />
+    <state x="742" y="399" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1598118260566" />
     <state x="494" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1597410675252" />
     <state x="494" y="192" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1028@0.23.1792.1028" timestamp="1597061591109" />
     <state x="494" y="193" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1033@0.23.1792.1033" timestamp="1596725082466" />
@@ -501,11 +498,11 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="505" y="112" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1920.977@0.23.1920.977" timestamp="1595596994639" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1598117890582">
+    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1598118242681">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="403" y="70" width="936" height="791" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1596297095077" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1598117890582" />
+    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1598118242681" />
     <state x="403" y="87" width="937" height="720" key="find.popup/0.23.1792.1017@0.23.1792.1017" timestamp="1597413503529" />
     <state x="403" y="88" width="937" height="727" key="find.popup/0.23.1792.1028@0.23.1792.1028" timestamp="1597059077337" />
     <state x="432" y="90" width="1003" height="747" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1598106629396" />
@@ -637,6 +634,16 @@
           <url>file://$PROJECT_DIR$/cs231n/adaptive_solver.py</url>
           <line>503</line>
           <option name="timeStamp" value="148" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/fc_net.py</url>
+          <line>540</line>
+          <option name="timeStamp" value="149" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/cs231n/classifiers/cnn.py</url>
+          <line>106</line>
+          <option name="timeStamp" value="150" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
