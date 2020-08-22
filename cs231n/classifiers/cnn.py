@@ -23,7 +23,7 @@ class ThreeLayerConvNet(object):
     def __init__(self, input_dim=(3, 32, 32), num_filters=32, filter_size=7,
                  hidden_dim=100, num_classes=10, weight_scale=1e-3, reg=0.0,
                  dtype=np.float32, iter_length=100, divide_var_by_mean_var=True,
-                 adaptive_reg=0, dropconnect=1, adaptive_dropconnect=0,
+                 adaptive_var_reg=False, dropconnect=1, adaptive_dropconnect=0,
                  variance_calculation_method='naive', static_variance_update=True,
                  var_normalizer=1, inverse_var=True, adaptive_avg_reg=False,
                  mean_mean=False):
@@ -46,13 +46,13 @@ class ThreeLayerConvNet(object):
         self.dtype = dtype
         self.iter_length = iter_length
         self.divide_var_by_mean_var = divide_var_by_mean_var
-        self.adaptive_var_reg = adaptive_reg
+        self.adaptive_var_reg = adaptive_var_reg
         self.dropconnect = dropconnect
         self.adaptive_dropconnect = adaptive_dropconnect
         self.variance_calculation_method = variance_calculation_method
         self.static_variance_update = static_variance_update
         self.var_normalizer = var_normalizer
-        self.dynamic_param_var = None
+        self.online_param_var = None
         self.inverse_var = inverse_var
         self.adaptive_avg_reg = adaptive_avg_reg
         self.mean_mean = mean_mean
@@ -74,7 +74,7 @@ class ThreeLayerConvNet(object):
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         if self.adaptive_var_reg or self.adaptive_dropconnect:
             if self.variance_calculation_method in ['welform', 'GMA']:
-                self.dynamic_param_var = {}
+                self.online_param_var = {}
             else:
                 self.param_var = {}
                 self.param_trajectories = {}
@@ -104,13 +104,13 @@ class ThreeLayerConvNet(object):
             self.params[k] = v.astype(dtype)
             if (self.adaptive_var_reg and 'W' in k) or (self.adaptive_dropconnect and k in ('W1', 'W2')):
                 if self.variance_calculation_method == 'welford':
-                    self.dynamic_param_var[k] = Welford(dim=v.dim, var_normalizer=self.var_normalizer,
-                                divide_var_by_mean_var=self.divide_var_by_mean_var,
-                                static_var=self.static_variance_update)
+                    self.online_param_var[k] = Welford(dim=v.dim, var_normalizer=self.var_normalizer,
+                                                       divide_var_by_mean_var=self.divide_var_by_mean_var,
+                                                       static_var=self.static_variance_update)
                 elif self.variance_calculation_method == 'GMA':
-                    self.dynamic_param_var[k] = GMA(dim=v.dim, var_normalizer=self.var_normalizer,
-                            divide_var_by_mean_var=self.divide_var_by_mean_var,
-                            static_var=self.static_variance_update)
+                    self.online_param_var[k] = GMA(dim=v.dim, var_normalizer=self.var_normalizer,
+                                                   divide_var_by_mean_var=self.divide_var_by_mean_var,
+                                                   static_var=self.static_variance_update)
                 else:
                     self.param_var[k] = np.ones(shape=v.shape).astype(dtype)
                     self.param_trajectories[k] = []
@@ -125,15 +125,15 @@ class ThreeLayerConvNet(object):
             if self.adaptive_dropconnect:
                 # if variance_calculation_method:
                 #     self.dropconnect_param['adaptive_p'] = \
-                #         {param_name: self.dynamic_param_var[param_name].get_var for param_name in self.dynamic_param_var.items()}
+                #         {param_name: self.online_param_var[param_name].get_var for param_name in self.online_param_var.items()}
                 # else:
                 if self.variance_calculation_method == 'naive':
                     self.dropconnect_param['adaptive_p'] = \
                         {param_name: param_var for param_name, param_var in self.param_var.items()}
                 else:
                     self.dropconnect_param['adaptive_p'] = \
-                        {param_name: self.dynamic_param_var[param_name].get_var() for param_name in
-                         self.dynamic_param_var}
+                        {param_name: self.online_param_var[param_name].get_var() for param_name in
+                         self.online_param_var}
 
     def loss(self, X, y=None):
         """
@@ -214,15 +214,19 @@ class ThreeLayerConvNet(object):
                         reg_term = self.params[w] ** 2
                     if self.adaptive_var_reg:
                         if self.variance_calculation_method in ['welford', 'GMA']:
-                            var = self.dynamic_param_var[w].get_var()
+                            var = self.online_param_var[w].get_var()
                         else:
                             var = self.param_var[w]
                         if not self.inverse_var:
                             var = 1/var  # var type is float
                         reg_term = reg_term.flatten() * var.flatten()
+                        print(self.params[w])
+                        print(reg_term)
                     # else:
                     #     reg_term = reg_term.flatten
                     loss += 0.5 * self.reg * np.sum(reg_term)  #reg_term.flatten() * var.flatten())
+                    # print('w', self.params[w])
+                    # print('term', var)
         else:
             loss += 0.5 * self.reg * \
                     (np.sum(self.params['W1'] ** 2) + np.sum(self.params['W2'] ** 2) + np.sum(self.params['W3'] ** 2))
@@ -246,7 +250,7 @@ class ThreeLayerConvNet(object):
                     if self.adaptive_var_reg:
                         if self.adaptive_var_reg:
                             if self.variance_calculation_method in ['welford', 'GMA']:
-                                var = self.dynamic_param_var[w].get_var()
+                                var = self.online_param_var[w].get_var()
                             else:
                                 var = self.param_var[w]
                             if not self.inverse_var:

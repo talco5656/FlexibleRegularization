@@ -1,9 +1,11 @@
 import pandas as pd
 
-from trains import Task
+# from trains import Task
 
 # As usual, a bit of setup
 import matplotlib.pyplot as plt
+import seaborn as seaborn
+import sns as sns
 from tabulate import tabulate
 
 from cs231n.classifiers.cnn import *
@@ -26,24 +28,19 @@ import argparse
 #                  )
 
 # task = Task.init(project_name='Flexible Regularization', task_name='Simple CNN')
-task = Task.init(project_name='Flexible Regularization', task_name='train_and_eval', reuse_last_task_id=False)
-# get_ipython().run_line_magic('matplotlib', 'inline')
+
 plt.rcParams['figure.figsize'] = (10.0, 8.0)  # set default size of plots
 plt.rcParams['image.interpolation'] = 'nearest'
 plt.rcParams['image.cmap'] = 'gray'
 
 
-# for auto-reloading external modules
-# see http://stackoverflow.com/questions/1907993/autoreload-of-modules-in-ipython
-# get_ipython().run_line_magic('load_ext', 'autoreload')
-# get_ipython().run_line_magic('autoreload', '2')
 
 def rel_error(x, y):
     """ returns relative error """
     return np.max(np.abs(x - y) / (np.maximum(1e-8, np.abs(x) + np.abs(y))))
 
 
-# In[2]:
+
 def representation(array, cycle=100):
     result_array = []
     for i in range(len(array)):
@@ -58,28 +55,28 @@ def parse_args():
     parser.add_argument('--fc_width', type=int, default=200)
     parser.add_argument("--print_every", type=int, default=200)
     parser.add_argument("--verbose", type=int, default=0)
-    parser.add_argument("--iter_length", type=int, default=10)
+    parser.add_argument("--iter_length", type=int, default=100)
     parser.add_argument("--batch_size", type=int, default=100)
     parser.add_argument("--model", default='mlp', choices=['mlp', 'cnn'])
     parser.add_argument("--num_trains", default=49000, type=int)
-    parser.add_argument("--num_of_repeats", default=100, type=int)
+    parser.add_argument("--num_of_repeats", default=1, type=int)
     parser.add_argument("--dropconnect", default=1, type=float)
-    parser.add_argument("--adaptive_var_reg", default=0, type=int)
+    parser.add_argument("--adaptive_var_reg", default=1, type=int)
     parser.add_argument("--reg_strength", default=None, type=float)
     parser.add_argument("--adaptive_dropconnect", default=0, type=int)
     parser.add_argument("--divide_var_by_mean_var", default=1, type=int)
     parser.add_argument("--test", default=0, type=int)
     parser.add_argument("--variance_calculation_method", default="welford", choices=["naive", "welford", "GMA"])
     parser.add_argument("--static_variance_update", default=1, type=int)
-    parser.add_argument("--var_normalizer", default=0, type=float)
+    parser.add_argument("--var_normalizer", default=0, type=float)  #todo: make sure this is the right value to put
     parser.add_argument("--batchnorm", default=0, type=int, help="Available only for MLP.")
     parser.add_argument("--optimizer", default='sgd', choices=['sgd', 'sgd_momentum', 'adam', 'rmsprop', None])
     parser.add_argument("--baseline_as_well", default=1, type=int)
     parser.add_argument("--eval_distribution_sample", default=0, type=float)
     parser.add_argument("--inverse_var", default=1, type=int)
-    parser.add_argument("--adaptive_avg_reg", default=1, type=int)
+    parser.add_argument("--adaptive_avg_reg", default=0, type=int)
     parser.add_argument("--mean_mean", default=0, type=int)
-    parser.add_argument("--trains", default=1, type=int)
+    parser.add_argument("--trains", default=0, type=int)
     parser.add_argument("--hidden_layers", default=5, type=int)
     parser.add_argument("--lnn", default=0, type=int)
     return parser.parse_args()
@@ -106,7 +103,8 @@ def get_models(args, reg_strenght=0.1):
                                            lnn=args.lnn)
     elif args.model == 'cnn':
         original_model = OriginalThreeLayerConvNet(weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght)
-        adaptive_model = ThreeLayerConvNet(weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght,
+        adaptive_model = ThreeLayerConvNet(adaptive_var_reg=args.adaptive_var_reg,
+                                           weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght,
                                            iter_length=args.iter_length,
                                            variance_calculation_method=args.variance_calculation_method,
                                            dropconnect=args.dropconnect,
@@ -117,6 +115,27 @@ def get_models(args, reg_strenght=0.1):
                                            adaptive_avg_reg=args.adaptive_avg_reg,
                                            mean_mean=args.mean_mean)
     return original_model, adaptive_model
+
+
+def display_statistics(solver, reg_strength):
+    for param_name, param_list in solver.value_histogram_dict.items():
+        # print(histograms)
+        for hist in param_list:
+            seaborn.distplot(hist, label=f"{param_name}, {reg_strength}")
+            plt.show()
+
+    for param_name, variance in solver.avg_var_dict.items():
+        print(param_name, variance)
+
+
+def disply_param_histogram(model, model_type):
+    for param_name, param in model.params.items():
+        # for hist in paramsram_list:
+        if 'W' in param_name:
+            seaborn.distplot(param)  # , label=f"{param_name}, {reg_strength}")
+            plt.title(f"{param_name}, {model.reg}, {model_type}")
+            plt.show()
+            # print('param', param)
 
 
 def train_and_eval(args, task):
@@ -188,7 +207,7 @@ def train_and_eval(args, task):
             print()
             print('Train result: train acc: %f; val_acc: %f' % (
                 adaptive_solver.best_train_acc, adaptive_solver.best_val_acc))
-
+            # display_statistics(adaptive_solver, reg_strenght)
             print(f'running with {update_rule}')
             solver = Solver(original_model, small_data, print_every=args.print_every,
                             num_epochs=args.epochs, batch_size=args.batch_size,
@@ -203,7 +222,8 @@ def train_and_eval(args, task):
                 print('Train result: train acc: %f; val_acc: %f' % (
                     solver.best_train_acc, solver.best_val_acc))
                 print()
-
+            disply_param_histogram(model=adaptive_model, model_type="Adaptive reg")
+            disply_param_histogram(model=original_model, model_type="naive reg")
             # plt.subplot(3, 1, 1)
             # plt.title('Training loss')
             # plt.xlabel('Iteration')
@@ -327,13 +347,15 @@ def train_and_eval(args, task):
 
 def mean_and_ci_result(args):
     if args.trains:
+        task = Task.init(project_name='Flexible Regularization',
+                         task_name='train_and_eval')  # , reuse_last_task_id=False)
         # task = Task.init(project_name='Flexible Regularization',
         #                  task_name="train and eval",
         #                  reuse_last_task_id=False
         #                  )
         # task = Task.get_task(project_name='Flexible Regularization', task_name='Simple CNN')
         # task = Task.init()
-        task = Task.current_task()
+        # task = Task.current_task()
     else:
         task = None
     tables = []

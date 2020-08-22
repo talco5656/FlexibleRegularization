@@ -185,7 +185,7 @@ def get_model(args, data, reg_strenght=0.1, iter_length=500, learning_rate=1e-3,
                                       var_normalizer=1)
 
         elif args.model == 'cnn':
-        # if args.adaptive_reg or args.addaptive_dropconnect or arg.dropconnect != 1:
+        # if args.adaptive_var_reg or args.addaptive_dropconnect or arg.dropconnect != 1:
             model = ThreeLayerConvNet(weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght, iter_length=args.iter_length)
         solver = AdaptiveSolver(model, data, print_every=args.print_every,
                                 num_epochs=args.epochs, batch_size=args.batch_size,

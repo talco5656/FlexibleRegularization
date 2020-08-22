@@ -136,6 +136,8 @@ iterations_so_far
         self.verbose = kwargs.pop('verbose', True)
         self.logger = kwargs.pop('logger', None)
         self.eval_distribution_sample = kwargs.pop('eval_distribution_sample', 0)
+        self.avg_var_dict = {}
+        self.value_histogram_dict = {}
 
         # Throw an error if there are extra keyword arguments
         if len(kwargs) > 0:
@@ -214,21 +216,24 @@ iterations_so_far
         # Perform a parameter update
         for p, w in self.model.params.items():
             dw = grads[p]
+            # print("dw", dw)
             config = self.optim_configs[p]
             next_w, next_config = self.update_rule(w, dw, config)
+            # print("next w", next_w)
             self.model.params[p] = next_w
             if self.model.adaptive_var_reg or self.model.adaptive_dropconnect:
                 if update_var:
-                    if self.model.dynamic_param_var:
-                        if p in self.model.dynamic_param_var:
-                            self.model.dynamic_param_var[p].update(w)
+                    if self.model.online_param_var:
+                        if p in self.model.online_param_var:
+                            self.model.online_param_var[p].update(w)
                     else:
                         if p in self.model.param_trajectories:
                         # self.model.param_trajectories[p][t] = w
+                        #     print('w', w)
                             self.model.param_trajectories[p].append(w)
                     # print("len of param trajectory:", len(self.model.param_trajectories[p]))
             self.optim_configs[p] = next_config
-    
+
     def _save_checkpoint(self):
         if self.checkpoint_name is None: return
         checkpoint = {
@@ -289,7 +294,7 @@ iterations_so_far
         acc = np.mean(y_pred == y)
 
         return acc
-    
+
     def meta_train_eval_distribuiton_sample(self):
         num_train = self.X_train.shape[0]
         iterations_per_epoch = max(num_train // self.batch_size, 1)
@@ -318,7 +323,7 @@ iterations_so_far
         self.X_val = self.original_data['X_val']
         self.y_val = self.original_data['y_val']
         iterations_so_far = self.train(start_iteration=meta_iterations-1)
-        
+
 
     def meta_train(self):
         num_train = self.X_train.shape[0]
@@ -332,8 +337,8 @@ iterations_so_far
             if self.model.adaptive_var_reg or self.model.adaptive_dropconnect:
                 self.update_param_variances()
             if self.model.adaptive_avg_reg:
-                self.update_param_avg_dynamic()
-            
+                self.update_param_avg_online()
+
     def train(self, start_iteration=0, update_var=False, meta_iter_fraction=None):  # iterations_so_far=0):
         """
         Run optimization to train the model.
@@ -352,7 +357,7 @@ iterations_so_far
             if self.verbose and t % self.print_every == 0:
                 print('(Iteration %d / %d) loss: %f' % (
                     t + 1, num_iterations, self.loss_history[-1]))
-        
+
             # At the end of every epoch, increment the epoch counter and decay
             # the learning rate.
             epoch_end = (t + 1) % iterations_per_epoch == 0
@@ -360,7 +365,7 @@ iterations_so_far
                 self.epoch += 1
                 for k in self.optim_configs:
                     self.optim_configs[k]['learning_rate'] *= self.lr_decay
-        
+
             # Check train and val accuracy on the first iteration, the last
             # iteration, and at the end of each epoch.
             first_it = (t == 0)
@@ -378,11 +383,11 @@ iterations_so_far
                     if self.logger:
                         self.logger.report_scalar(value=train_acc, title='Train accuracy', series='solver', iteration=t)
                         self.logger.report_scalar(value=val_acc, title='Test accuracy', series='solver', iteration=t)
-    
+
                     if self.verbose and self.epoch % 1 == 0:
                         print('(Epoch %d / %d) train acc: %f; val_acc: %f' % (
                             self.epoch, self.num_epochs, train_acc, val_acc))
-            
+
                 # Keep track of the best model
                 if val_acc > self.best_val_acc:
                     self.best_val_acc = val_acc
@@ -391,7 +396,7 @@ iterations_so_far
                     for k, v in self.model.params.items():
                         self.best_params[k] = v.copy()
 
-    
+
         # At the end of training swap the best params into the model
         self.model.params = self.best_params
         # if len(self.best_params) > 0:
@@ -449,17 +454,20 @@ iterations_so_far
         # At the end of training swap the best params into the model
         if len(self.best_params) > 0:
             self.model.params = self.best_params
-            
+
     def update_param_variances(self):
-        if self.model.dynamic_param_var:
-            self.update_param_variance_dynamic()
+        if self.model.online_param_var:
+            self.update_param_variance_online()
         else:
             self.update_param_variances_naive()
-            
+
     def update_param_variances_naive(self):
         for param_name, trajectory in self.model.param_trajectories.items():
+            # print("trajectory", trajectory)
             # trajectory = np.asarray(trajectory)
             var = np.var(trajectory, axis=0)
+            # if np.sum(var) == 0:
+            #     var += 0.0000000000000001
             # print(f"avg unormalized param var: {np.avg(var)}")
             if self.model.divide_var_by_mean_var:
                 var = var / np.mean(var)
@@ -479,8 +487,8 @@ iterations_so_far
         trajectory_names = self.model.param_trajectories.keys()
         for trajectory_name in trajectory_names:
             self.model.param_trajectories[trajectory_name] = []
-##
-    def update_param_avg_dynamic(self):
+
+    def update_param_avg_online(self):
         if not self.model.static_variance_update:
             return
         for param_name in self.model.param_avg:
@@ -488,12 +496,12 @@ iterations_so_far
             self.model.param_avg[param_name].update_static_mean()
 
     # self.param_welford_var[param_name].update(existing_aggregate=, value)
-    def update_param_variance_dynamic(self):
+    def update_param_variance_online(self):
         if not self.model.static_variance_update:
             return
-        for param_name in self.model.dynamic_param_var:
+        for param_name in self.model.online_param_var:
             # trajectory = np.asarray(trajectory)
-            self.model.dynamic_param_var[param_name].update_var()
+            self.model.online_param_var[param_name].update_var()
             # var = np.var(trajectory, axis=0)
             # print(f"avg unormalized param var: {np.avg(var)}")
             # if self.model.divide_var_by_mean_var:
@@ -503,7 +511,7 @@ iterations_so_far
             # var = var * self.model.var_normalizer
             # self.model.param_var[param_name] = var
             if self.model.adaptive_dropconnect:
-                var = self.model.dynamic_param_var[param_name].get_var()
+                var = self.model.online_param_var[param_name].get_var()
                 droconnect_value = 1/2 + np.sqrt(1-4*var) / 2
                 dropconnect_value = np.nan_to_num(droconnect_value, nan=0.5)
                 if self.model.divide_var_by_mean_var:

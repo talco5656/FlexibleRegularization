@@ -310,7 +310,7 @@ class FullyConnectedNet(object):
         self.var_normalizer = var_normalizer
         self.variance_calculation_method = variance_calculation_method
         self.static_variance_update = static_variance_update
-        self.dynamic_param_var = None
+        self.online_param_var = None
         self.inverse_var = inverse_var
         self.adaptive_avg_reg = adaptive_avg_reg
         self.mean_mean = mean_mean
@@ -328,9 +328,10 @@ class FullyConnectedNet(object):
         # parameters should be initialized to zeros.                               #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
         if self.adaptive_var_reg or self.adaptive_dropconnect:
             if self.variance_calculation_method == 'welford' or self.variance_calculation_method == 'GMA':
-                self.dynamic_param_var = {}
+                self.online_param_var = {}
             else:
                 self.param_var = {}
                 self.param_trajectories = {}
@@ -344,12 +345,12 @@ class FullyConnectedNet(object):
             self.params['b' + str(1)] = np.zeros(dim[1], dtype=dtype)
             if self.adaptive_var_reg or self.adaptive_dropconnect:
                 if self.variance_calculation_method == 'welford':
-                    self.dynamic_param_var['W' + str(i + 1)] = \
+                    self.online_param_var['W' + str(i + 1)] = \
                         Welford(dim=dim, var_normalizer=self.var_normalizer,
                                 divide_var_by_mean_var=self.divide_var_by_mean_var,
                                 static_var=self.static_variance_update)
                 elif self.variance_calculation_method == 'GMA':
-                    self.dynamic_param_var['W' + str(i + 1)] = \
+                    self.online_param_var['W' + str(i + 1)] = \
                         GMA(dim=dim, var_normalizer=self.var_normalizer,
                             divide_var_by_mean_var=self.divide_var_by_mean_var,
                             static_var=self.static_variance_update)
@@ -373,12 +374,12 @@ class FullyConnectedNet(object):
                 self.params['W' + str(i + 1)] = np.random.normal(scale=weight_scale, size=dim).astype(dtype)
                 if self.adaptive_var_reg or self.adaptive_dropconnect:
                     if self.variance_calculation_method == 'welford':
-                        self.dynamic_param_var['W' + str(i + 1)] =\
+                        self.online_param_var['W' + str(i + 1)] =\
                             Welford(dim=dim, var_normalizer=self.var_normalizer,
                                     divide_var_by_mean_var=self.divide_var_by_mean_var,
                                     static_var=self.static_variance_update)
                     elif self.variance_calculation_method == 'GMA':
-                        self.dynamic_param_var['W' + str(i + 1)] = \
+                        self.online_param_var['W' + str(i + 1)] = \
                             GMA(dim=dim, var_normalizer=self.var_normalizer,
                                 divide_var_by_mean_var=self.divide_var_by_mean_var,
                                 static_var=self.static_variance_update)
@@ -419,8 +420,8 @@ class FullyConnectedNet(object):
                         {param_name: param_var for param_name, param_var in self.param_var.items()}
                 else:
                     self.dropconnect_param['adaptive_p'] = \
-                        {param_name: self.dynamic_param_var[param_name].get_var() for param_name in
-                         self.dynamic_param_var}
+                        {param_name: self.online_param_var[param_name].get_var() for param_name in
+                         self.online_param_var}
         # With batch normalization we need to keep track of running means and
         # variances, so we need to pass a special bn_param object to each batch
         # normalization layer. You should pass self.bn_params[0] to the forward pass
@@ -528,18 +529,22 @@ class FullyConnectedNet(object):
                     reg_term = self.params['W' + str(i + 1)] ** 2
                 if self.adaptive_var_reg:
                     if self.variance_calculation_method in ['welford', 'GMA']:
-                        var = self.dynamic_param_var[f'W{i+1}'].get_var()
+                        var = self.online_param_var[f'W{i + 1}'].get_var()
                     else:
                         var = self.param_var[f'W{i+1}']
+                    # var += 1.e-8  #0.00000001
+                    print("var", var)
                     if not self.inverse_var:
-                        var = 1/var
+                        var = np.minimum(1/var, 2)  # 1/var if np.sum(var) > 0 else 10*np.ones(shape=var.shape)  #todo: find a real solution
                     reg_term = reg_term.flatten() * var.flatten()
                 # loss += 0.5 * self.reg * np.sum(w_sqr.flatten() * self.param_var[f'W{i+1}'].flatten())
                 loss += 0.5 * self.reg * np.sum(reg_term)
             else:
                 loss += 0.5 * self.reg * np.sum(self.params['W' + str(i + 1)] ** 2)
+
         for i in reversed(range(self.num_layers)):
             w = 'W' + str(i + 1)
+            # print('w', self.params[w])
             b = 'b' + str(i + 1)
             gamma = 'gamma' + str(i + 1)
             beta = 'beta' + str(i + 1)
@@ -567,12 +572,15 @@ class FullyConnectedNet(object):
                 reg_grad = self.params[w]
             if self.adaptive_var_reg:
                 if self.variance_calculation_method != 'naive':
-                    var = self.dynamic_param_var[w].get_var()
+                    var = self.online_param_var[w].get_var()
                 else:
                     var = self.param_var[w]
                 if not self.inverse_var:
-                    var = 1/var
+                    var = np.minimum(1/var, 2)  # if np.sum(var) > 0 else 10 * np.ones(shape=var.shape)  #todo: find a real solution
                 reg_grad = reg_grad.flatten()*var.flatten()  #  .reshape(self.params[w].shape)
+                # term = self.reg * (reg_grad.reshape(self.params[w].shape))
+                # print('w', self.params[w])
+                # print('term', var)
             grads[w] += self.reg * (reg_grad.reshape(self.params[w].shape))
                 # grads[w] += self.reg * (self.params[w].flatten()*var.flatten()).reshape(
                 #     self.params[w].shape)
@@ -584,23 +592,3 @@ class FullyConnectedNet(object):
         ############################################################################
 
         return loss, grads
-    #
-    # def update_param_variances(self):
-    #     for param_name, trajectory in self.param_trajectories.items():
-    #         # trajectory = np.asarray(trajectory)
-    #         var = np.var(trajectory, axis=0)
-    #         print(f"avg unormalized param var: {np.avg(var)}")
-    #         if self.divide_var_by_mean_var:
-    #             var = var / np.avg(var)
-    #             # self.param_var[param_name] = var / np.avg(var) #.var(trajectory, axis=0) / np.avg(trajectory)
-    #         # else:
-    #             self.param_var[param_name] = var
-    #         if self.adaptive_dropconnect:
-    #             droconnect_value = 1/2 + np.sqrt(1-4*var) / 2
-    #             dropconnect_value = np.nan_to_num(droconnect_value, nan=0.5)
-    #             self.dropconnect_param['adaptive_p'][param_name] = dropconnect_value
-    #         # print(var)
-    #         # print(f"avg param var: {np.avg(self.param_var[param_name])}")
-    #     trajectory_names = self.param_trajectories.keys()
-    #     for trajectory_name in trajectory_names:
-    #         self.param_trajectories[trajectory_name] = []

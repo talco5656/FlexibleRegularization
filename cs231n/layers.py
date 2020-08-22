@@ -124,6 +124,9 @@ def affine_forward(x, w, b):
     x_shape = x.shape
     x = x.reshape((x.shape[0], -1))
     out = x @ w + b
+    # print("x", x)
+    # print("w", w)
+    # print("out", out)
     x = x.reshape(x_shape)
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
