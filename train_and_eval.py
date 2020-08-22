@@ -1,11 +1,10 @@
 import pandas as pd
 
-# from trains import Task
+from trains import Task
 
 # As usual, a bit of setup
 import matplotlib.pyplot as plt
 import seaborn as seaborn
-import sns as sns
 from tabulate import tabulate
 
 from cs231n.classifiers.cnn import *
@@ -68,7 +67,7 @@ def parse_args():
     parser.add_argument("--test", default=0, type=int)
     parser.add_argument("--variance_calculation_method", default="welford", choices=["naive", "welford", "GMA"])
     parser.add_argument("--static_variance_update", default=1, type=int)
-    parser.add_argument("--var_normalizer", default=0, type=float)  #todo: make sure this is the right value to put
+    parser.add_argument("--var_normalizer", default=1, type=float)  #todo: make sure this is the right value to put
     parser.add_argument("--batchnorm", default=0, type=int, help="Available only for MLP.")
     parser.add_argument("--optimizer", default='sgd', choices=['sgd', 'sgd_momentum', 'adam', 'rmsprop', None])
     parser.add_argument("--baseline_as_well", default=1, type=int)
@@ -76,7 +75,7 @@ def parse_args():
     parser.add_argument("--inverse_var", default=1, type=int)
     parser.add_argument("--adaptive_avg_reg", default=0, type=int)
     parser.add_argument("--mean_mean", default=0, type=int)
-    parser.add_argument("--trains", default=0, type=int)
+    parser.add_argument("--trains", default=1, type=int)
     parser.add_argument("--hidden_layers", default=5, type=int)
     parser.add_argument("--lnn", default=0, type=int)
     return parser.parse_args()
@@ -390,4 +389,3 @@ def mean_and_ci_result(args):
 if __name__ == "__main__":
     args = parse_args()
     mean_and_ci_result(args)
-    # train_and_eval(args)

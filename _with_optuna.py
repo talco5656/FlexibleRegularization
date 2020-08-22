@@ -70,8 +70,7 @@ def parse_args():
     return parser.parse_args()
 
 
-
-def get_model(args, reg_strenght=0.1, iter_length=500, var_normalizer=1):
+def get_model(args, reg_strenght=0.1, iter_length=500):
     if args.model == 'mlp':
         if args.adaptive_var_reg or args.adaptive_dropconnect or args.dropconnect != 1:
             model = FullyConnectedNet([args.fc_width] * 5, iter_length=iter_length, weight_scale=5e-2,
