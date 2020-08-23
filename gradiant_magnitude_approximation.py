@@ -39,6 +39,6 @@ class GMA:
     def _get_var(self):
         var = self.dynamic_var
         if self.divide_var_by_mean_var:
-            var = var / np.avg(var)
+            var = var / np.average(var)
         var = var * self.var_normalizer
         return var

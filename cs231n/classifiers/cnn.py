@@ -73,7 +73,7 @@ class ThreeLayerConvNet(object):
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         if self.adaptive_var_reg or self.adaptive_dropconnect:
-            if self.variance_calculation_method in ['welform', 'GMA']:
+            if self.variance_calculation_method in ['welford', 'GMA']:
                 self.online_param_var = {}
             else:
                 self.param_var = {}
