@@ -116,8 +116,8 @@ def conv_forward_strides_dropconnect(
         #todo: make sure this is the right axis
         w_array = [array[1] for array in computation_array]
         out_array = [array[2] for array in computation_array]
-        w = np.avg(np.asarray(w_array), axis=0)
-        res = np.avg(np.asarray(out_array), axis=0)
+        w = np.average(np.asarray(w_array), axis=0)
+        res = np.average(np.asarray(out_array), axis=0)
     
     # res = w.reshape(F, -1).dot(x_cols) + b.reshape(-1, 1)
 
