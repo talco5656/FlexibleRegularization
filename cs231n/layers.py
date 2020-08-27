@@ -85,8 +85,8 @@ def affine_dropconnect_forward(x, w, b, dropconnect_param, adaptive_dropconnect_
         #todo: make sure this is the right axis
         w_array = [res[1] for res in res_array]
         out_array = [res[2] for res in res_array]
-        w = np.avg(np.asarray(w_array), axis=0)
-        out = np.avg(np.asarray(out_array), axis=0)
+        w = np.average(np.asarray(w_array), axis=0)
+        out = np.average(np.asarray(out_array), axis=0)
         # x, w, out = np.avg(np.asarray(x), axis=1)
         
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****

@@ -26,8 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs231n/fast_layers.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs231n/fast_layers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cs231n/layers.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs231n/layers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -311,7 +310,7 @@
       <workItem from="1597738440486" duration="19119000" />
       <workItem from="1598102717981" duration="15024000" />
       <workItem from="1598343688536" duration="2287000" />
-      <workItem from="1598425051427" duration="614000" />
+      <workItem from="1598425051427" duration="826000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -551,11 +550,11 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="505" y="112" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1920.977@0.23.1920.977" timestamp="1595596994639" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1598202350162">
+    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1598522997705">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="403" y="70" width="936" height="791" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1596297095077" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1598202350162" />
+    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1598522997705" />
     <state x="403" y="87" width="937" height="720" key="find.popup/0.23.1792.1017@0.23.1792.1017" timestamp="1597413503529" />
     <state x="403" y="88" width="937" height="727" key="find.popup/0.23.1792.1028@0.23.1792.1028" timestamp="1597059077337" />
     <state x="432" y="90" width="1003" height="747" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1598106629396" />
