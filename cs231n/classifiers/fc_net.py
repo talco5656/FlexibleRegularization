@@ -345,12 +345,12 @@ class FullyConnectedNet(object):
             self.params['b' + str(1)] = np.zeros(dim[1], dtype=dtype)
             if self.adaptive_var_reg or self.adaptive_dropconnect:
                 if self.variance_calculation_method == 'welford':
-                    self.online_param_var['W' + str(i + 1)] = \
+                    self.online_param_var['W' + str(1)] = \
                         Welford(dim=dim, var_normalizer=self.var_normalizer,
                                 divide_var_by_mean_var=self.divide_var_by_mean_var,
                                 static_var=self.static_variance_update)
                 elif self.variance_calculation_method == 'GMA':
-                    self.online_param_var['W' + str(i + 1)] = \
+                    self.online_param_var['W' + str(1)] = \
                         GMA(dim=dim, var_normalizer=self.var_normalizer,
                             divide_var_by_mean_var=self.divide_var_by_mean_var,
                             static_var=self.static_variance_update)
