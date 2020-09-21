@@ -6,6 +6,7 @@ from trains import Task
 import matplotlib.pyplot as plt
 import seaborn as seaborn
 from tabulate import tabulate
+from numpy import linalg as LA
 
 from cs231n.classifiers.cnn import *
 from cs231n.classifiers.fc_net import FullyConnectedNet
@@ -21,13 +22,6 @@ import argparse
 plt.rcParams['figure.figsize'] = (10.0, 8.0)  # set default size of plots
 plt.rcParams['image.interpolation'] = 'nearest'
 plt.rcParams['image.cmap'] = 'gray'
-
-
-
-def rel_error(x, y):
-    """ returns relative error """
-    return np.max(np.abs(x - y) / (np.maximum(1e-8, np.abs(x) + np.abs(y))))
-
 
 
 def representation(array, cycle=100):
@@ -130,8 +124,9 @@ def display_statistics(solver, reg_strength):
 def disply_param_histogram(model, model_type):
     for param_name, param in model.params.items():
         if 'W' in param_name:
+            norm = LA.norm(param)
             seaborn.distplot(param)  # , label=f"{param_name}, {reg_strength}")
-            plt.title(f"{param_name}, {model.reg}, {model_type}")
+            plt.title(f"{param_name}, reg: {model.reg}, {model_type}, norm: {norm}")
             plt.show()
             # print('param', param)
 
@@ -203,7 +198,7 @@ def train_and_eval(args, task):
                     solver.best_train_acc, solver.best_val_acc))
                 print()
             disply_param_histogram(model=adaptive_model, model_type="Adaptive reg")
-            disply_param_histogram(model=original_model, model_type="naive reg")
+            disply_param_histogram(model=original_model, model_type="Naive reg")
             # plt.subplot(3, 1, 1)
             # plt.title('Training loss')
             # plt.xlabel('Iteration')
