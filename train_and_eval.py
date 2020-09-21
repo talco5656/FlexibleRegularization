@@ -149,7 +149,7 @@ def train_and_eval(args, task):
     if isinstance(args.reg_strength, float):
         reg_strenghts = [args.reg_strength]
     else:
-        reg_strenghts = [1, 0.1, 0]
+        reg_strenghts = [1, 0.1, 0.01, 0]
     if args.optimizer:
         update_rules = [args.optimizer]
     else:

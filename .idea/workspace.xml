@@ -89,7 +89,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.train_and_eval">
+  <component name="RunManager" selected="Python.linear">
     <configuration name="Hone.py" type="PythonConfigurationType" factoryName="Python">
       <module name="assignment2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -200,11 +200,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="linear" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../FlexibleRegularization_wt2/linear" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../FlexibleRegularization_wt2/linear/linear.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="train_and_eval" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="assignment2" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
         <env name="TRAINS_TASK_ID" value="56f0e1e87d72470db8089f347ae5e825" />
       </envs>
       <option name="SDK_HOME" value="" />
@@ -266,18 +286,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.Hone.py" />
-      <item itemvalue="Python.cnn" />
       <item itemvalue="Python.adaptive_solver" />
+      <item itemvalue="Python.cnn" />
       <item itemvalue="Python.fc_net" />
       <item itemvalue="Python.train_and_eval" />
+      <item itemvalue="Python.linear" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.linear" />
         <item itemvalue="Python.train_and_eval" />
         <item itemvalue="Python.fc_net" />
         <item itemvalue="Python.train_and_eval" />
         <item itemvalue="Python.train_and_eval" />
-        <item itemvalue="Python.cnn" />
       </list>
     </recent_temporary>
   </component>
@@ -311,6 +332,11 @@
       <workItem from="1598102717981" duration="15024000" />
       <workItem from="1598343688536" duration="2287000" />
       <workItem from="1598425051427" duration="2443000" />
+      <workItem from="1600264237603" duration="1720000" />
+      <workItem from="1600324456183" duration="33161000" />
+      <workItem from="1600360711971" duration="230000" />
+      <workItem from="1600423517742" duration="1098000" />
+      <workItem from="1600679496629" duration="497000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -385,11 +411,11 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="666" y="126" key="#cnn/0.23.1920.977@0.23.1920.977" timestamp="1595598819577" />
-    <state x="742" y="399" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598702044420">
+    <state x="735" y="117" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600264369030">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1596457676256" />
-    <state x="742" y="399" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1598702044420" />
+    <state x="735" y="117" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1600264369030" />
     <state x="494" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1597410675252" />
     <state x="494" y="192" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1028@0.23.1792.1028" timestamp="1597061591109" />
     <state x="494" y="193" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1033@0.23.1792.1033" timestamp="1596725082466" />
