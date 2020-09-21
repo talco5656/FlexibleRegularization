@@ -12,21 +12,11 @@ from cs231n.classifiers.fc_net import FullyConnectedNet
 from cs231n.classifiers.original_cnn import OriginalThreeLayerConvNet
 from cs231n.classifiers.original_fc_net import FullyConnectedNetOriginal
 from cs231n.data_utils import get_CIFAR10_data
-from cs231n.gradient_check import eval_numerical_gradient_array, eval_numerical_gradient
-from cs231n.layers import *
 from cs231n.fast_layers import *
 from cs231n.adaptive_solver import AdaptiveSolver
 from cs231n.solver import Solver
 
 import argparse
-
-# task = Task.init()
-# project_name='Flexible Regularization',
-#                  task_name="train and eval",
-#                  reuse_last_task_id=False
-#                  )
-
-# task = Task.init(project_name='Flexible Regularization', task_name='Simple CNN')
 
 plt.rcParams['figure.figsize'] = (10.0, 8.0)  # set default size of plots
 plt.rcParams['image.interpolation'] = 'nearest'
@@ -78,10 +68,12 @@ def parse_args():
     parser.add_argument("--trains", default=1, type=int)
     parser.add_argument("--hidden_layers", default=5, type=int)
     parser.add_argument("--lnn", default=0, type=int)
+    parser.add_argument("--reg_layers", default='1,2,3')
+
     return parser.parse_args()
 
 
-def get_models(args, reg_strenght=0.1):
+def get_models(args, reg_strenght=0.1, reg_layers=['0','1','2']):
     if args.model == 'mlp':
         original_model = FullyConnectedNetOriginal([args.fc_width] * args.hidden_layers, weight_scale=5e-2,
                                                    reg=reg_strenght,
@@ -101,9 +93,18 @@ def get_models(args, reg_strenght=0.1):
                                            mean_mean=args.mean_mean,
                                            lnn=args.lnn)
     elif args.model == 'cnn':
-        original_model = OriginalThreeLayerConvNet(weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght)
+        # original_model = OriginalThreeLayerConvNet(weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght)
+        original_model = ThreeLayerConvNet(adaptive_var_reg=False,
+                                           hidden_dim=args.fc_width, reg=reg_strenght,
+                                           dropconnect=1,
+                                           static_variance_update=False,
+                                           adaptive_dropconnect=False,
+                                           var_normalizer=1,
+                                           inverse_var=True,
+                                           adaptive_avg_reg=False,
+                                           mean_mean=False, reg_layers=reg_layers)
         adaptive_model = ThreeLayerConvNet(adaptive_var_reg=args.adaptive_var_reg,
-                                           weight_scale=0.001, hidden_dim=args.fc_width, reg=reg_strenght,
+                                           hidden_dim=args.fc_width, reg=reg_strenght,
                                            iter_length=args.iter_length,
                                            variance_calculation_method=args.variance_calculation_method,
                                            dropconnect=args.dropconnect,
@@ -112,13 +113,12 @@ def get_models(args, reg_strenght=0.1):
                                            var_normalizer=args.var_normalizer,
                                            inverse_var=args.inverse_var,
                                            adaptive_avg_reg=args.adaptive_avg_reg,
-                                           mean_mean=args.mean_mean)
+                                           mean_mean=args.mean_mean, reg_layers=reg_layers)
     return original_model, adaptive_model
 
 
 def display_statistics(solver, reg_strength):
     for param_name, param_list in solver.value_histogram_dict.items():
-        # print(histograms)
         for hist in param_list:
             seaborn.distplot(hist, label=f"{param_name}, {reg_strength}")
             plt.show()
@@ -129,7 +129,6 @@ def display_statistics(solver, reg_strength):
 
 def disply_param_histogram(model, model_type):
     for param_name, param in model.params.items():
-        # for hist in paramsram_list:
         if 'W' in param_name:
             seaborn.distplot(param)  # , label=f"{param_name}, {reg_strength}")
             plt.title(f"{param_name}, {model.reg}, {model_type}")
@@ -138,11 +137,6 @@ def disply_param_histogram(model, model_type):
 
 
 def train_and_eval(args, task):
-    # if args.trains:
-    # task = Task.current_task()# Task.init(project_name='Flexible Regularization',
-    # task_name=task_nameΩ"train and eval",
-    # reuse_last_task_id=False
-    # )
     data = get_CIFAR10_data()
     num_train = min(args.num_trains, 49000)
     learning_rates = {'sgd': 5e-3, 'sgd_momentum': 1e-3, 'rmsprop': 1e-4, 'adam': 1e-3}
@@ -155,11 +149,6 @@ def train_and_eval(args, task):
     else:
         update_rules = ['sgd', 'sgd_momentum', 'adam', 'rmsprop']
     solvers = {}
-    print(args)
-    # print("update rules: ", update_rules)
-    # print("args.optimizer", args.optimizer)
-    # print("args.reg_strengths", args.reg_strength)
-    # print("reg strengths: ", reg_strenghts)
     adaptive_solvers = {}
     result_dict = {}
     if args.test:
@@ -176,10 +165,11 @@ def train_and_eval(args, task):
             'X_val': data['X_val'],
             'y_val': data['y_val'],
         }
+    reg_layers = args.reg_layers.split(',') if args.reg_layers else ['1', '2', '3']
     for reg_strenght in reg_strenghts:
         for update_rule in update_rules:
             print(f'running adaptive with {update_rule}')
-            original_model, adaptive_model = get_models(args, reg_strenght)
+            original_model, adaptive_model = get_models(args, reg_strenght, reg_layers)
             # todo: changed from Solver to AdaptiveSolver
             adaptive_solver = AdaptiveSolver(adaptive_model, small_data, print_every=args.print_every,
                                              num_epochs=args.epochs, batch_size=args.batch_size,
@@ -190,23 +180,14 @@ def train_and_eval(args, task):
                                              verbose=args.verbose,
                                              logger=Task.current_task().get_logger() if args.trains else None,
                                              eval_distribution_sample=args.eval_distribution_sample)
-            # adaptive_solver = Solver(original_model, small_data, print_every=args.print_every,
-            #                 num_epochs=args.epochs, batch_size=args.batch_size,
-            #                 update_rule=update_rule,
-            #                 optim_config={
-            #                     'learning_rate': learning_rates[update_rule],
-            #                 },
-            #                 verbose=args.verbose)
             adaptive_solvers[update_rule] = adaptive_solver
             if not args.eval_distribution_sample:
                 adaptive_solver.meta_train()
-                # adaptive_solver.train()
             else:
                 adaptive_solver.meta_train_eval_distribuiton_sample()
             print()
             print('Train result: train acc: %f; val_acc: %f' % (
                 adaptive_solver.best_train_acc, adaptive_solver.best_val_acc))
-            # display_statistics(adaptive_solver, reg_strenght)
             print(f'running with {update_rule}')
             solver = Solver(original_model, small_data, print_every=args.print_every,
                             num_epochs=args.epochs, batch_size=args.batch_size,

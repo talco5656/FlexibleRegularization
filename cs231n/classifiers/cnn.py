@@ -26,7 +26,7 @@ class ThreeLayerConvNet(object):
                  adaptive_var_reg=False, dropconnect=1, adaptive_dropconnect=0,
                  variance_calculation_method='naive', static_variance_update=True,
                  var_normalizer=1, inverse_var=True, adaptive_avg_reg=False,
-                 mean_mean=False):
+                 mean_mean=False, reg_layers=['1', '2', '3']):
         """
         Initialize a new network.
 
@@ -56,6 +56,7 @@ class ThreeLayerConvNet(object):
         self.inverse_var = inverse_var
         self.adaptive_avg_reg = adaptive_avg_reg
         self.mean_mean = mean_mean
+        self.reg_layers = reg_layers
         ############################################################################
         # Initialize weights and biases for the three-layer convolutional          #
         # network. Weights should be initialized from a Gaussian centered at 0.0   #
@@ -204,6 +205,9 @@ class ThreeLayerConvNet(object):
         if self.adaptive_var_reg or self.adaptive_avg_reg:
             for w in self.params:
                 if 'W' in w:  # and self.adaptive_var_reg or self.adaptive_avg_reg:
+                    layer_name = w[1]
+                    if layer_name not in self.reg_layers:
+                        continue
                     if self.adaptive_avg_reg:
                         #todo: this is debug
                         reg_term = (self.params[w] - self.param_avg[w].get_static_mean()) ** 2
@@ -220,8 +224,6 @@ class ThreeLayerConvNet(object):
                         if not self.inverse_var:
                             var = 1/var  # var type is float
                         reg_term = reg_term.flatten() * var.flatten()
-                        print(self.params[w])
-                        print(reg_term)
                     # else:
                     #     reg_term = reg_term.flatten
                     loss += 0.5 * self.reg * np.sum(reg_term)  #reg_term.flatten() * var.flatten())
@@ -238,6 +240,9 @@ class ThreeLayerConvNet(object):
         
         for w in self.params:
             if 'W' in w:
+                layer_name = w[1]
+                if layer_name not in self.reg_layers:
+                    continue
                 if self.adaptive_var_reg or self.adaptive_avg_reg:
                     if self.adaptive_avg_reg:
                         reg_grad = self.params[w] - self.param_avg[w].get_static_mean()

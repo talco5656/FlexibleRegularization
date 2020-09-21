@@ -1,6 +1,7 @@
 from __future__ import print_function, division
 
 import attr
+import trains
 from future import standard_library
 standard_library.install_aliases()
 from builtins import range
@@ -324,7 +325,6 @@ iterations_so_far
         self.y_val = self.original_data['y_val']
         iterations_so_far = self.train(start_iteration=meta_iterations-1)
 
-
     def meta_train(self):
         num_train = self.X_train.shape[0]
         iterations_per_epoch = max(num_train // self.batch_size, 1)
@@ -333,9 +333,8 @@ iterations_so_far
         for meta_iteration in range(meta_iterations):
             print(f"Meta iteration {meta_iteration} out of {meta_iterations-1}")
             iterations_so_far = self.train(start_iteration=meta_iteration, update_var=True)
-            # print(f"iteration so far: {iterations_so_far}")
             if self.model.adaptive_var_reg or self.model.adaptive_dropconnect:
-                self.update_param_variances()
+                self.update_param_variances(iterations_so_far)
             if self.model.adaptive_avg_reg:
                 self.update_param_avg_online()
 
@@ -455,9 +454,9 @@ iterations_so_far
         if len(self.best_params) > 0:
             self.model.params = self.best_params
 
-    def update_param_variances(self):
+    def update_param_variances(self, iteration):
         if self.model.online_param_var:
-            self.update_param_variance_online()
+            self.update_param_variance_online(iteration)
         else:
             self.update_param_variances_naive()
 
@@ -492,24 +491,17 @@ iterations_so_far
         if not self.model.static_variance_update:
             return
         for param_name in self.model.param_avg:
-            # trajectory = np.asarray(trajectory)
             self.model.param_avg[param_name].update_static_mean()
 
-    # self.param_welford_var[param_name].update(existing_aggregate=, value)
-    def update_param_variance_online(self):
+    def update_param_variance_online(self, iteration):
         if not self.model.static_variance_update:
             return
+        logger = trains.Task.current_task().get_logger()
         for param_name in self.model.online_param_var:
-            # trajectory = np.asarray(trajectory)
             self.model.online_param_var[param_name].update_var()
-            # var = np.var(trajectory, axis=0)
-            # print(f"avg unormalized param var: {np.avg(var)}")
-            # if self.model.divide_var_by_mean_var:
-            #     var = var / np.avg(var)
-                # self.param_var[param_name] = var / np.avg(var) #.var(trajectory, axis=0) / np.avg(trajectory)
-            # else:
-            # var = var * self.model.var_normalizer
-            # self.model.param_var[param_name] = var
+            d_var = self.model.online_param_var[param_name].dynamic_var
+            logger.report_scalar(
+                title="parameter variance", series=param_name, value=np.average(d_var), iteration=iteration)
             if self.model.adaptive_dropconnect:
                 var = self.model.online_param_var[param_name].get_var()
                 droconnect_value = 1/2 + np.sqrt(1-4*var) / 2
@@ -518,10 +510,4 @@ iterations_so_far
                     dropconnect_value = dropconnect_value / np.mean(dropconnect_value)
                 dropconnect_value = dropconnect_value * self.model.dropconnect
                 self.model.dropconnect_param['adaptive_p'][param_name] = dropconnect_value
-            # print(var)
-            # print(f"avg param var: {np.avg(self.param_var[param_name])}")
-        # trajectory_names = self.model.param_trajectories.keys()
-        # for trajectory_name in trajectory_names:
-        #     self.model.param_trajectories[trajectory_name] = []
-
 
