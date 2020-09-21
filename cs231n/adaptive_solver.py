@@ -501,7 +501,7 @@ iterations_so_far
             self.model.online_param_var[param_name].update_var()
             var_calculator = self.model.online_param_var[param_name]
             d_var = var_calculator.dynamic_var if \
-            self.model.variance_calculation_method == 'welford' \
+            self.model.variance_calculation_method == 'GMA' \
             else var_calculator.M2 / (var_calculator.count - 1)
             logger.report_scalar(
                 title="parameter variance", series=param_name, value=np.average(d_var), iteration=iteration)
