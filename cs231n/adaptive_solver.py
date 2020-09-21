@@ -499,7 +499,10 @@ iterations_so_far
         logger = trains.Task.current_task().get_logger()
         for param_name in self.model.online_param_var:
             self.model.online_param_var[param_name].update_var()
-            d_var = self.model.online_param_var[param_name].dynamic_var
+            var_calculator = self.model.online_param_var[param_name]
+            d_var = var_calculator.dynamic_var if \
+            self.model.variance_calculation_method == 'welford' \
+            else var_calculator.M2 / (var_calculator.count - 1)
             logger.report_scalar(
                 title="parameter variance", series=param_name, value=np.average(d_var), iteration=iteration)
             if self.model.adaptive_dropconnect:

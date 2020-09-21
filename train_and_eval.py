@@ -55,7 +55,7 @@ def parse_args():
     parser.add_argument("--adaptive_dropconnect", default=0, type=int)
     parser.add_argument("--divide_var_by_mean_var", default=1, type=int)
     parser.add_argument("--test", default=0, type=int)
-    parser.add_argument("--variance_calculation_method", default="welford", choices=["naive", "welford", "GMA"])
+    parser.add_argument("--variance_calculation_method", default="welford", choices=["naive", "", "GMA"])
     parser.add_argument("--static_variance_update", default=1, type=int)
     parser.add_argument("--var_normalizer", default=1, type=float)  #todo: make sure this is the right value to put
     parser.add_argument("--batchnorm", default=0, type=int, help="Available only for MLP.")

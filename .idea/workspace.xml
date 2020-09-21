@@ -28,8 +28,6 @@
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cs231n/adaptive_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs231n/adaptive_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs231n/classifiers/cnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs231n/classifiers/cnn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs231n/classifiers/original_cnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/cs231n/classifiers/original_cnn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_and_eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_and_eval.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -237,7 +235,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/train_and_eval.py" />
-      <option name="PARAMETERS" value="--solver mlp --num_trains 1000 --model cnn --iter_length 10 --batch_size 50 --adaptive_var_reg 1 --hidden_layers 2 --epochs 5 --inverse_var 1 --reg_strength 0.1 --baseline_as_well 0 --trains 1 --var_normalizer 0" />
+      <option name="PARAMETERS" value="--optimizer sgd --num_trains 1000 --model cnn --iter_length 10 --batch_size 50 --adaptive_var_reg 1 --hidden_layers 2 --epochs 5 --inverse_var 1 --reg_strength 0.1 --baseline_as_well 0 --trains 1 --var_normalizer 0" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -297,8 +295,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.linear" />
         <item itemvalue="Python.train_and_eval" />
+        <item itemvalue="Python.linear" />
         <item itemvalue="Python.fc_net" />
         <item itemvalue="Python.train_and_eval" />
         <item itemvalue="Python.train_and_eval" />
@@ -339,7 +337,7 @@
       <workItem from="1600324456183" duration="33161000" />
       <workItem from="1600360711971" duration="230000" />
       <workItem from="1600423517742" duration="1098000" />
-      <workItem from="1600679496629" duration="5726000" />
+      <workItem from="1600679496629" duration="6831000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -414,11 +412,11 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="666" y="126" key="#cnn/0.23.1920.977@0.23.1920.977" timestamp="1595598819577" />
-    <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600691650133">
+    <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600702720141">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1600691650133" />
-    <state x="735" y="117" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1600264369030" />
+    <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1600702720141" />
+    <state x="735" y="117" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1600701742850" />
     <state x="494" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1597410675252" />
     <state x="494" y="192" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1028@0.23.1792.1028" timestamp="1597061591109" />
     <state x="494" y="193" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1033@0.23.1792.1033" timestamp="1596725082466" />
@@ -583,11 +581,11 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="505" y="112" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1920.977@0.23.1920.977" timestamp="1595596994639" />
-    <state x="403" y="70" width="936" height="791" key="find.popup" timestamp="1600691234821">
-      <screen x="0" y="0" width="1792" height="1120" />
+    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1600701312978">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="403" y="70" width="936" height="791" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1600691234821" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1598522997705" />
+    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1600701312978" />
     <state x="403" y="87" width="937" height="720" key="find.popup/0.23.1792.1017@0.23.1792.1017" timestamp="1597413503529" />
     <state x="403" y="88" width="937" height="727" key="find.popup/0.23.1792.1028@0.23.1792.1028" timestamp="1597059077337" />
     <state x="432" y="90" width="1003" height="747" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1598106629396" />
@@ -627,12 +625,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/cs231n/adaptive_solver.py</url>
-          <line>505</line>
+          <line>508</line>
           <option name="timeStamp" value="146" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/cs231n/adaptive_solver.py</url>
-          <line>504</line>
+          <line>507</line>
           <option name="timeStamp" value="147" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -642,7 +640,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/cs231n/adaptive_solver.py</url>
-          <line>502</line>
+          <line>505</line>
           <option name="timeStamp" value="154" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
