@@ -504,7 +504,7 @@ iterations_so_far
             self.model.variance_calculation_method == 'GMA' \
             else var_calculator.M2 / (var_calculator.count - 1)
             logger.report_scalar(
-                title="parameter variance", series=param_name, value=np.average(d_var), iteration=iteration)
+                title=f"parameter variance, {self.model.reg}", series=param_name, value=np.average(d_var), iteration=iteration)
             if self.model.adaptive_dropconnect:
                 var = self.model.online_param_var[param_name].get_var()
                 droconnect_value = 1/2 + np.sqrt(1-4*var) / 2
