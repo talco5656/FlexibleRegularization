@@ -342,8 +342,8 @@ def batchnorm_forward(x: np.ndarray, gamma, beta, bn_param):
         #######################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-        mean = x.avg(0)
-        var = x.var(0)
+        mean = np.average(x, axis=0) #x.avg(0)
+        var = np.var(x, axis=0) # x.var(0)
         running_mean = running_mean * momentum + mean * (1 - momentum)
         running_var = running_var * momentum + var * (1 - momentum)
         x_halt = (x - mean) / np.sqrt(var + eps)
