@@ -26,7 +26,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
+      <change afterPath="$PROJECT_DIR$/pytorch_addaptive_optim/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PyTorch.py" beforeDir="false" afterPath="$PROJECT_DIR$/PyTorch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/welford_var.py" beforeDir="false" afterPath="$PROJECT_DIR$/welford_var.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +93,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.train_and_eval">
+  <component name="RunManager" selected="Python.PyTorch">
     <configuration name="Hone.py" type="PythonConfigurationType" factoryName="Python">
       <module name="assignment2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -106,6 +110,25 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Hone.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PyTorch" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PyTorch.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -134,28 +157,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="adaptive_solver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="assignment2" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cs231n" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cs231n/adaptive_solver.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="cnn" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="assignment2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -172,28 +173,6 @@
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cs231n/classifiers/cnn.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="fc_net" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="assignment2" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/cs231n/classifiers" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/cs231n/classifiers/fc_net.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
@@ -283,20 +262,36 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Nosetests in PyTorch.py" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
+      <module name="assignment2" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/PyTorch.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.Hone.py" />
-      <item itemvalue="Python.adaptive_solver" />
       <item itemvalue="Python.cnn" />
-      <item itemvalue="Python.fc_net" />
+      <item itemvalue="Python.PyTorch" />
       <item itemvalue="Python.train_and_eval" />
       <item itemvalue="Python.linear" />
+      <item itemvalue="Python tests.Nosetests in PyTorch.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.PyTorch" />
         <item itemvalue="Python.train_and_eval" />
+        <item itemvalue="Python tests.Nosetests in PyTorch.py" />
         <item itemvalue="Python.linear" />
-        <item itemvalue="Python.fc_net" />
-        <item itemvalue="Python.train_and_eval" />
         <item itemvalue="Python.train_and_eval" />
       </list>
     </recent_temporary>
@@ -335,7 +330,7 @@
       <workItem from="1600324456183" duration="33161000" />
       <workItem from="1600360711971" duration="230000" />
       <workItem from="1600423517742" duration="1098000" />
-      <workItem from="1600679496629" duration="11236000" />
+      <workItem from="1600679496629" duration="25895000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -359,14 +354,6 @@
       <updated>1592336376491</updated>
     </task>
     <servers />
-  </component>
-  <component name="TestHistory">
-    <history-entry file="Nosetests_in_Hone_py - 2020.07.08 at 17h 24m 07s.xml">
-      <configuration name="Nosetests in Hone.py" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Nosetests - 2020.07.08 at 17h 24m 55s.xml">
-      <configuration name="Nosetests" configurationId="tests" />
-    </history-entry>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
@@ -410,11 +397,11 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="666" y="126" key="#cnn/0.23.1920.977@0.23.1920.977" timestamp="1595598819577" />
-    <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600707607282">
-      <screen x="0" y="0" width="1792" height="1120" />
+    <state x="735" y="117" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600776723635">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1600707607282" />
-    <state x="735" y="117" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1600701742850" />
+    <state x="735" y="117" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1600776723635" />
     <state x="494" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1597410675252" />
     <state x="494" y="192" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1028@0.23.1792.1028" timestamp="1597061591109" />
     <state x="494" y="193" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1033@0.23.1792.1033" timestamp="1596725082466" />
@@ -440,11 +427,11 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="748" y="272" key="FileChooserDialogImpl/0.23.1920.977@0.23.1920.977" timestamp="1595848527663" />
-    <state width="1878" height="311" key="GridCell.Tab.0.bottom" timestamp="1600710798979">
+    <state width="1878" height="311" key="GridCell.Tab.0.bottom" timestamp="1600801654543">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="311" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1600708461288" />
-    <state width="1878" height="311" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1600710798979" />
+    <state width="1878" height="311" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1600801654543" />
     <state width="1792" height="201" key="GridCell.Tab.0.bottom/0.23.1792.1017@0.23.1792.1017" timestamp="1597523443613" />
     <state width="1792" height="284" key="GridCell.Tab.0.bottom/0.23.1792.1028@0.23.1792.1028" timestamp="1597061593119" />
     <state width="1792" height="284" key="GridCell.Tab.0.bottom/0.23.1792.1031@0.23.1792.1031" timestamp="1597065167570" />
@@ -458,11 +445,11 @@
     <state width="1792" height="284" key="GridCell.Tab.0.bottom/0.23.1920.989@0.23.1920.989" timestamp="1596745853538" />
     <state width="1792" height="284" key="GridCell.Tab.0.bottom/0.23.1920.991@0.23.1920.991" timestamp="1597065908181" />
     <state width="1792" height="284" key="GridCell.Tab.0.bottom/0.23.1920.992@0.23.1920.992" timestamp="1596958364021" />
-    <state width="1878" height="311" key="GridCell.Tab.0.center" timestamp="1600710798977">
+    <state width="1878" height="311" key="GridCell.Tab.0.center" timestamp="1600801654542">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="311" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1600708461287" />
-    <state width="1878" height="311" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1600710798977" />
+    <state width="1878" height="311" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1600801654542" />
     <state width="1792" height="201" key="GridCell.Tab.0.center/0.23.1792.1017@0.23.1792.1017" timestamp="1597523443612" />
     <state width="1792" height="284" key="GridCell.Tab.0.center/0.23.1792.1028@0.23.1792.1028" timestamp="1597061593118" />
     <state width="1792" height="284" key="GridCell.Tab.0.center/0.23.1792.1031@0.23.1792.1031" timestamp="1597065167570" />
@@ -476,11 +463,11 @@
     <state width="1792" height="284" key="GridCell.Tab.0.center/0.23.1920.989@0.23.1920.989" timestamp="1596745853538" />
     <state width="1792" height="284" key="GridCell.Tab.0.center/0.23.1920.991@0.23.1920.991" timestamp="1597065908181" />
     <state width="1792" height="284" key="GridCell.Tab.0.center/0.23.1920.992@0.23.1920.992" timestamp="1596958364019" />
-    <state width="1878" height="311" key="GridCell.Tab.0.left" timestamp="1600710798977">
+    <state width="1878" height="311" key="GridCell.Tab.0.left" timestamp="1600801654541">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="311" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1600708461286" />
-    <state width="1878" height="311" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1600710798977" />
+    <state width="1878" height="311" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1600801654541" />
     <state width="1792" height="201" key="GridCell.Tab.0.left/0.23.1792.1017@0.23.1792.1017" timestamp="1597523443612" />
     <state width="1792" height="284" key="GridCell.Tab.0.left/0.23.1792.1028@0.23.1792.1028" timestamp="1597061593118" />
     <state width="1792" height="284" key="GridCell.Tab.0.left/0.23.1792.1031@0.23.1792.1031" timestamp="1597065167569" />
@@ -494,11 +481,11 @@
     <state width="1792" height="284" key="GridCell.Tab.0.left/0.23.1920.989@0.23.1920.989" timestamp="1596745853538" />
     <state width="1792" height="284" key="GridCell.Tab.0.left/0.23.1920.991@0.23.1920.991" timestamp="1597065908180" />
     <state width="1792" height="284" key="GridCell.Tab.0.left/0.23.1920.992@0.23.1920.992" timestamp="1596958364018" />
-    <state width="1878" height="311" key="GridCell.Tab.0.right" timestamp="1600710798978">
+    <state width="1878" height="311" key="GridCell.Tab.0.right" timestamp="1600801654543">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="311" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1600708461287" />
-    <state width="1878" height="311" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1600710798978" />
+    <state width="1878" height="311" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1600801654543" />
     <state width="1792" height="201" key="GridCell.Tab.0.right/0.23.1792.1017@0.23.1792.1017" timestamp="1597523443612" />
     <state width="1792" height="284" key="GridCell.Tab.0.right/0.23.1792.1028@0.23.1792.1028" timestamp="1597061593118" />
     <state width="1792" height="284" key="GridCell.Tab.0.right/0.23.1792.1031@0.23.1792.1031" timestamp="1597065167570" />
@@ -512,50 +499,50 @@
     <state width="1792" height="284" key="GridCell.Tab.0.right/0.23.1920.989@0.23.1920.989" timestamp="1596745853538" />
     <state width="1792" height="284" key="GridCell.Tab.0.right/0.23.1920.991@0.23.1920.991" timestamp="1597065908181" />
     <state width="1792" height="284" key="GridCell.Tab.0.right/0.23.1920.992@0.23.1920.992" timestamp="1596958364019" />
-    <state width="1878" height="311" key="GridCell.Tab.1.bottom" timestamp="1600710798980">
+    <state width="1878" height="311" key="GridCell.Tab.1.bottom" timestamp="1600801654544">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="311" key="GridCell.Tab.1.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1600708461188" />
-    <state width="1878" height="311" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1600710798980" />
+    <state width="1878" height="311" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1600801654544" />
     <state width="1792" height="332" key="GridCell.Tab.1.bottom/0.23.1792.1017@0.23.1792.1017" timestamp="1597499476428" />
     <state width="1792" height="335" key="GridCell.Tab.1.bottom/0.23.1792.1028@0.23.1792.1028" timestamp="1596654746284" />
-    <state width="1878" height="408" key="GridCell.Tab.1.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1598115454382" />
+    <state width="1878" height="311" key="GridCell.Tab.1.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1600790709286" />
     <state width="1920" height="333" key="GridCell.Tab.1.bottom/0.23.1920.977@0.23.1920.977" timestamp="1595963151316" />
     <state width="1920" height="418" key="GridCell.Tab.1.bottom/0.23.1920.978@0.23.1920.978" timestamp="1597918147144" />
     <state width="1920" height="382" key="GridCell.Tab.1.bottom/0.23.1920.986@0.23.1920.986" timestamp="1596452940036" />
     <state width="1792" height="335" key="GridCell.Tab.1.bottom/0.23.1920.991@0.23.1920.991" timestamp="1596958369460" />
-    <state width="1878" height="311" key="GridCell.Tab.1.center" timestamp="1600710798980">
+    <state width="1878" height="311" key="GridCell.Tab.1.center" timestamp="1600801654544">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="311" key="GridCell.Tab.1.center/0.0.1792.1120@0.0.1792.1120" timestamp="1600708461187" />
-    <state width="1878" height="311" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1600710798980" />
+    <state width="1878" height="311" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1600801654544" />
     <state width="1792" height="332" key="GridCell.Tab.1.center/0.23.1792.1017@0.23.1792.1017" timestamp="1597499476427" />
     <state width="1792" height="335" key="GridCell.Tab.1.center/0.23.1792.1028@0.23.1792.1028" timestamp="1596654746283" />
-    <state width="1878" height="408" key="GridCell.Tab.1.center/0.23.1920.1057@0.23.1920.1057" timestamp="1598115454381" />
+    <state width="1878" height="311" key="GridCell.Tab.1.center/0.23.1920.1057@0.23.1920.1057" timestamp="1600790709285" />
     <state width="1920" height="333" key="GridCell.Tab.1.center/0.23.1920.977@0.23.1920.977" timestamp="1595963151316" />
     <state width="1920" height="418" key="GridCell.Tab.1.center/0.23.1920.978@0.23.1920.978" timestamp="1597918147144" />
     <state width="1920" height="382" key="GridCell.Tab.1.center/0.23.1920.986@0.23.1920.986" timestamp="1596452940035" />
     <state width="1792" height="335" key="GridCell.Tab.1.center/0.23.1920.991@0.23.1920.991" timestamp="1596958369459" />
-    <state width="1878" height="311" key="GridCell.Tab.1.left" timestamp="1600710798979">
+    <state width="1878" height="311" key="GridCell.Tab.1.left" timestamp="1600801654543">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="311" key="GridCell.Tab.1.left/0.0.1792.1120@0.0.1792.1120" timestamp="1600708461187" />
-    <state width="1878" height="311" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1600710798979" />
+    <state width="1878" height="311" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1600801654543" />
     <state width="1792" height="332" key="GridCell.Tab.1.left/0.23.1792.1017@0.23.1792.1017" timestamp="1597499476427" />
     <state width="1792" height="335" key="GridCell.Tab.1.left/0.23.1792.1028@0.23.1792.1028" timestamp="1596654746283" />
-    <state width="1878" height="408" key="GridCell.Tab.1.left/0.23.1920.1057@0.23.1920.1057" timestamp="1598115454380" />
+    <state width="1878" height="311" key="GridCell.Tab.1.left/0.23.1920.1057@0.23.1920.1057" timestamp="1600790709285" />
     <state width="1920" height="333" key="GridCell.Tab.1.left/0.23.1920.977@0.23.1920.977" timestamp="1595963151316" />
     <state width="1920" height="418" key="GridCell.Tab.1.left/0.23.1920.978@0.23.1920.978" timestamp="1597918147143" />
     <state width="1920" height="382" key="GridCell.Tab.1.left/0.23.1920.986@0.23.1920.986" timestamp="1596452940035" />
     <state width="1792" height="335" key="GridCell.Tab.1.left/0.23.1920.991@0.23.1920.991" timestamp="1596958369459" />
-    <state width="1878" height="311" key="GridCell.Tab.1.right" timestamp="1600710798980">
+    <state width="1878" height="311" key="GridCell.Tab.1.right" timestamp="1600801654544">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="311" key="GridCell.Tab.1.right/0.0.1792.1120@0.0.1792.1120" timestamp="1600708461187" />
-    <state width="1878" height="311" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1600710798980" />
+    <state width="1878" height="311" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1600801654544" />
     <state width="1792" height="332" key="GridCell.Tab.1.right/0.23.1792.1017@0.23.1792.1017" timestamp="1597499476427" />
     <state width="1792" height="335" key="GridCell.Tab.1.right/0.23.1792.1028@0.23.1792.1028" timestamp="1596654746283" />
-    <state width="1878" height="408" key="GridCell.Tab.1.right/0.23.1920.1057@0.23.1920.1057" timestamp="1598115454381" />
+    <state width="1878" height="311" key="GridCell.Tab.1.right/0.23.1920.1057@0.23.1920.1057" timestamp="1600790709286" />
     <state width="1920" height="333" key="GridCell.Tab.1.right/0.23.1920.977@0.23.1920.977" timestamp="1595963151316" />
     <state width="1920" height="418" key="GridCell.Tab.1.right/0.23.1920.978@0.23.1920.978" timestamp="1597918147144" />
     <state width="1920" height="382" key="GridCell.Tab.1.right/0.23.1920.986@0.23.1920.986" timestamp="1596452940036" />
@@ -566,6 +553,10 @@
     <state x="374" y="102" key="SettingsEditor/0.23.1792.1028@0.23.1792.1028" timestamp="1597057593779" />
     <state x="401" y="98" key="SettingsEditor/0.23.1920.977@0.23.1920.977" timestamp="1597586940469" />
     <state x="401" y="99" key="SettingsEditor/0.23.1920.991@0.23.1920.991" timestamp="1597049819748" />
+    <state width="960" height="540" key="XDebugger.FullValuePopup" timestamp="1600789978090">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="960" height="540" key="XDebugger.FullValuePopup/0.0.1920.1080@0.0.1920.1080" timestamp="1600789978090" />
     <state x="380" y="252" key="com.intellij.execution.console.ConsoleHistoryController$MyBrowseAction$1" timestamp="1598116092380">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -641,14 +632,66 @@
           <line>127</line>
           <option name="timeStamp" value="160" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py</url>
+          <line>110</line>
+          <option name="timeStamp" value="161" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py</url>
+          <line>127</line>
+          <option name="timeStamp" value="162" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py</url>
+          <line>56</line>
+          <option name="timeStamp" value="163" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py</url>
+          <line>108</line>
+          <option name="timeStamp" value="169" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/PyTorch.py</url>
+          <line>1038</line>
+          <option name="timeStamp" value="172" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../../venv/DR/lib/python3.8/site-packages/torch/optim/sgd.py</url>
+          <line>67</line>
+          <option name="timeStamp" value="173" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/PyTorch.py</url>
+          <line>1107</line>
+          <option name="timeStamp" value="174" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/PyTorch.py</url>
+          <line>1105</line>
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py</url>
+          <line>96</line>
+          <option name="timeStamp" value="177" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py</url>
+          <line>146</line>
+          <option name="timeStamp" value="178" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/FlexibleRegularization$Nosetests_in_PyTorch_py.coverage" NAME="Nosetests in PyTorch.py Coverage Results" MODIFIED="1600776596656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$data_utils.coverage" NAME="data_utils Coverage Results" MODIFIED="1595619655496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cs231n" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$train_and_eval__1_.coverage" NAME="train_and_eval Coverage Results" MODIFIED="1597854212421" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$train_and_eval.coverage" NAME="train_and_eval Coverage Results" MODIFIED="1600708461158" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$cnn.coverage" NAME="cnn Coverage Results" MODIFIED="1596545465286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cs231n/classifiers" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$linear.coverage" NAME="linear Coverage Results" MODIFIED="1600689982183" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../FlexibleRegularization_wt2/linear" />
+    <SUITE FILE_PATH="coverage/FlexibleRegularization$PyTorch.coverage" NAME="PyTorch Coverage Results" MODIFIED="1600800676380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
   </component>
 </project>

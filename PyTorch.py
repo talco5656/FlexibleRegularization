@@ -66,10 +66,12 @@ import torchvision.transforms as T
 
 import numpy as np
 
-
+import torch.nn.functional as F  # useful stateless functions
+from trains import Task
 # In[2]:
+import pytorch_addaptive_optim
 
-
+Task.init(task_name="PyTorch", project_name="Flexible Regularization")
 NUM_TRAIN = 49000
 
 # The torchvision.transforms package provides tools for preprocessing data
@@ -156,7 +158,7 @@ def test_flatten():
     print('Before flattening: ', x)
     print('After flattening: ', flatten(x))
 
-test_flatten()
+# test_flatten()
 
 
 # ### Barebones PyTorch: Two-Layer Network
@@ -215,7 +217,6 @@ def two_layer_fc_test():
     scores = two_layer_fc(x, [w1, w2])
     print(scores.size())  # you should see [64, 10]
 
-two_layer_fc_test()
 
 
 # ### Barebones PyTorch: Three-Layer ConvNet
@@ -300,7 +301,7 @@ def three_layer_convnet_test():
 
     scores = three_layer_convnet(x, [conv_w1, conv_b1, conv_w2, conv_b2, fc_w, fc_b])
     print(scores.size())  # you should see [64, 10]
-three_layer_convnet_test()
+# three_layer_convnet_test()
 
 
 # ### Barebones PyTorch: Initialization
@@ -337,7 +338,7 @@ def zero_weight(shape):
 # create a weight of shape [3 x 5]
 # you should see the type `torch.cuda.FloatTensor` if you use GPU. 
 # Otherwise it should be `torch.FloatTensor`
-random_weight((3, 5))
+# random_weight((3, 5))
 
 
 # ### Barebones PyTorch: Check Accuracy
@@ -444,14 +445,14 @@ def train_part2(model_fn, params, learning_rate):
 # In[11]:
 
 
-hidden_layer_size = 4000
-learning_rate = 1e-2
-
-w1 = random_weight((3 * 32 * 32, hidden_layer_size))
-w2 = random_weight((hidden_layer_size, 10))
-
-train_part2(two_layer_fc, [w1, w2], learning_rate)
-
+# hidden_layer_size = 4000
+# learning_rate = 1e-2
+#
+# w1 = random_weight((3 * 32 * 32, hidden_layer_size))
+# w2 = random_weight((hidden_layer_size, 10))
+#
+# train_part2(two_layer_fc, [w1, w2], learning_rate)
+#
 
 # ### BareBones PyTorch: Training a ConvNet
 # 
@@ -469,38 +470,38 @@ train_part2(two_layer_fc, [w1, w2], learning_rate)
 
 # In[12]:
 
-
-learning_rate = 3e-3
-
-channel_1 = 32
-channel_2 = 16
-
-conv_w1 = None
-conv_b1 = None
-conv_w2 = None
-conv_b2 = None
-fc_w = None
-fc_b = None
+#
+# learning_rate = 3e-3
+#
+# channel_1 = 32
+# channel_2 = 16
+#
+# conv_w1 = None
+# conv_b1 = None
+# conv_w2 = None
+# conv_b2 = None
+# fc_w = None
+# fc_b = None
 
 ################################################################################
 # TODO: Initialize the parameters of a three-layer ConvNet.                    #
 ################################################################################
 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-conv_w1=random_weight((channel_1,3,5,5))
-conv_b1=zero_weight(channel_1)
-conv_w2=random_weight((channel_2,channel_1,3,3))
-conv_b2=zero_weight(channel_2)
-fc_w=random_weight((16*32*32,10))
-fc_b=zero_weight(10)
-
-# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-################################################################################
-#                                 END OF YOUR CODE                             #
-################################################################################
-
-params = [conv_w1, conv_b1, conv_w2, conv_b2, fc_w, fc_b]
-train_part2(three_layer_convnet, params, learning_rate)
+# conv_w1=random_weight((channel_1,3,5,5))
+# conv_b1=zero_weight(channel_1)
+# conv_w2=random_weight((channel_2,channel_1,3,3))
+# conv_b2=zero_weight(channel_2)
+# fc_w=random_weight((16*32*32,10))
+# fc_b=zero_weight(10)
+#
+# # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+# ################################################################################
+# #                                 END OF YOUR CODE                             #
+# ################################################################################
+#
+# params = [conv_w1, conv_b1, conv_w2, conv_b2, fc_w, fc_b]
+# train_part2(three_layer_convnet, params, learning_rate)
 
 
 # # Part III. PyTorch Module API
@@ -548,7 +549,6 @@ def test_TwoLayerFC():
     model = TwoLayerFC(input_size, 42, 10)
     scores = model(x)
     print(scores.size())  # you should see [64, 10]
-test_TwoLayerFC()
 
 
 # ### Module API: Three-Layer ConvNet
@@ -616,7 +616,7 @@ def test_ThreeLayerConvNet():
     model = ThreeLayerConvNet(in_channel=3, channel_1=12, channel_2=8, num_classes=10)
     scores = model(x)
     print(scores.size())  # you should see [64, 10]
-test_ThreeLayerConvNet()
+# test_ThreeLayerConvNet()
 
 
 # ### Module API: Check Accuracy
@@ -653,7 +653,7 @@ def check_accuracy_part34(loader, model):
 # In[16]:
 
 
-def train_part34(model, optimizer, epochs=1):
+def train_part34(model, optimizer, epochs=3):
     """
     Train a model on CIFAR-10 using the PyTorch Module API.
     
@@ -673,7 +673,6 @@ def train_part34(model, optimizer, epochs=1):
 
             scores = model(x)
             loss = F.cross_entropy(scores, y)
-
             # Zero out all of the gradients for the variables which the optimizer
             # will update.
             optimizer.zero_grad()
@@ -703,13 +702,13 @@ def train_part34(model, optimizer, epochs=1):
 
 # In[17]:
 
-
-hidden_layer_size = 4000
-learning_rate = 1e-2
-model = TwoLayerFC(3 * 32 * 32, hidden_layer_size, 10)
-optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=0.1)
-
-train_part34(model, optimizer)
+#
+# hidden_layer_size = 4000
+# learning_rate = 1e-2
+# model = TwoLayerFC(3 * 32 * 32, hidden_layer_size, 10)
+# optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=0.1)
+#
+# train_part34(model, optimizer)
 
 
 # ### Module API: Train a Three-Layer ConvNet
@@ -719,28 +718,28 @@ train_part34(model, optimizer)
 
 # In[18]:
 
-
-learning_rate = 3e-3
-channel_1 = 32
-channel_2 = 16
-
-model = None
-optimizer = None
+#
+# learning_rate = 3e-3
+# channel_1 = 32
+# channel_2 = 16
+#
+# model = None
+# optimizer = None
 ################################################################################
 # TODO: Instantiate your ThreeLayerConvNet model and a corresponding optimizer #
 ################################################################################
 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-model=ThreeLayerConvNet(3,channel_1,channel_2,10)
-optimizer=optim.SGD(model.parameters(),lr=learning_rate)
-
-# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-################################################################################
-#                                 END OF YOUR CODE                             
-################################################################################
-
-train_part34(model, optimizer)
-
+# model=ThreeLayerConvNet(3,channel_1,channel_2,10)
+# optimizer=optim.SGD(model.parameters(),lr=learning_rate)
+#
+# # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+# ################################################################################
+# #                                 END OF YOUR CODE
+# ################################################################################
+#
+# train_part34(model, optimizer)
+#
 
 # # Part IV. PyTorch Sequential API
 # 
@@ -764,22 +763,22 @@ class Flatten(nn.Module):
     def forward(self, x):
         return flatten(x)
 
-hidden_layer_size = 4000
-learning_rate = 1e-2
-
-model = nn.Sequential(
-    Flatten(),
-    nn.Linear(3 * 32 * 32, hidden_layer_size),
-    nn.ReLU(),
-    nn.Linear(hidden_layer_size, 10),
-)
-
-# you can use Nesterov momentum in optim.SGD
-optimizer = optim.SGD(model.parameters(), lr=learning_rate,
-                     momentum=0.9, nesterov=True)
-
-train_part34(model, optimizer)
-
+# hidden_layer_size = 4000
+# learning_rate = 1e-2
+#
+# model = nn.Sequential(
+#     Flatten(),
+#     nn.Linear(3 * 32 * 32, hidden_layer_size),
+#     nn.ReLU(),
+#     nn.Linear(hidden_layer_size, 10),
+# )
+#
+# # you can use Nesterov momentum in optim.SGD
+# optimizer = optim.SGD(model.parameters(), lr=learning_rate,
+#                      momentum=0.9, nesterov=True)
+#
+# train_part34(model, optimizer)
+#
 
 # ### Sequential API: Three-Layer ConvNet
 # Here you should use `nn.Sequential` to define and train a three-layer ConvNet with the same architecture we used in Part III:
@@ -798,13 +797,13 @@ train_part34(model, optimizer)
 
 # In[20]:
 
-
-channel_1 = 32
-channel_2 = 16
-learning_rate = 1e-2
-
-model = None
-optimizer = None
+#
+# channel_1 = 32
+# channel_2 = 16
+# learning_rate = 1e-2
+#
+# model = None
+# optimizer = None
 
 ################################################################################
 # TODO: Rewrite the 2-layer ConvNet with bias from Part III with the           #
@@ -812,29 +811,29 @@ optimizer = None
 ################################################################################
 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
-model=nn.Sequential(
-    nn.Conv2d(3,channel_1,5,padding=2),
-    nn.ReLU(inplace=True),
-    nn.Conv2d(channel_1,channel_2,3,padding=1),
-    nn.ReLU(inplace=True),
-    Flatten(),
-    nn.Linear(channel_2*32*32,10)
-)
+# model=nn.Sequential(
+#     nn.Conv2d(3,channel_1,5,padding=2),
+#     nn.ReLU(inplace=True),
+#     nn.Conv2d(channel_1,channel_2,3,padding=1),
+#     nn.ReLU(inplace=True),
+#     Flatten(),
+#     nn.Linear(channel_2*32*32,10)
+# )
 # for i in (0,2,5):
 #     w_shape=model[i].weight.data.shape
 #     b_shape=model[i].bias.data.shape
 #     model[i].weight.data=random_weight(w_shape)
 #     model[i].bias.data=zero_weight(b_shape)
-
-optimizer=optim.SGD(model.parameters(),nesterov=True,lr=learning_rate, momentum=0.9)
-
-# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-################################################################################
-#                                 END OF YOUR CODE                             
-################################################################################
-
-train_part34(model, optimizer)
-
+#
+# optimizer=optim.SGD(model.parameters(),nesterov=True,lr=learning_rate, momentum=0.9)
+#
+# # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+# ################################################################################
+# #                                 END OF YOUR CODE
+# ################################################################################
+#
+# train_part34(model, optimizer)
+#
 
 # # Part V. CIFAR-10 open-ended challenge
 # 
@@ -900,8 +899,8 @@ train_part34(model, optimizer)
 # the test set until you have finished your architecture and  hyperparameter   #
 # tuning, and only run the test set once at the end to report a final value.   #
 ################################################################################
-model = None
-optimizer = None
+# model = None
+# optimizer = None
 
 # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
@@ -945,9 +944,9 @@ class AlexNet(nn.Module):
         x = x.view(-1, 7 * 7 * 256)
         x = self.classifier(x)
         return x
-
-model=AlexNet()
-optimizer=optim.Adam(model.parameters())
+#
+# model=AlexNet()
+# optimizer=optim.Adam(model.parameters())
 
 # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 ################################################################################
@@ -955,7 +954,7 @@ optimizer=optim.Adam(model.parameters())
 ################################################################################
 
 # You should get at least 70% accuracy
-train_part34(model, optimizer, epochs=10)
+# train_part34(model, optimizer, epochs=10)
 
 
 # ## Describe what you did 
@@ -971,6 +970,148 @@ train_part34(model, optimizer, epochs=10)
 # In[22]:
 
 
-best_model = model
-check_accuracy_part34(loader_test, best_model)
+# best_model = model
+# check_accuracy_part34(loader_test, best_model)
+def test1():
+    test_flatten()
 
+    two_layer_fc_test()
+
+    three_layer_convnet_test()
+
+
+    # create a weight of shape [3 x 5]
+    # you should see the type `torch.cuda.FloatTensor` if you use GPU.
+    # Otherwise it should be `torch.FloatTensor`
+    random_weight((3, 5))
+
+    hidden_layer_size = 4000
+    learning_rate = 1e-2
+    model = TwoLayerFC(3 * 32 * 32, hidden_layer_size, 10)
+    optimizer = optim.SGD(model.parameters(), lr=learning_rate, weight_decay=0.1)
+
+    train_part34(model, optimizer)
+
+    # ### Module API: Train a Three-Layer ConvNet
+    # You should now use the Module API to train a three-layer ConvNet on CIFAR. This should look very similar to training the two-layer network! You don't need to tune any hyperparameters, but you should achieve above above 45% after training for one epoch.
+    #
+    # You should train the model using stochastic gradient descent without momentum.
+
+    # In[18]:
+
+    learning_rate = 3e-3
+    channel_1 = 32
+    channel_2 = 16
+
+    model = None
+    optimizer = None
+    ################################################################################
+    # TODO: Instantiate your ThreeLayerConvNet model and a corresponding optimizer #
+    ################################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    model = ThreeLayerConvNet(3, channel_1, channel_2, 10)
+    optimizer = optim.SGD(model.parameters(), lr=learning_rate)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ################################################################################
+    #                                 END OF YOUR CODE
+    ################################################################################
+
+    train_part34(model, optimizer)
+
+def test_seq():
+    hidden_layer_size = 4000
+    learning_rate = 1e-2
+
+    regular_model = nn.Sequential(
+        Flatten(),
+        nn.Linear(3 * 32 * 32, hidden_layer_size),
+        nn.ReLU(),
+        nn.Linear(hidden_layer_size, 10),
+    )
+    adaptive_model = nn.Sequential(
+        Flatten(),
+        nn.Linear(3 * 32 * 32, hidden_layer_size),
+        nn.ReLU(),
+        nn.Linear(hidden_layer_size, 10),
+    )
+    # you can use Nesterov momentum in optim.SGD
+    optimizer = optim.SGD(regular_model.parameters(), lr=learning_rate,
+                          momentum=0.9, nesterov=True)
+    adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
+                          momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=500)
+
+    print("regular model:")
+    train_part34(regular_model, optimizer)
+    print("adaptive model:")
+    train_part34(adaptive_model, adaptive_optimizer)
+
+
+def test_conv_seq():
+    # ### Sequential API: Three-Layer ConvNet
+    # Here you should use `nn.Sequential` to define and train a three-layer ConvNet with the same architecture we used in Part III:
+    #
+    # 1. Convolutional layer (with bias) with 32 5x5 filters, with zero-padding of 2
+    # 2. ReLU
+    # 3. Convolutional layer (with bias) with 16 3x3 filters, with zero-padding of 1
+    # 4. ReLU
+    # 5. Fully-connected layer (with bias) to compute scores for 10 classes
+    #
+    # You should initialize your weight matrices using the `random_weight` function defined above, and you should initialize your bias vectors using the `zero_weight` function above.
+    #
+    # You should optimize your model using stochastic gradient descent with Nesterov momentum 0.9.
+    #
+    # Again, you don't need to tune any hyperparameters but you should see accuracy above 55% after one epoch of training.
+
+    # In[20]:
+
+    channel_1 = 32
+    channel_2 = 16
+    learning_rate = 1e-2
+
+    ################################################################################
+    # TODO: Rewrite the 2-layer ConvNet with bias from Part III with the           #
+    # Sequential API.                                                              #
+    ################################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    model = nn.Sequential(
+        nn.Conv2d(3, channel_1, 5, padding=2),
+        nn.ReLU(inplace=True),
+        nn.Conv2d(channel_1, channel_2, 3, padding=1),
+        nn.ReLU(inplace=True),
+        Flatten(),
+        nn.Linear(channel_2 * 32 * 32, 10)
+    )
+    # for i in (0,2,5):
+    #     w_shape=model[i].weight.data.shape
+    #     b_shape=model[i].bias.data.shape
+    #     model[i].weight.data=random_weight(w_shape)
+    #     model[i].bias.data=zero_weight(b_shape)
+
+    optimizer = optim.SGD(model.parameters(), nesterov=True, lr=learning_rate, momentum=0.9)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ################################################################################
+    #                                 END OF YOUR CODE
+    ################################################################################
+
+    train_part34(model, optimizer)
+
+
+def test_alexnet():
+    learning_rate = 1e-3
+    model = AlexNet()
+    # optimizer = optim.Adam(model.parameters())
+    optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+                          momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True)
+    train_part34(model, optimizer, epochs=2)
+
+    best_model = model
+    check_accuracy_part34(loader_test, best_model)
+
+
+if __name__ == "__main__":
+    test_seq()
+    # test_alexnet()
