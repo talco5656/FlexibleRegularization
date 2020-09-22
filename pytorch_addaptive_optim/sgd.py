@@ -141,7 +141,7 @@ class SGD(Optimizer):
                 p.add_(d_p, alpha=-group['lr'])
                 if self.online_param_var_dict:
                     self.online_param_var_dict[parameter_name].update(p)
-                    if self.num_of_steps % self.iter_length == 0:
+                    if self.num_of_steps > 0 and self.num_of_steps % self.iter_length == 0:
                         self.online_param_var_dict[parameter_name].update_var()
         self.num_of_steps += 1
         return loss

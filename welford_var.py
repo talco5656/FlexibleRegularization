@@ -39,11 +39,13 @@ class Welford:
         return self.mean
     
     def get_mle_var(self):
-        # if self.static_var:
-        #     return self.var_holder
-        # else:
-        return self.M2 / self.count
-    
+        var = self.M2 / self.count - 1
+        if self.divide_var_by_mean_var:
+            var = var / self.tensor_package.mean(var)
+        var = var * self.var_normalizer
+        return var
+
+
     def get_var(self):
         if self.static_var:
             return self.var

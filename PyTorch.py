@@ -1040,10 +1040,10 @@ def test_seq():
     optimizer = optim.SGD(regular_model.parameters(), lr=learning_rate,
                           momentum=0.9, nesterov=True)
     adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
-                          momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=500)
+                          momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=50)
 
     print("regular model:")
-    train_part34(regular_model, optimizer)
+    # train_part34(regular_model, optimizer)
     print("adaptive model:")
     train_part34(adaptive_model, adaptive_optimizer)
 
