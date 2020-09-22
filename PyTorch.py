@@ -120,7 +120,7 @@ else:
     device = torch.device('cpu')
 
 # Constant to control how frequently we print train loss
-print_every = 100
+print_every = 500
 
 print('using device:', device)
 
