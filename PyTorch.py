@@ -653,7 +653,7 @@ def check_accuracy_part34(loader, model):
 # In[16]:
 
 
-def train_part34(model, optimizer, epochs=3):
+def train_part34(model, optimizer, epochs=1):
     """
     Train a model on CIFAR-10 using the PyTorch Module API.
     
@@ -1113,5 +1113,5 @@ def test_alexnet():
 
 
 if __name__ == "__main__":
-    test_seq()
-    # test_alexnet()
+    # test_seq()
+    test_alexnet()
