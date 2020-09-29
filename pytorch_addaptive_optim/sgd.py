@@ -127,7 +127,7 @@ class SGD(Optimizer):
                 if weight_decay != 0:
                     if self.online_param_var_dict:
                         parameter_name = (group_index, parameter_index)
-                        var_tensor = self.online_param_var_dict[parameter_name].get_var().to_device(self.device)
+                        var_tensor = self.online_param_var_dict[parameter_name].get_var().to(device=self.device)
                         reg_p = p.mul(var_tensor)
                         d_p = d_p.add(reg_p, alpha=weight_decay)
                     else:
