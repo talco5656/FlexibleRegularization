@@ -560,6 +560,18 @@ class TorchExample():
             nn.Linear(hidden_layer_size, 10),
         )
 
+    def get_cnn_model():
+        channel_1 = 32
+        channel_2 = 16
+        return nn.Sequential(
+            nn.Conv2d(3, channel_1, 5, padding=2),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(channel_1, channel_2, 3, padding=1),
+            nn.ReLU(inplace=True),
+            Flatten(),
+            nn.Linear(channel_2 * 32 * 32, 10)
+        )
+
     def check_accuracy(self, loader, model):
         if loader.dataset.train:
             print('Checking accuracy on validation set')
@@ -625,6 +637,10 @@ class TorchExample():
     def get_model(self, reg_layers):
         if self.args.model == 'mlp':
             return self.get_mlp_model()
+        if self.args.model == 'cnn':
+            return self.get_cnn_model()
+        if self.args.model == 'alexnet':
+            return AlexNet()
 
     def train_and_eval(self):
 

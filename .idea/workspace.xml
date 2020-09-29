@@ -25,7 +25,10 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all" />
+    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_tests.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -184,7 +187,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/torch_tests.py" />
-      <option name="PARAMETERS" value="--epochs 1 --num_of_repeats 2 --trains 1 --num_trains 100" />
+      <option name="PARAMETERS" value="--epochs 1 --num_of_repeats 2 --model cnn --trains 1 --num_trains 100" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -345,7 +348,7 @@
       <workItem from="1600679496629" duration="29664000" />
       <workItem from="1600929184428" duration="784000" />
       <workItem from="1601043855845" duration="7213000" />
-      <workItem from="1601195063819" duration="21281000" />
+      <workItem from="1601195063819" duration="21940000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -412,11 +415,11 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="666" y="126" key="#cnn/0.23.1920.977@0.23.1920.977" timestamp="1595598819577" />
-    <state x="541" y="60" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601404231956">
+    <state x="541" y="60" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601406565088">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1600707607282" />
-    <state x="541" y="60" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1601404231956" />
+    <state x="541" y="60" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1601406565088" />
     <state x="494" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1597410675252" />
     <state x="494" y="192" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1028@0.23.1792.1028" timestamp="1597061591109" />
     <state x="494" y="193" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1033@0.23.1792.1033" timestamp="1596725082466" />
@@ -671,12 +674,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_tests.py</url>
-          <line>677</line>
+          <line>693</line>
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_tests.py</url>
-          <line>671</line>
+          <line>687</line>
           <option name="timeStamp" value="194" />
         </line-breakpoint>
       </breakpoints>
