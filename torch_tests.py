@@ -29,14 +29,10 @@ USE_GPU = True
 
 dtype = torch.float32  # we will be using float throughout this tutorial
 
-if USE_GPU and torch.cuda.is_available():
-    device = torch.device('cuda')
-else:
-    device = torch.device('cpu')
 
 print_every = 100
 
-print('using device:', device)
+# print('using device:', device)
 
 
 
@@ -518,6 +514,7 @@ def parse_args():
     parser.add_argument("--reg_layers", default='1,2,3')
     parser.add_argument("--momentum", type=int, default=0)
     parser.add_argument("--nesterov", type=int, default=0)
+    parser.add_argument("--gpu", type=int, default=1)
 
 
     return parser.parse_args()
@@ -530,6 +527,10 @@ class TorchExample():
     def __attrs_post_init__(self):
         self.num_trains = min(self.args.num_trains, 49000)
         self.data = self.get_pytorch_cifar_data()
+        if self.args.gpu and torch.cuda.is_available():
+            self.device = torch.device('cuda')
+        else:
+            self.device = torch.device('cpu')
 
     def get_pytorch_cifar_data(self):
         transform = T.Compose([
@@ -582,8 +583,8 @@ class TorchExample():
         model.eval()  # set model to evaluation mode
         with torch.no_grad():
             for x, y in loader:
-                x = x.to(device=device, dtype=dtype)  # move to device, e.g. GPU
-                y = y.to(device=device, dtype=torch.long)
+                x = x.to(device=self.device, dtype=dtype)  # move to device, e.g. GPU
+                y = y.to(device=self.device, dtype=torch.long)
                 scores = model(x)
                 _, preds = scores.max(1)
                 num_correct += (preds == y).sum()
@@ -603,13 +604,13 @@ class TorchExample():
 
         Returns: Nothing, but prints model accuracies during training.
         """
-        model = model.to(device=device)  # move the model parameters to CPU/GPU
+        model = model.to(device=self.device)  # move the model parameters to CPU/GPU
         best_num_correct, best_num_samples, best_acc, best_iteration = 0, 0, 0, 0
         for e in range(epochs):
             for t, (x, y) in enumerate(self.data.loader_train):
                 model.train()  # put model to training mode
-                x = x.to(device=device, dtype=dtype)  # move to device, e.g. GPU
-                y = y.to(device=device, dtype=torch.long)
+                x = x.to(device=self.device, dtype=dtype)  # move to device, e.g. GPU
+                y = y.to(device=self.device, dtype=torch.long)
 
                 scores = model(x)
                 loss = F.cross_entropy(scores, y)
@@ -670,7 +671,7 @@ class TorchExample():
                 adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rates[update_rule],
                                                                     momentum=self.args.momentum, nesterov=self.args.nesterov,
                                                                      weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200,
-                                                                     device=device)
+                                                                     device=self.device)
 
 
                 result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
