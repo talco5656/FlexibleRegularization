@@ -560,7 +560,7 @@ class TorchExample():
             nn.Linear(hidden_layer_size, 10),
         )
 
-    def get_cnn_model():
+    def get_cnn_model(self):
         channel_1 = 32
         channel_2 = 16
         return nn.Sequential(
