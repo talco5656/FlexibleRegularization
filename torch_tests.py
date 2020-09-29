@@ -659,6 +659,7 @@ class TorchExample():
 
                 result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
         result_df = pd.DataFrame(result_dict, index=["samples", "correct", "acc", "iteration"]).transpose()
+
         return result_df
 
     def mean_and_ci_result(self):
@@ -668,13 +669,20 @@ class TorchExample():
         else:
             task = None
         tables = []
-        for _ in range(self.args.num_of_repeats):
-            tables.append(self.train_and_eval())
-        tables = pd.concat(tables)
-        print(tabulate(tables, headers=tables.columns))
+        for repeat_index in range(self.args.num_of_repeats):
+            result_df = self.train_and_eval()
+            tables.append(result_df)
+            if self.args.trains:
+                task.get_logger().report_table(title="Accuracy", series="Accuracy",
+                                                    iteration=repeat_index, table_plot=result_df)
+        # tables = pd.concat(tables)
+        mean_values = np.mean(tables, axis=0)
+        mean_values = pd.DataFrame(mean_values, index=["Regular model", "Adaptive model"],
+                                   columns=["samples", "correct", "acc", "iteratoin"])
+        print(tabulate(mean_values, headers=mean_values.columns))
         if self.args.trains:
             task.get_logger().report_table(title="Accuracy", series="Accuracy",
-                                           iteration=self.args.num_trains, table_plot=tables)
+                                           iteration=self.args.num_trains, table_plot=mean_values)
         exit()
         content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]
         stacked_content = np.stack(content)
