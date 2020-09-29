@@ -656,7 +656,7 @@ class TorchExample():
                                                                      weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200)
 
                 result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
-            result_df = pd.DataFrame(self.train_and_eval(), index=["samples", "correct", "acc", "iteration"]).transpose()
+        result_df = pd.DataFrame(result_dict, index=["samples", "correct", "acc", "iteration"]).transpose()
         return result_df
 
     def mean_and_ci_result(self):
