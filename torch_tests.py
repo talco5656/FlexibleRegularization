@@ -653,7 +653,9 @@ class TorchExample():
                 adaptive_model = self.get_model(reg_layers)
                 adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rates[update_rule],
                                                                     momentum=self.args.momentum, nesterov=self.args.nesterov,
-                                                                     weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200)
+                                                                     weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200,
+                                                                     device=device)
+
 
                 result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
         result_df = pd.DataFrame(result_dict, index=["samples", "correct", "acc", "iteration"]).transpose()

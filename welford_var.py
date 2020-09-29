@@ -16,10 +16,11 @@ class Welford:
     static_var = attr.ib(True)
     divide_var_by_mean_var = attr.ib(True)
     var_normalizer = attr.ib(1)
-    device = attr.ib('cpu')
+    # device = attr.ib('cpu')
+    package = attr.ib('np')
     
     def __attrs_post_init__(self):
-        self.tensor_package = torch if self.device == 'gpu' else np
+        self.tensor_package = torch if self.package == 'torch' else np
         self.count = 0
         self.mean = self.tensor_package.zeros(self.dim)
         self.M2 = self.tensor_package.zeros(self.dim)

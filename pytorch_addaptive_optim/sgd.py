@@ -3,6 +3,11 @@ from torch.optim.optimizer import Optimizer, required
 
 from welford_var import Welford
 
+if torch.cuda.is_available():
+    device = torch.device('cuda')
+else:
+    device = torch.device('cpu')
+
 
 class SGD(Optimizer):
     r"""Implements stochastic gradient descent (optionally with momentum).
@@ -55,7 +60,7 @@ class SGD(Optimizer):
     """
 
     def __init__(self, params, lr=required, momentum=0, dampening=0,
-                 weight_decay=0, nesterov=False, adaptive_weight_decay=False, iter_length=100):
+                 weight_decay=0, nesterov=False, adaptive_weight_decay=False, iter_length=100, device=device):
         # named_params=None):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
@@ -72,6 +77,7 @@ class SGD(Optimizer):
             self.online_param_var_dict = self.create_online_param_var_dict()
             self.num_of_steps = 0
             self.iter_length = iter_length
+            self.device = device
         else:
             self.online_param_var_dict = None
 
@@ -93,7 +99,7 @@ class SGD(Optimizer):
                 # self.params[param_name] = param#.astype(dtype)
                 # if self.adaptive_var_reg and 'W' in k:  # or (self.adaptive_dropconnect and k in ('W1', 'W2')):
                     # if self.variance_calculation_method == 'welford':
-                online_param_var[param_name] = Welford(dim=param.shape, device='gpu')
+                online_param_var[param_name] = Welford(dim=param.shape, package='torch')
         return online_param_var
 
     @torch.no_grad()
@@ -121,7 +127,7 @@ class SGD(Optimizer):
                 if weight_decay != 0:
                     if self.online_param_var_dict:
                         parameter_name = (group_index, parameter_index)
-                        var_tensor = self.online_param_var_dict[parameter_name].get_var()
+                        var_tensor = self.online_param_var_dict[parameter_name].get_var().to_device(self.device)
                         reg_p = p.mul(var_tensor)
                         d_p = d_p.add(reg_p, alpha=weight_decay)
                     else:
