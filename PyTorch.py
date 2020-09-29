@@ -1,63 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# # What's this PyTorch business?
-# 
-# You've written a lot of code in this assignment to provide a whole host of neural network functionality. Dropout, Batch Norm, and 2D convolutions are some of the workhorses of deep learning in computer vision. You've also worked hard to make your code efficient and vectorized.
-# 
-# For the last part of this assignment, though, we're going to leave behind your beautiful codebase and instead migrate to one of two popular deep learning frameworks: in this instance, PyTorch (or TensorFlow, if you choose to use that notebook).
-
-# ### What is PyTorch?
-# 
-# PyTorch is a system for executing dynamic computational graphs over Tensor objects that behave similarly as numpy ndarray. It comes with a powerful automatic differentiation engine that removes the need for manual back-propagation. 
-# 
-# ### Why?
-# 
-# * Our code will now run on GPUs! Much faster training. When using a framework like PyTorch or TensorFlow you can harness the power of the GPU for your own custom neural network architectures without having to write CUDA code directly (which is beyond the scope of this class).
-# * We want you to be ready to use one of these frameworks for your project so you can experiment more efficiently than if you were writing every feature you want to use by hand. 
-# * We want you to stand on the shoulders of giants! TensorFlow and PyTorch are both excellent frameworks that will make your lives a lot easier, and now that you understand their guts, you are free to use them :) 
-# * We want you to be exposed to the sort of deep learning code you might run into in academia or industry.
-# 
-# ### PyTorch versions
-# This notebook assumes that you are using **PyTorch version 1.0**. In some of the previous versions (e.g. before 0.4), Tensors had to be wrapped in Variable objects to be used in autograd; however Variables have now been deprecated. In addition 1.0 also separates a Tensor's datatype from its device, and uses numpy-style factories for constructing Tensors rather than directly invoking Tensor constructors.
-
-# ## How will I learn PyTorch?
-# 
-# Justin Johnson has made an excellent [tutorial](https://github.com/jcjohnson/pytorch-examples) for PyTorch. 
-# 
-# You can also find the detailed [API doc](http://pytorch.org/docs/stable/index.html) here. If you have other questions that are not addressed by the API docs, the [PyTorch forum](https://discuss.pytorch.org/) is a much better place to ask than StackOverflow.
-# 
-# 
-# # Table of Contents
-# 
-# This assignment has 5 parts. You will learn PyTorch on **three different levels of abstraction**, which will help you understand it better and prepare you for the final project. 
-# 
-# 1. Part I, Preparation: we will use CIFAR-10 dataset.
-# 2. Part II, Barebones PyTorch: **Abstraction level 1**, we will work directly with the lowest-level PyTorch Tensors. 
-# 3. Part III, PyTorch Module API: **Abstraction level 2**, we will use `nn.Module` to define arbitrary neural network architecture. 
-# 4. Part IV, PyTorch Sequential API: **Abstraction level 3**, we will use `nn.Sequential` to define a linear feed-forward network very conveniently. 
-# 5. Part V, CIFAR-10 open-ended challenge: please implement your own network to get as high accuracy as possible on CIFAR-10. You can experiment with any layer, optimizer, hyperparameters or other advanced features. 
-# 
-# Here is a table of comparison:
-# 
-# | API           | Flexibility | Convenience |
-# |---------------|-------------|-------------|
-# | Barebone      | High        | Low         |
-# | `nn.Module`     | High        | Medium      |
-# | `nn.Sequential` | Low         | High        |
-
-# # Part I. Preparation
-# 
-# First, we load the CIFAR-10 dataset. This might take a couple minutes the first time you do it, but the files should stay cached after that.
-# 
-# In previous parts of the assignment we had to write our own code to download the CIFAR-10 dataset, preprocess it, and iterate through it in minibatches; PyTorch provides convenient tools to automate this process for us.
-
-# In[1]:
-
+import argparse
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from attr import attr
+from tabulate import tabulate
 from torch.utils.data import DataLoader
 from torch.utils.data import sampler
 
@@ -73,6 +22,7 @@ import pytorch_addaptive_optim
 
 Task.init(task_name="PyTorch", project_name="Flexible Regularization")
 NUM_TRAIN = 49000
+NUM_TRAIN = 1000
 
 # The torchvision.transforms package provides tools for preprocessing data
 # and for performing data augmentation; here we set up a transform to
@@ -90,15 +40,15 @@ transform = T.Compose([
 # DataLoader telling how it should sample from the underlying Dataset.
 cifar10_train = dset.CIFAR10('./cs231n/datasets', train=True, download=True,
                              transform=transform)
-loader_train = DataLoader(cifar10_train, batch_size=64, 
+loader_train = DataLoader(cifar10_train, batch_size=64,
                           sampler=sampler.SubsetRandomSampler(range(NUM_TRAIN)))
 
 cifar10_val = dset.CIFAR10('./cs231n/datasets', train=True, download=True,
                            transform=transform)
-loader_val = DataLoader(cifar10_val, batch_size=64, 
+loader_val = DataLoader(cifar10_val, batch_size=64,
                         sampler=sampler.SubsetRandomSampler(range(NUM_TRAIN, 50000)))
 
-cifar10_test = dset.CIFAR10('./cs231n/datasets', train=False, download=True, 
+cifar10_test = dset.CIFAR10('./cs231n/datasets', train=False, download=True,
                             transform=transform)
 loader_test = DataLoader(cifar10_test, batch_size=64)
 
@@ -120,7 +70,7 @@ else:
     device = torch.device('cpu')
 
 # Constant to control how frequently we print train loss
-print_every = 500
+print_every = 50
 
 print('using device:', device)
 
@@ -1022,7 +972,8 @@ def test1():
 
 def test_seq():
     hidden_layer_size = 4000
-    learning_rate = 1e-2
+    learning_rate = 5e-4
+    epochs = 10
 
     regular_model = nn.Sequential(
         Flatten(),
@@ -1038,14 +989,17 @@ def test_seq():
     )
     # you can use Nesterov momentum in optim.SGD
     optimizer = optim.SGD(regular_model.parameters(), lr=learning_rate,
-                          momentum=0.9, nesterov=True)
-    adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
-                          momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
+                          momentum=1, nesterov=False)
+    adaptive_optimizer = optim.SGD(adaptive_model.parameters(), lr=learning_rate,
+                          momentum=1, nesterov=False, weight_decay=0.05)
+    # adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
 
     print("regular model:")
-    train_part34(regular_model, optimizer)
-    print("adaptive model:")
-    train_part34(adaptive_model, adaptive_optimizer)
+    train_part34(regular_model, optimizer, epochs=epochs)
+    # print("adaptive model:")
+    print("l2 model:")
+    train_part34(adaptive_model, adaptive_optimizer, epochs=epochs)
 
 
 def test_conv_seq():
@@ -1090,14 +1044,50 @@ def test_conv_seq():
     #     model[i].weight.data=random_weight(w_shape)
     #     model[i].bias.data=zero_weight(b_shape)
 
-    optimizer = optim.SGD(model.parameters(), nesterov=True, lr=learning_rate, momentum=0.9)
-
+    optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1)
+    print("regular model:")
+    train_part34(model, optimizer, epochs=5)
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ################################################################################
     #                                 END OF YOUR CODE
     ################################################################################
 
-    train_part34(model, optimizer)
+    # train_part34(model, optimizer)
+    # optimizer = optim.SGD(regular_model.parameters(), lr=learning_rate,
+    #                       momentum=0.9, nesterov=True)
+    model = nn.Sequential(
+        nn.Conv2d(3, channel_1, 5, padding=2),
+        nn.ReLU(inplace=True),
+        nn.Conv2d(channel_1, channel_2, 3, padding=1),
+        nn.ReLU(inplace=True),
+        Flatten(),
+        nn.Linear(channel_2 * 32 * 32, 10)
+    )
+    # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
+    #
+    optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.01)
+    # print("regular model:")
+    # train_part34(model, optimizer)
+    print("with l2 0.01:")
+    train_part34(model, optimizer, epochs=5)
+
+    model = nn.Sequential(
+        nn.Conv2d(3, channel_1, 5, padding=2),
+        nn.ReLU(inplace=True),
+        nn.Conv2d(channel_1, channel_2, 3, padding=1),
+        nn.ReLU(inplace=True),
+        Flatten(),
+        nn.Linear(channel_2 * 32 * 32, 10)
+    )
+    # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
+    #
+    optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.1)
+    # print("regular model:")
+    # train_part34(model, optimizer)
+    print("with l2 0.1:")
+    train_part34(model, optimizer, epochs=5)
 
 
 def test_alexnet():
@@ -1113,5 +1103,6 @@ def test_alexnet():
 
 
 if __name__ == "__main__":
-    # test_seq()
-    test_alexnet()
+    test_seq()
+    # test_conv_seq()
+    # test_alexnet()

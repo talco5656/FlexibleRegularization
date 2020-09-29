@@ -139,7 +139,7 @@ class SGD(Optimizer):
                         d_p = buf
 
                 p.add_(d_p, alpha=-group['lr'])
-                if self.online_param_var_dict:
+                if self.online_param_var_dict and weight_decay != 0:
                     self.online_param_var_dict[parameter_name].update(p)
                     if self.num_of_steps > 0 and self.num_of_steps % self.iter_length == 0:
                         self.online_param_var_dict[parameter_name].update_var()
