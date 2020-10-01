@@ -30,7 +30,6 @@ USE_GPU = True
 dtype = torch.float32  # we will be using float throughout this tutorial
 
 
-print_every = 100
 
 # print('using device:', device)
 
@@ -485,7 +484,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Simple CNN')
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--fc_width', type=int, default=200)
-    parser.add_argument("--print_every", type=int, default=200)
+    parser.add_argument("--print_every", type=int, default=10)
     parser.add_argument("--verbose", type=int, default=0)
     parser.add_argument("--iter_length", type=int, default=100)
     parser.add_argument("--batch_size", type=int, default=100)
@@ -515,8 +514,6 @@ def parse_args():
     parser.add_argument("--momentum", type=int, default=0)
     parser.add_argument("--nesterov", type=int, default=0)
     parser.add_argument("--gpu", type=int, default=1)
-
-
     return parser.parse_args()
 
 
@@ -605,7 +602,7 @@ class TorchExample():
         Returns: Nothing, but prints model accuracies during training.
         """
         model = model.to(device=self.device)  # move the model parameters to CPU/GPU
-        best_num_correct, best_num_samples, best_acc, best_iteration = 0, 0, 0, 0
+        best_acc, best_iteration = 0, 0
         for e in range(epochs):
             for t, (x, y) in enumerate(self.data.loader_train):
                 model.train()  # put model to training mode
@@ -626,13 +623,13 @@ class TorchExample():
                 # computed by the backwards pass.
                 optimizer.step()
 
-                if t % print_every == 0:
+                if t % self.args.print_every == 0:
                     print('Iteration %d, loss = %.4f' % (t, loss.item()))
                     num_correct, num_samples, acc = self.check_accuracy(self.data.loader_val, model)
                     if best_acc < acc:
-                        best_num_correct, best_num_samples, best_acc, best_iteration = \
-                            int(num_correct), num_samples, acc, t + e * self.num_trains // self.args.batch_size
-                return best_num_samples, best_num_correct, best_acc, best_iteration
+                        best_acc, best_iteration = \
+                            acc, t + e * self.num_trains // self.args.batch_size
+        return best_acc, best_iteration
 
 
     def get_model(self, reg_layers):
@@ -675,7 +672,7 @@ class TorchExample():
 
 
                 result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
-        result_df = pd.DataFrame(result_dict, index=["samples", "correct", "acc", "iteration"]).transpose()
+        result_df = pd.DataFrame(result_dict, index=["acc", "iteration"]).transpose()
 
         return result_df
 
@@ -695,7 +692,7 @@ class TorchExample():
         # tables = pd.concat(tables)
         mean_values = np.mean(tables, axis=0)
         mean_values = pd.DataFrame(mean_values, index=["Regular model", "Adaptive model"],
-                                   columns=["samples", "correct", "acc", "iteratoin"])
+                                   columns=["acc", "iteratoin"])
         print(tabulate(mean_values, headers=mean_values.columns))
         if self.args.trains:
             task.get_logger().report_table(title="Accuracy", series="Accuracy",
@@ -716,7 +713,7 @@ class TorchExample():
         std.columns = tables[0].columns
         print("avg values")
         print(tabulate(mean_values, headers=mean_values.columns))
-        if args.trains:
+        if self.args.trains:
             task.get_logger().report_table(title='Mean values', series='Mean values',
                                            iteration=self.args.num_trains, table_plot=mean_values)
         print("standard deviation")
