@@ -489,7 +489,7 @@ def parse_args():
     parser.add_argument("--verbose", type=int, default=0)
     parser.add_argument("--iter_length", type=int, default=100)
     parser.add_argument("--batch_size", type=int, default=100)
-    parser.add_argument("--model", default='mlp', choices=['mlp', 'cnn'])
+    parser.add_argument("--model", default='mlp', choices=['mlp', 'cnn', 'alexnet'])
     parser.add_argument("--num_trains", default=49000, type=int)
     parser.add_argument("--num_of_repeats", default=1, type=int)
     parser.add_argument("--dropconnect", default=1, type=float)
