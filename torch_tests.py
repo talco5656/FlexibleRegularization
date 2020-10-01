@@ -17,6 +17,7 @@ import torchvision.transforms as T
 import numpy as np
 
 import torch.nn.functional as F  # useful stateless functions
+from torchvision import models
 from trains import Task
 # In[2]:
 import pytorch_addaptive_optim
@@ -488,7 +489,7 @@ def parse_args():
     parser.add_argument("--verbose", type=int, default=0)
     parser.add_argument("--iter_length", type=int, default=100)
     parser.add_argument("--batch_size", type=int, default=100)
-    parser.add_argument("--model", default='mlp', choices=['mlp', 'cnn', 'alexnet'])
+    parser.add_argument("--model", default='mlp') #, choices=['mlp', 'cnn', 'alexnet',])
     parser.add_argument("--num_trains", default=49000, type=int)
     parser.add_argument("--num_of_repeats", default=1, type=int)
     parser.add_argument("--dropconnect", default=1, type=float)
@@ -639,6 +640,8 @@ class TorchExample():
             return self.get_cnn_model()
         if self.args.model == 'alexnet':
             return AlexNet()
+        if self.args.model == "resnet18":
+            return models.resnet18(pretrained=False)
 
     def train_and_eval(self):
 
