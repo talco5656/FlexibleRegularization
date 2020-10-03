@@ -530,6 +530,48 @@ class TorchExample():
         else:
             self.device = torch.device('cpu')
 
+    def get_pytorch_imagenet_data(self):
+        #todo: change hard wired arguments
+        transform = T.Compose([
+            T.ToTensor(),
+            T.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+        ])
+        cifar10_train = dset.imagenet('./cs231n/datasets', train=True, download=True,
+                                      transform=transform)
+        loader_train = DataLoader(cifar10_train, batch_size=self.args.batch_size,
+                                  sampler=sampler.SubsetRandomSampler(range(self.num_trains)))
+
+        cifar10_val = dset.imagenet('./cs231n/datasets', train=True, download=True,
+                                   transform=transform)
+        loader_val = DataLoader(cifar10_val, batch_size=self.args.batch_size,
+                                sampler=sampler.SubsetRandomSampler(range(self.num_trains, self.num_trains + 1000)))
+
+        cifar10_test = dset.imagenet('./cs231n/datasets', train=False, download=True,
+                                    transform=transform)
+        loader_test = DataLoader(cifar10_test, batch_size=self.args.batch_size)
+        return DataTuple(loader_train, loader_val, loader_test)
+
+    def get_pytorch_cifar1000_data(self):
+        #todo: change hard wired arguments
+        transform = T.Compose([
+            T.ToTensor(),
+            T.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+        ])
+        cifar10_train = dset.CIFAR100('./cs231n/datasets', train=True, download=True,
+                                     transform=transform)
+        loader_train = DataLoader(cifar10_train, batch_size=self.args.batch_size,
+                                  sampler=sampler.SubsetRandomSampler(range(self.num_trains)))
+
+        cifar10_val = dset.CIFAR100('./cs231n/datasets', train=True, download=True,
+                                   transform=transform)
+        loader_val = DataLoader(cifar10_val, batch_size=self.args.batch_size,
+                                sampler=sampler.SubsetRandomSampler(range(self.num_trains, self.num_trains + 1000)))
+
+        cifar10_test = dset.CIFAR100('./cs231n/datasets', train=False, download=True,
+                                    transform=transform)
+        loader_test = DataLoader(cifar10_test, batch_size=self.args.batch_size)
+        return DataTuple(loader_train, loader_val, loader_test)
+
     def get_pytorch_cifar_data(self):
         transform = T.Compose([
             T.ToTensor(),
@@ -642,6 +684,8 @@ class TorchExample():
             return AlexNet()
         if self.args.model == "resnet18":
             return models.resnet18(pretrained=False)
+        if self.args.model == "resnet50":
+            return models.resnet50(pretrained=False)
 
     def train_and_eval(self):
 
