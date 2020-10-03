@@ -1094,8 +1094,9 @@ def test_alexnet():
     learning_rate = 1e-3
     model = AlexNet()
     # optimizer = optim.Adam(model.parameters())
-    optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
-                          momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True)
+    optimizer = optim.SGD(model.parameters(), nesterov=True, lr=learning_rate, momentum=0.9, weight_decay=0.1)
+    # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True)
     train_part34(model, optimizer, epochs=2)
 
     best_model = model
@@ -1103,6 +1104,6 @@ def test_alexnet():
 
 
 if __name__ == "__main__":
-    test_seq()
+    # test_seq()
     # test_conv_seq()
-    # test_alexnet()
+    test_alexnet()
