@@ -1097,7 +1097,7 @@ def test_alexnet():
     optimizer = optim.SGD(model.parameters(), nesterov=True, lr=learning_rate, momentum=0.9, weight_decay=0.1)
     # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
     #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True)
-    train_part34(model, optimizer, epochs=2)
+    train_part34(model, optimizer, epochs=10)
 
     best_model = model
     check_accuracy_part34(loader_test, best_model)
