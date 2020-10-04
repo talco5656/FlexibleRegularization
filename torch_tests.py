@@ -476,7 +476,6 @@ def test_alexnet():
                                                 momentum=0.9, nesterov=True, weight_decay=0.1,
                                                 adaptive_weight_decay=True)
     train_part34(model, optimizer, epochs=2)
-
     best_model = model
     check_accuracy_part34(loader_test, best_model)
 
@@ -515,7 +514,10 @@ def parse_args():
     parser.add_argument("--momentum", type=int, default=0)
     parser.add_argument("--nesterov", type=int, default=0)
     parser.add_argument("--gpu", type=int, default=1)
+    parser.add_argument("--pretrained", type=int, default=1)
+    parser.add_argument("--lr", type=float, default=0.001)
     return parser.parse_args()
+
 
 
 @attr.s
@@ -683,9 +685,9 @@ class TorchExample():
         if self.args.model == 'alexnet':
             return AlexNet()
         if self.args.model == "resnet18":
-            return models.resnet18(pretrained=False)
+            return models.resnet18(pretrained=self.args.pretrained)
         if self.args.model == "resnet50":
-            return models.resnet50(pretrained=False)
+            return models.resnet50(pretrained=self.args.pretrained)
 
     def train_and_eval(self):
 
@@ -706,13 +708,13 @@ class TorchExample():
             for update_rule in update_rules:
                 original_model = self.get_model(reg_layers)
                 original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
-                                     lr=learning_rates[update_rule], momentum=self.args.momentum,
+                                     lr=self.args.lr, momentum=self.args.momentum,
                                                weight_decay=reg_strenght)
 
                 result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs)
 
                 adaptive_model = self.get_model(reg_layers)
-                adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rates[update_rule],
+                adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
                                                                     momentum=self.args.momentum, nesterov=self.args.nesterov,
                                                                      weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200,
                                                                      device=self.device)
