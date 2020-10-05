@@ -26,7 +26,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -356,7 +355,7 @@
       <workItem from="1601043855845" duration="7213000" />
       <workItem from="1601195063819" duration="23322000" />
       <workItem from="1601540509450" duration="10031000" />
-      <workItem from="1601802985549" duration="2571000" />
+      <workItem from="1601802985549" duration="3147000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>

@@ -647,7 +647,7 @@ class TorchExample():
         Returns: Nothing, but prints model accuracies during training.
         """
         model = model.to(device=self.device)  # move the model parameters to CPU/GPU
-        best_acc, train_acc, best_iteration = 0, 0
+        best_acc, train_acc, best_iteration = 0, 0, 0
         for e in range(epochs):
             for t, (x, y) in enumerate(self.data.loader_train):
                 model.train()  # put model to training mode
