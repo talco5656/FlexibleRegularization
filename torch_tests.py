@@ -516,6 +516,7 @@ def parse_args():
     parser.add_argument("--gpu", type=int, default=1)
     parser.add_argument("--pretrained", type=int, default=1)
     parser.add_argument("--lr", type=float, default=0.001)
+    parser.add_argument("--dataset", default='cifar10', choices=['cifar10', 'cifar100', 'imagenet'])
     return parser.parse_args()
 
 
@@ -526,7 +527,10 @@ class TorchExample():
 
     def __attrs_post_init__(self):
         self.num_trains = min(self.args.num_trains, 49000)
-        self.data = self.get_pytorch_cifar_data()
+        if self.args.dataset == 'cifar10':
+            self.data, self.num_classes = self.get_pytorch_cifar_data()
+        elif self.args.dataset == 'cifar 100':
+            self.data, self.num_classes = self.get_pytorch_cifar100_data()
         if self.args.gpu and torch.cuda.is_available():
             self.device = torch.device('cuda')
         else:
@@ -536,7 +540,8 @@ class TorchExample():
         #todo: change hard wired arguments
         transform = T.Compose([
             T.ToTensor(),
-            T.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+            T.Normalize(mean=[0.485, 0.456, 0.406],
+                                     std=[0.229, 0.224, 0.225])
         ])
         cifar10_train = dset.imagenet('./cs231n/datasets', train=True, download=True,
                                       transform=transform)
@@ -553,26 +558,25 @@ class TorchExample():
         loader_test = DataLoader(cifar10_test, batch_size=self.args.batch_size)
         return DataTuple(loader_train, loader_val, loader_test)
 
-    def get_pytorch_cifar1000_data(self):
-        #todo: change hard wired arguments
+    def get_pytorch_cifar100_data(self):
         transform = T.Compose([
             T.ToTensor(),
             T.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
         ])
-        cifar10_train = dset.CIFAR100('./cs231n/datasets', train=True, download=True,
+        cifar100_train = dset.CIFAR100('./cs231n/datasets', train=True, download=True,
                                      transform=transform)
-        loader_train = DataLoader(cifar10_train, batch_size=self.args.batch_size,
+        loader_train = DataLoader(cifar100_train, batch_size=self.args.batch_size,
                                   sampler=sampler.SubsetRandomSampler(range(self.num_trains)))
 
-        cifar10_val = dset.CIFAR100('./cs231n/datasets', train=True, download=True,
+        cifar100_val = dset.CIFAR100('./cs231n/datasets', train=True, download=True,
                                    transform=transform)
-        loader_val = DataLoader(cifar10_val, batch_size=self.args.batch_size,
+        loader_val = DataLoader(cifar100_val, batch_size=self.args.batch_size,
                                 sampler=sampler.SubsetRandomSampler(range(self.num_trains, self.num_trains + 1000)))
 
-        cifar10_test = dset.CIFAR100('./cs231n/datasets', train=False, download=True,
+        cifar100_test = dset.CIFAR100('./cs231n/datasets', train=False, download=True,
                                     transform=transform)
-        loader_test = DataLoader(cifar10_test, batch_size=self.args.batch_size)
-        return DataTuple(loader_train, loader_val, loader_test)
+        loader_test = DataLoader(cifar100_test, batch_size=self.args.batch_size)
+        return DataTuple(loader_train, loader_val, loader_test), 100
 
     def get_pytorch_cifar_data(self):
         transform = T.Compose([
@@ -592,7 +596,7 @@ class TorchExample():
         cifar10_test = dset.CIFAR10('./cs231n/datasets', train=False, download=True,
                                     transform=transform)
         loader_test = DataLoader(cifar10_test, batch_size=self.args.batch_size)
-        return DataTuple(loader_train, loader_val, loader_test)
+        return DataTuple(loader_train, loader_val, loader_test), 10
 
     def get_mlp_model(self):
         hidden_layer_size = 4000
@@ -600,7 +604,7 @@ class TorchExample():
             Flatten(),
             nn.Linear(3 * 32 * 32, hidden_layer_size),
             nn.ReLU(),
-            nn.Linear(hidden_layer_size, 10),
+            nn.Linear(hidden_layer_size, self.num_classes),
         )
 
     def get_cnn_model(self):
@@ -612,7 +616,7 @@ class TorchExample():
             nn.Conv2d(channel_1, channel_2, 3, padding=1),
             nn.ReLU(inplace=True),
             Flatten(),
-            nn.Linear(channel_2 * 32 * 32, 10)
+            nn.Linear(channel_2 * 32 * 32, self.num_classes)
         )
 
     def check_accuracy(self, loader, model):
@@ -686,9 +690,13 @@ class TorchExample():
         if self.args.model == 'alexnet':
             return AlexNet()
         if self.args.model == "resnet18":
-            return models.resnet18(pretrained=self.args.pretrained)
+            model = models.resnet18(pretrained=self.args.pretrained)
+            model.fc = nn.Linear(512, self.num_classes)
+            return models
         if self.args.model == "resnet50":
-            return models.resnet50(pretrained=self.args.pretrained)
+            model = models.resnet50(pretrained=self.args.pretrained)
+            model.fc = nn.Linear(512, self.num_classes)
+            return models
 
     def train_and_eval(self):
 
@@ -706,22 +714,21 @@ class TorchExample():
         result_dict = {}
         reg_layers = self.args.reg_layers.split(',') if self.args.reg_layers else ['1', '2', '3']
         for reg_strenght in reg_strenghts:
-            for update_rule in update_rules:
-                original_model = self.get_model(reg_layers)
-                original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
-                                     lr=self.args.lr, momentum=self.args.momentum,
-                                               weight_decay=reg_strenght)
+            original_model = self.get_model(reg_layers)
+            original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
+                                 lr=self.args.lr, momentum=self.args.momentum,
+                                           weight_decay=reg_strenght)
 
-                result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs)
+            result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs)
 
-                adaptive_model = self.get_model(reg_layers)
-                adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
-                                                                    momentum=self.args.momentum, nesterov=self.args.nesterov,
-                                                                     weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200,
-                                                                     device=self.device)
+            adaptive_model = self.get_model(reg_layers)
+            adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
+                                                                momentum=self.args.momentum, nesterov=self.args.nesterov,
+                                                                 weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200,
+                                                                 device=self.device)
 
 
-                result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
+            result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
 
         return result_df
