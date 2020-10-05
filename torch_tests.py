@@ -672,7 +672,7 @@ class TorchExample():
                     print('Iteration %d, loss = %.4f' % (t, loss.item()))
                     num_correct, num_samples, acc = self.check_accuracy(self.data.loader_val, model)
                     if best_acc < acc:
-                        train_acc = self.check_accuracy(self.data.loader_train, model)
+                        _, _, train_acc = self.check_accuracy(self.data.loader_train, model)
                         best_acc, best_iteration = \
                             acc, t + e * self.num_trains // self.args.batch_size
         return best_acc, train_acc, best_iteration
