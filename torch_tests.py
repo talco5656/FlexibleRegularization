@@ -692,11 +692,11 @@ class TorchExample():
         if self.args.model == "resnet18":
             model = models.resnet18(pretrained=self.args.pretrained)
             model.fc = nn.Linear(512, self.num_classes)
-            return models
+            return model
         if self.args.model == "resnet50":
             model = models.resnet50(pretrained=self.args.pretrained)
             model.fc = nn.Linear(512, self.num_classes)
-            return models
+            return model
 
     def train_and_eval(self):
 
