@@ -647,7 +647,7 @@ class TorchExample():
         Returns: Nothing, but prints model accuracies during training.
         """
         model = model.to(device=self.device)  # move the model parameters to CPU/GPU
-        best_acc, best_iteration = 0, 0
+        best_acc, train_acc, best_iteration = 0, 0
         for e in range(epochs):
             for t, (x, y) in enumerate(self.data.loader_train):
                 model.train()  # put model to training mode
@@ -672,9 +672,10 @@ class TorchExample():
                     print('Iteration %d, loss = %.4f' % (t, loss.item()))
                     num_correct, num_samples, acc = self.check_accuracy(self.data.loader_val, model)
                     if best_acc < acc:
+                        train_acc = self.check_accuracy(self.data.loader_train, model)
                         best_acc, best_iteration = \
                             acc, t + e * self.num_trains // self.args.batch_size
-        return best_acc, best_iteration
+        return best_acc, train_acc, best_iteration
 
 
     def get_model(self, reg_layers):
@@ -721,7 +722,7 @@ class TorchExample():
 
 
                 result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
-        result_df = pd.DataFrame(result_dict, index=["acc", "iteration"]).transpose()
+        result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
 
         return result_df
 
@@ -741,7 +742,7 @@ class TorchExample():
         # tables = pd.concat(tables)
         mean_values = np.mean(tables, axis=0)
         mean_values = pd.DataFrame(mean_values, index=["Regular model", "Adaptive model"],
-                                   columns=["acc", "iteratoin"])
+                                   columns=["Val acc", "Train acc", "Iteratoin"])
         print(tabulate(mean_values, headers=mean_values.columns))
         if self.args.trains:
             task.get_logger().report_table(title="Accuracy", series="Accuracy",
