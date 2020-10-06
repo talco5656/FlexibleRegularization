@@ -535,7 +535,7 @@ class TorchExample():
             self.device = torch.device('cuda')
         else:
             self.device = torch.device('cpu')
-        self.logger = Task.current_task().get_logger() if self.trains else None
+        self.logger = Task.current_task().get_logger() if self.args.trains else None
 
     def get_pytorch_imagenet_data(self):
         #todo: change hard wired arguments
