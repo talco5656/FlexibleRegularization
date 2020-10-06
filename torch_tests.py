@@ -653,6 +653,7 @@ class TorchExample():
         """
         model = model.to(device=self.device)  # move the model parameters to CPU/GPU
         best_val_acc, reported_train_acc, best_iteration = 0, 0, 0
+        val_loader = self.data.loader_test if self.test else self.data.loader_val
         for e in range(epochs):
             for t, (x, y) in enumerate(self.data.loader_train):
                 model.train()  # put model to training mode
@@ -675,7 +676,7 @@ class TorchExample():
 
                 if t % self.args.print_every == 0:
                     print('Iteration %d, loss = %.4f' % (t, loss.item()))
-                    num_correct, num_samples, val_acc = self.check_accuracy(self.data.loader_val, model)
+                    num_correct, num_samples, val_acc = self.check_accuracy(val_loader, model)
                     _, _, train_acc = self.check_accuracy(self.data.loader_train, model)
                     if self.logger:
                         self.logger.report_scalar(value=train_acc, title='Train accuracy', series='solver', iteration=t)
@@ -728,7 +729,7 @@ class TorchExample():
             adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
                                                                 momentum=self.args.momentum, nesterov=self.args.nesterov,
                                                                  weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200,
-                                                                 device=self.device)
+                                                                 device=self.device, logger=self.logger)
             result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
 

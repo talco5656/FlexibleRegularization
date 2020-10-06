@@ -1,4 +1,5 @@
 import torch
+import trains
 from torch.optim.optimizer import Optimizer, required
 
 from welford_var import Welford
@@ -60,7 +61,8 @@ class SGD(Optimizer):
     """
 
     def __init__(self, params, lr=required, momentum=0, dampening=0,
-                 weight_decay=0, nesterov=False, adaptive_weight_decay=False, iter_length=100, device=device):
+                 weight_decay=0, nesterov=False, adaptive_weight_decay=False, iter_length=100, device=device,
+                 logger=None):
         # named_params=None):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
@@ -149,6 +151,15 @@ class SGD(Optimizer):
                     self.online_param_var_dict[parameter_name].update(p.to(device='cpu'))
                     if self.num_of_steps > 0 and self.num_of_steps % self.iter_length == 0:
                         self.online_param_var_dict[parameter_name].update_var()
+                        # report var
+                        if self.logger:
+                        # logger = trains.Task.current_task().get_logger()
+                            var_calculator = self.model.online_param_var[parameter_name]
+                            d_var = var_calculator.M2 / (var_calculator.count - 1)
+                            self.logger.report_scalar(
+                                title=f"parameter variance, {self.model.reg}", series=parameter_name,
+                                value=torch.average(d_var), iteration=self.num_of_steps)
+
         self.num_of_steps += 1
         return loss
 
