@@ -62,8 +62,7 @@ class SGD(Optimizer):
 
     def __init__(self, params, lr=required, momentum=0, dampening=0,
                  weight_decay=0, nesterov=False, adaptive_weight_decay=False, iter_length=100, device=device,
-                 noninverse_var=False, logger=None):
-        # named_params=None):
+                 noninverse_var=False, adaptive_avg_reg=False, logger=None):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
         if momentum < 0.0:
@@ -84,6 +83,10 @@ class SGD(Optimizer):
             self.logger = logger
         else:
             self.online_param_var_dict = None
+        # if adaptive_avg_reg:
+        #     self.avg_dict =
+        # else:
+        #     self.avg_dict = False
 
     def __setstate__(self, state):
         super(SGD, self).__setstate__(state)
