@@ -536,6 +536,7 @@ class TorchExample():
         else:
             self.device = torch.device('cpu')
         self.logger = Task.current_task().get_logger() if self.args.trains else None
+        self.default_reg = {'ResNet': 0.0001, 'mobilenetV2': 0.00004, 'Densenet': 0.001, 'VGG': 0.0/05}
 
     def get_pytorch_imagenet_data(self):
         #todo: change hard wired arguments
@@ -729,7 +730,8 @@ class TorchExample():
             adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
                                                                 momentum=self.args.momentum, nesterov=self.args.nesterov,
                                                                  weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200,
-                                                                 device=self.device, logger=self.logger)
+                                                                 device=self.device, noninverse_var=self.args.noninverse_var,
+                                                                 logger=self.logger)
             result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
 

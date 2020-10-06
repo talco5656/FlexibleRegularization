@@ -62,7 +62,7 @@ class SGD(Optimizer):
 
     def __init__(self, params, lr=required, momentum=0, dampening=0,
                  weight_decay=0, nesterov=False, adaptive_weight_decay=False, iter_length=100, device=device,
-                 logger=None):
+                 noninverse_var=False, logger=None):
         # named_params=None):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
@@ -80,6 +80,8 @@ class SGD(Optimizer):
             self.num_of_steps = 0
             self.iter_length = iter_length
             self.device = device
+            self.noninverse_var = noninverse_var,
+            self.logger = logger
         else:
             self.online_param_var_dict = None
 
@@ -130,6 +132,8 @@ class SGD(Optimizer):
                     if self.online_param_var_dict:
                         parameter_name = (group_index, parameter_index)
                         var_tensor = self.online_param_var_dict[parameter_name].get_var().to(device=self.device)
+                        if self.noninverse_var:
+                            var_tensor = torch.inverse(var_tensor)
                         reg_p = p.mul(var_tensor)
                         d_p = d_p.add(reg_p, alpha=weight_decay)
                     else:

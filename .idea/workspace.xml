@@ -354,7 +354,7 @@
       <workItem from="1601043855845" duration="7213000" />
       <workItem from="1601195063819" duration="23322000" />
       <workItem from="1601540509450" duration="10031000" />
-      <workItem from="1601802985549" duration="11191000" />
+      <workItem from="1601802985549" duration="12369000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -680,27 +680,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_tests.py</url>
-          <line>750</line>
+          <line>751</line>
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py</url>
-          <line>151</line>
+          <line>155</line>
           <option name="timeStamp" value="197" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_tests.py</url>
-          <line>728</line>
+          <line>729</line>
           <option name="timeStamp" value="200" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py</url>
-          <line>148</line>
+          <line>152</line>
           <option name="timeStamp" value="201" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py</url>
-          <line>128</line>
+          <line>130</line>
           <option name="timeStamp" value="203" />
         </line-breakpoint>
       </breakpoints>
