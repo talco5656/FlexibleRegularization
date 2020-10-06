@@ -535,6 +535,7 @@ class TorchExample():
             self.device = torch.device('cuda')
         else:
             self.device = torch.device('cpu')
+        self.logger = Task.current_task().get_logger() if self.trains else None
 
     def get_pytorch_imagenet_data(self):
         #todo: change hard wired arguments
@@ -651,7 +652,7 @@ class TorchExample():
         Returns: Nothing, but prints model accuracies during training.
         """
         model = model.to(device=self.device)  # move the model parameters to CPU/GPU
-        best_acc, train_acc, best_iteration = 0, 0, 0
+        best_val_acc, reported_train_acc, best_iteration = 0, 0, 0
         for e in range(epochs):
             for t, (x, y) in enumerate(self.data.loader_train):
                 model.train()  # put model to training mode
@@ -674,13 +675,15 @@ class TorchExample():
 
                 if t % self.args.print_every == 0:
                     print('Iteration %d, loss = %.4f' % (t, loss.item()))
-                    num_correct, num_samples, acc = self.check_accuracy(self.data.loader_val, model)
-                    if best_acc < acc:
-                        _, _, train_acc = self.check_accuracy(self.data.loader_train, model)
-                        best_acc, best_iteration = \
-                            acc, t + e * self.num_trains // self.args.batch_size
-        return best_acc, train_acc, best_iteration
-
+                    num_correct, num_samples, val_acc = self.check_accuracy(self.data.loader_val, model)
+                    _, _, train_acc = self.check_accuracy(self.data.loader_train, model)
+                    if self.logger:
+                        self.logger.report_scalar(value=train_acc, title='Train accuracy', series='solver', iteration=t)
+                        self.logger.report_scalar(value=val_acc, title='Val accuracy', series='solver', iteration=t)
+                    if best_val_acc < val_acc:
+                        best_val_acc, reported_train_acc, best_iteration = \
+                            val_acc, train_acc, t + e * self.num_trains // self.args.batch_size
+        return best_val_acc, reported_train_acc, best_iteration
 
     def get_model(self, reg_layers):
         if self.args.model == 'mlp':
@@ -714,20 +717,18 @@ class TorchExample():
         result_dict = {}
         reg_layers = self.args.reg_layers.split(',') if self.args.reg_layers else ['1', '2', '3']
         for reg_strenght in reg_strenghts:
-            original_model = self.get_model(reg_layers)
-            original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
-                                 lr=self.args.lr, momentum=self.args.momentum,
-                                           weight_decay=reg_strenght)
+            # original_model = self.get_model(reg_layers)
+            # original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
+            #                      lr=self.args.lr, momentum=self.args.momentum,
+            #                                weight_decay=reg_strenght)
 
-            result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs)
+            # result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs)
 
             adaptive_model = self.get_model(reg_layers)
             adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
                                                                 momentum=self.args.momentum, nesterov=self.args.nesterov,
                                                                  weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200,
                                                                  device=self.device)
-
-
             result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
 
@@ -744,7 +745,7 @@ class TorchExample():
             result_df = self.train_and_eval()
             tables.append(result_df)
             if self.args.trains:
-                task.get_logger().report_table(title="Accuracy", series="Accuracy",
+                self.logger.report_table(title="Accuracy", series="Accuracy",
                                                     iteration=repeat_index, table_plot=result_df)
         # tables = pd.concat(tables)
         mean_values = np.mean(tables, axis=0)
@@ -752,7 +753,7 @@ class TorchExample():
                                    columns=["Val acc", "Train acc", "Iteratoin"])
         print(tabulate(mean_values, headers=mean_values.columns))
         if self.args.trains:
-            task.get_logger().report_table(title="Accuracy", series="Accuracy",
+            self.logger.report_table(title="Accuracy", series="Accuracy",
                                            iteration=self.args.num_trains, table_plot=mean_values)
         exit()
         content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]

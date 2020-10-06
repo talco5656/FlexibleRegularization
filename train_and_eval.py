@@ -314,8 +314,6 @@ def train_and_eval(args, task):
     if args.trains:
         task.get_logger().report_table(title='Accuracy', series='Accuracy',
                                        iteration=num_train, table_plot=table)
-    # print(table)
-
     print(tabulate(table, headers=columns))
     return table
 
@@ -324,13 +322,6 @@ def mean_and_ci_result(args):
     if args.trains:
         task = Task.init(project_name='Flexible Regularization',
                          task_name='train_and_eval')  # , reuse_last_task_id=False)
-        # task = Task.init(project_name='Flexible Regularization',
-        #                  task_name="train and eval",
-        #                  reuse_last_task_id=False
-        #                  )
-        # task = Task.get_task(project_name='Flexible Regularization', task_name='Simple CNN')
-        # task = Task.init()
-        # task = Task.current_task()
     else:
         task = None
     tables = []
