@@ -394,7 +394,7 @@ def test_seq():
     adaptive_optimizer = optim.SGD(adaptive_model.parameters(), lr=learning_rate,
                                    momentum=1, nesterov=False, weight_decay=0.01)
     # adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
-    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
 
     print("regular model:")
     train_part34(regular_model, optimizer, epochs=epochs)
@@ -442,7 +442,7 @@ def test_conv_seq():
         nn.Linear(channel_2 * 32 * 32, 10)
     )
     # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
-    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
     #
     optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.01)
     # print("regular model:")
@@ -459,7 +459,7 @@ def test_conv_seq():
         nn.Linear(channel_2 * 32 * 32, 10)
     )
     # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
-    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
     #
     optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.1)
     # print("regular model:")
@@ -474,7 +474,7 @@ def test_alexnet():
     # optimizer = optim.Adam(model.parameters())
     optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
                                                 momentum=0.9, nesterov=True, weight_decay=0.1,
-                                                adaptive_weight_decay=True)
+                                                adaptive_var_weight_decay=True)
     train_part34(model, optimizer, epochs=2)
     best_model = model
     check_accuracy_part34(loader_test, best_model)
@@ -654,7 +654,7 @@ class TorchExample():
         """
         model = model.to(device=self.device)  # move the model parameters to CPU/GPU
         best_val_acc, reported_train_acc, best_iteration = 0, 0, 0
-        val_loader = self.data.loader_test if self.test else self.data.loader_val
+        val_loader = self.data.loader_test if self.args.test else self.data.loader_val
         for e in range(epochs):
             for t, (x, y) in enumerate(self.data.loader_train):
                 model.train()  # put model to training mode
@@ -719,18 +719,18 @@ class TorchExample():
         result_dict = {}
         reg_layers = self.args.reg_layers.split(',') if self.args.reg_layers else ['1', '2', '3']
         for reg_strenght in reg_strenghts:
-            # original_model = self.get_model(reg_layers)
-            # original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
-            #                      lr=self.args.lr, momentum=self.args.momentum,
-            #                                weight_decay=reg_strenght)
+            original_model = self.get_model(reg_layers)
+            original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
+                                 lr=self.args.lr, momentum=self.args.momentum,
+                                           weight_decay=reg_strenght)
 
-            # result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs)
+            result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs)
 
             adaptive_model = self.get_model(reg_layers)
             adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
-                                                                momentum=self.args.momentum, nesterov=self.args.nesterov,
-                                                                 weight_decay=reg_strenght, adaptive_weight_decay=True, iter_length=200,
-                                                                 device=self.device, noninverse_var=self.args.noninverse_var,
+                                                                 momentum=self.args.momentum, nesterov=self.args.nesterov,
+                                                                 weight_decay=reg_strenght, adaptive_var_weight_decay=True, iter_length=200,
+                                                                 device=self.device, inverse_var=self.args.inverse_var,
                                                                  logger=self.logger)
             result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()

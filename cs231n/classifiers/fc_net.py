@@ -302,7 +302,6 @@ class FullyConnectedNet(object):
         self.dtype = dtype
         self.params = {}
         self.adaptive_var_reg = adaptive_reg
-        self.adaptive_avg_reg = False
         self.iter_length = iter_length
         self.divide_var_by_mean_var = divide_var_by_mean_var
         self.dropconnect = dropconnect

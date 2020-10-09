@@ -2,6 +2,7 @@ import torch
 import trains
 from torch.optim.optimizer import Optimizer, required
 
+from online_avg import OnlineAvg
 from welford_var import Welford
 
 if torch.cuda.is_available():
@@ -61,8 +62,8 @@ class SGD(Optimizer):
     """
 
     def __init__(self, params, lr=required, momentum=0, dampening=0,
-                 weight_decay=0, nesterov=False, adaptive_weight_decay=False, iter_length=100, device=device,
-                 noninverse_var=False, adaptive_avg_reg=False, logger=None):
+                 weight_decay=0, nesterov=False, adaptive_var_weight_decay=False, iter_length=100, device=device,
+                 inverse_var=False, adaptive_avg_reg=False, logger=None):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
         if momentum < 0.0:
@@ -74,15 +75,15 @@ class SGD(Optimizer):
         if nesterov and (momentum <= 0 or dampening != 0):
             raise ValueError("Nesterov momentum requires a momentum and zero dampening")
         super(SGD, self).__init__(params, defaults)
-        if adaptive_weight_decay:
-            self.online_param_var_dict = self.create_online_param_var_dict()
+        self.online_param_var_dict, self.avg_param_dict = \
+            self.create_online_param_var_dict(
+                adaptive_var_weight_decay=adaptive_var_weight_decay, adaptive_avg_reg=adaptive_avg_reg)
+        if adaptive_var_weight_decay:
             self.num_of_steps = 0
             self.iter_length = iter_length
             self.device = device
-            self.noninverse_var = noninverse_var,
+            self.inverse_var = inverse_var,
             self.logger = logger
-        else:
-            self.online_param_var_dict = None
         # if adaptive_avg_reg:
         #     self.avg_dict =
         # else:
@@ -93,11 +94,10 @@ class SGD(Optimizer):
         for group in self.param_groups:
             group.setdefault('nesterov', False)
 
-    def create_online_param_var_dict(self):
+    def create_online_param_var_dict(self, adaptive_var_weight_decay, adaptive_avg_reg):
         # todo: implement in Pytorch instead numpy
-        import numpy as np
-        dtype = np.float32
-        online_param_var = {}
+        online_param_var = {} if adaptive_var_weight_decay else None
+        avg_param_dict = {} if adaptive_avg_reg else None
         for group_index, param_group in enumerate(self.param_groups):
             for param_index, param in enumerate(param_group['params']):
                 param_name = param.name
@@ -106,8 +106,11 @@ class SGD(Optimizer):
                 # self.params[param_name] = param#.astype(dtype)
                 # if self.adaptive_var_reg and 'W' in k:  # or (self.adaptive_dropconnect and k in ('W1', 'W2')):
                     # if self.variance_calculation_method == 'welford':
-                online_param_var[param_name] = Welford(dim=param.shape, package='torch')
-        return online_param_var
+                if online_param_var:
+                    online_param_var[param_name] = Welford(dim=param.shape, package='torch')
+                if avg_param_dict:
+                    avg_param_dict[param_name] = OnlineAvg(dim=param.shape, static_calculation=True, package='torch')
+        return online_param_var, avg_param_dict
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -135,9 +138,11 @@ class SGD(Optimizer):
                     if self.online_param_var_dict:
                         parameter_name = (group_index, parameter_index)
                         var_tensor = self.online_param_var_dict[parameter_name].get_var().to(device=self.device)
-                        if self.noninverse_var:
+                        if not self.inverse_var:
                             var_tensor = torch.inverse(var_tensor)
-                        reg_p = p.mul(var_tensor)
+                        # reg_p = d_p.add(self.avg_param_dict[parameter_name].get_static_mean.to(device=self.device), alpha=-1)
+                        # reg_p = reg_p.mul(reg_p)
+                        reg_p = p.mul(var_tensor)  # todo: does it yields per-coordinate multiplication?
                         d_p = d_p.add(reg_p, alpha=weight_decay)
                     else:
                         d_p = d_p.add(p, alpha=weight_decay)

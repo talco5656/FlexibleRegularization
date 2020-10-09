@@ -2,7 +2,6 @@ import numpy as np
 import attr
 import torch
 
-# todo: does it work for matricies?
 @attr.s
 class Welford:
     """
@@ -29,9 +28,9 @@ class Welford:
     def update(self, new_value):
         self.count += 1
         delta = new_value - self.mean
-        self.mean += delta / self.count
+        self.mean += delta / self.count  # todo: is this coordinate-wise??
         delta2 = new_value - self.mean
-        self.M2 += delta * delta2
+        self.M2 += delta * delta  # todo: is this coordinate-wise??2
 
     def update_var(self):
         self.var = self._get_var()
@@ -42,7 +41,7 @@ class Welford:
     def get_mle_var(self):
         var = self.M2 / self.count - 1
         if self.divide_var_by_mean_var:
-            var = var / self.tensor_package.mean(var)
+            var = var / self.tensor_package.mean(var)  # todo: is this coordinate-wise??
         var = var * self.var_normalizer
         return var
 
@@ -53,8 +52,8 @@ class Welford:
         return self._get_var()
     
     def _get_var(self):
-        var = self.M2 / (self.count - 1)
+        var = self.M2 / (self.count - 1)  # todo: is this coordinate-wise??
         if self.divide_var_by_mean_var:
-            var = var/self.tensor_package.mean(var)
+            var = var/self.tensor_package.mean(var)  # todo: is this coordinate-wise??
         var = var * self.var_normalizer
         return var

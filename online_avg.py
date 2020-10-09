@@ -1,8 +1,7 @@
 import numpy as np
 import attr
+import torch
 
-
-# todo: does it work for matricies?
 @attr.s
 class OnlineAvg:
     """
@@ -14,11 +13,13 @@ class OnlineAvg:
     """
     dim = attr.ib()
     static_calculation = attr.ib(True)
+    package = attr.ib('np')
 
     def __attrs_post_init__(self):
+        self.tensor_package = torch if self.package == 'torch' else np
         self.count = 0
-        self.avg = np.zeros(self.dim)
-        self.static_avg = np.zeros(self.dim)
+        self.avg = self.tensor_package.zeros(self.dim)
+        self.static_avg = self.tensor_package.zeros(self.dim)
 
     def update(self, new_value):
         self.count += 1

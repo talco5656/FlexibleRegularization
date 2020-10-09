@@ -993,7 +993,7 @@ def test_seq():
     adaptive_optimizer = optim.SGD(adaptive_model.parameters(), lr=learning_rate,
                           momentum=1, nesterov=False, weight_decay=0.05)
     # adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
-    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
 
     print("regular model:")
     train_part34(regular_model, optimizer, epochs=epochs)
@@ -1064,7 +1064,7 @@ def test_conv_seq():
         nn.Linear(channel_2 * 32 * 32, 10)
     )
     # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
-    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
     #
     optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.01)
     # print("regular model:")
@@ -1081,7 +1081,7 @@ def test_conv_seq():
         nn.Linear(channel_2 * 32 * 32, 10)
     )
     # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
-    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True, iter_length=200)
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
     #
     optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.1)
     # print("regular model:")
@@ -1096,7 +1096,7 @@ def test_alexnet():
     # optimizer = optim.Adam(model.parameters())
     optimizer = optim.SGD(model.parameters(), nesterov=True, lr=learning_rate, momentum=0.9, weight_decay=0.1)
     # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
-    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_weight_decay=True)
+    #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True)
     train_part34(model, optimizer, epochs=10)
 
     best_model = model
