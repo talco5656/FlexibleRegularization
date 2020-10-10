@@ -641,7 +641,7 @@ class TorchExample():
             print('Got %d / %d correct (%.2f)' % (num_correct, num_samples, 100 * acc))
             return num_correct, num_samples, acc
 
-    def general_train(self, model, optimizer, epochs=1):
+    def general_train(self, model, optimizer, epochs=1, model_name=''):
         """
         Train a model on CIFAR-10 using the PyTorch Module API.
 
@@ -681,9 +681,9 @@ class TorchExample():
                     _, _, train_acc = self.check_accuracy(self.data.loader_train, model)
                     if self.logger:
                         iteration = t + e * (self.args.num_trains / self.args.batch_size)
-                        self.logger.report_scalar(value=train_acc, title='Train accuracy', series='solver',
+                        self.logger.report_scalar(value=train_acc, title='Train accuracy', series=model_name,
                                                   iteration=iteration)
-                        self.logger.report_scalar(value=val_acc, title='Val accuracy', series='solver',
+                        self.logger.report_scalar(value=val_acc, title='Val accuracy', series=model_name,
                                                   iteration=iteration)
                     if best_val_acc < val_acc:
                         best_val_acc, reported_train_acc, best_iteration = \
@@ -717,8 +717,6 @@ class TorchExample():
             update_rules = [self.args.optimizer]
         else:
             update_rules = ['sgd', 'sgd_momentum', 'adam', 'rmsprop']
-        solvers = {}
-        adaptive_solvers = {}
         result_dict = {}
         reg_layers = self.args.reg_layers.split(',') if self.args.reg_layers else ['1', '2', '3']
         for reg_strenght in reg_strenghts:
@@ -727,7 +725,8 @@ class TorchExample():
                                  lr=self.args.lr, momentum=self.args.momentum,
                                            weight_decay=reg_strenght)
 
-            result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs)
+            result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
+                                                              model_name='regular weight decay')
 
             adaptive_model = self.get_model(reg_layers)
             adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
@@ -736,15 +735,15 @@ class TorchExample():
                                                                  adaptive_avg_reg=self.args.adaptive_avg_reg, iter_length=200,
                                                                  device=self.device, inverse_var=self.args.inverse_var,
                                                                  logger=self.logger)
-            result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs)
+            result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs,
+                                                               model_name='adaptive weight decay')
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
-
         return result_df
 
     def mean_and_ci_result(self):
         if self.args.trains:
             task = Task.init(project_name='Flexible Regularization',
-                             task_name='Torch Models')  # , reuse_last_task_id=False)
+                             task_name='Torch Models')
         else:
             task = None
         tables = []
