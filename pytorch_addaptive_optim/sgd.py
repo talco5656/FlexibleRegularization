@@ -167,7 +167,7 @@ class SGD(Optimizer):
                         # report var
                         if self.logger:
                         # logger = trains.Task.current_task().get_logger()
-                            var_calculator = self.model.online_param_var[parameter_name]
+                            var_calculator = self.online_param_var_dict[parameter_name]
                             d_var = var_calculator.M2 / (var_calculator.count - 1)  #  is this element-wise?
                             self.logger.report_scalar(
                                 title=f"parameter variance, {self.model.reg}", series=parameter_name,
@@ -181,7 +181,7 @@ class SGD(Optimizer):
             return
         # logger = trains.Task.current_task().get_logger()
         for param_name in self.online_param_var:
-            self.model.online_param_var[param_name].update_var()
+            self.online_param_var_dict[param_name].update_var()
             # var_calculator = self.model.online_param_var[param_name]
             # d_var = var_calculator.dynamic_var if \
             # self.model.variance_calculation_method == 'GMA' \
