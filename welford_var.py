@@ -28,9 +28,9 @@ class Welford:
     def update(self, new_value):
         self.count += 1
         delta = new_value - self.mean
-        self.mean += delta / self.count  # todo: is this coordinate-wise??
+        self.mean += delta / self.count  # todo: is this coordinate-wise? Yes, count is integer?
         delta2 = new_value - self.mean
-        self.M2 += delta * delta  # todo: is this coordinate-wise??2
+        self.M2 += delta * delta  # todo: is this coordinate-wise? Yes it is.
 
     def update_var(self):
         self.var = self._get_var()
@@ -52,8 +52,8 @@ class Welford:
         return self._get_var()
     
     def _get_var(self):
-        var = self.M2 / (self.count - 1)  # todo: is this coordinate-wise??
+        var = self.M2 / (self.count - 1)
         if self.divide_var_by_mean_var:
-            var = var/self.tensor_package.mean(var)  # todo: is this coordinate-wise??
+            var = var/self.tensor_package.mean(var)
         var = var * self.var_normalizer
         return var
