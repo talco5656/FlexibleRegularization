@@ -680,8 +680,11 @@ class TorchExample():
                     num_correct, num_samples, val_acc = self.check_accuracy(val_loader, model)
                     _, _, train_acc = self.check_accuracy(self.data.loader_train, model)
                     if self.logger:
-                        self.logger.report_scalar(value=train_acc, title='Train accuracy', series='solver', iteration=t)
-                        self.logger.report_scalar(value=val_acc, title='Val accuracy', series='solver', iteration=t)
+                        iteration = t + e * (self.args.num_trains / self.args.batch_size)
+                        self.logger.report_scalar(value=train_acc, title='Train accuracy', series='solver',
+                                                  iteration=iteration)
+                        self.logger.report_scalar(value=val_acc, title='Val accuracy', series='solver',
+                                                  iteration=iteration)
                     if best_val_acc < val_acc:
                         best_val_acc, reported_train_acc, best_iteration = \
                             val_acc, train_acc, t + e * self.num_trains // self.args.batch_size
