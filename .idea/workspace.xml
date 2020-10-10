@@ -27,6 +27,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py" beforeDir="false" afterPath="$PROJECT_DIR$/pytorch_addaptive_optim/sgd.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -356,7 +357,7 @@
       <workItem from="1601195063819" duration="23322000" />
       <workItem from="1601540509450" duration="10031000" />
       <workItem from="1601802985549" duration="22579000" />
-      <workItem from="1602318314036" duration="1433000" />
+      <workItem from="1602318314036" duration="1870000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>

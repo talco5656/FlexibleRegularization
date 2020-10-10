@@ -170,7 +170,7 @@ class SGD(Optimizer):
                             var_calculator = self.online_param_var_dict[parameter_name]
                             d_var = var_calculator.M2 / (var_calculator.count - 1)  #  is this element-wise?
                             self.logger.report_scalar(
-                                title=f"parameter variance, {self.model.reg}", series=parameter_name,
+                                title=f"parameter variance, {weight_decay}", series=parameter_name,
                                 value=torch.average(d_var), iteration=self.num_of_steps)
 
         self.num_of_steps += 1
