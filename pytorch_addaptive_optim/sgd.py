@@ -106,9 +106,9 @@ class SGD(Optimizer):
                 # self.params[param_name] = param#.astype(dtype)
                 # if self.adaptive_var_reg and 'W' in k:  # or (self.adaptive_dropconnect and k in ('W1', 'W2')):
                     # if self.variance_calculation_method == 'welford':
-                if online_param_var:
+                if adaptive_var_weight_decay:
                     online_param_var[param_name] = Welford(dim=param.shape, package='torch')
-                if avg_param_dict:
+                if adaptive_avg_reg:
                     avg_param_dict[param_name] = OnlineAvg(dim=param.shape, static_calculation=True, package='torch')
         return online_param_var, avg_param_dict
 
@@ -142,7 +142,7 @@ class SGD(Optimizer):
                             var_tensor = torch.inverse(var_tensor)
                         # reg_p = d_p.add(self.avg_param_dict[parameter_name].get_static_mean.to(device=self.device), alpha=-1)
                         # reg_p = reg_p.mul(reg_p)
-                        reg_p = p.mul(var_tensor)  # todo: does it yields per-coordinate multiplication?
+                        reg_p = p.mul(var_tensor)  # todo: does it yields per-coordinate multiplication?  YES IT IS!
                         d_p = d_p.add(reg_p, alpha=weight_decay)
                     else:
                         d_p = d_p.add(p, alpha=weight_decay)
@@ -163,11 +163,12 @@ class SGD(Optimizer):
                     self.online_param_var_dict[parameter_name].update(p.to(device='cpu'))
                     if self.num_of_steps > 0 and self.num_of_steps % self.iter_length == 0:
                         self.online_param_var_dict[parameter_name].update_var()
+                        print("updating var")
                         # report var
                         if self.logger:
                         # logger = trains.Task.current_task().get_logger()
                             var_calculator = self.model.online_param_var[parameter_name]
-                            d_var = var_calculator.M2 / (var_calculator.count - 1)
+                            d_var = var_calculator.M2 / (var_calculator.count - 1)  #  is this element-wise?
                             self.logger.report_scalar(
                                 title=f"parameter variance, {self.model.reg}", series=parameter_name,
                                 value=torch.average(d_var), iteration=self.num_of_steps)
