@@ -531,12 +531,14 @@ class TorchExample():
             self.data, self.num_classes = self.get_pytorch_cifar_data()
         elif self.args.dataset == 'cifar 100':
             self.data, self.num_classes = self.get_pytorch_cifar100_data()
+        elif self.args.dataset == 'imagenet':
+            self.data, self.num_classes = self.get_pytorch_imagenet_data()
         if self.args.gpu and torch.cuda.is_available():
             self.device = torch.device('cuda')
         else:
             self.device = torch.device('cpu')
         self.logger = Task.current_task().get_logger() if self.args.trains else None
-        self.default_reg = {'ResNet': 0.0001, 'mobilenetV2': 0.00004, 'Densenet': 0.001, 'VGG': 0.005}
+        self.default_reg = {'ResNet': 0.0001, 'mobilenetV2': 0.00004, 'Densenet': 0.001, 'GG': 0.005}
 
     def get_pytorch_imagenet_data(self):
         #todo: change hard wired arguments
@@ -558,7 +560,7 @@ class TorchExample():
         cifar10_test = dset.imagenet('./cs231n/datasets', train=False, download=True,
                                     transform=transform)
         loader_test = DataLoader(cifar10_test, batch_size=self.args.batch_size)
-        return DataTuple(loader_train, loader_val, loader_test)
+        return DataTuple(loader_train, loader_val, loader_test), 1000
 
     def get_pytorch_cifar100_data(self):
         transform = T.Compose([
@@ -691,6 +693,9 @@ class TorchExample():
         return best_val_acc, reported_train_acc, best_iteration
 
     def get_model(self, reg_layers):
+        #  changing num of classese: https://pytorch.org/tutorials/beginner/finetuning_torchvision_models_tutorial.html
+        #  https://pytorch.org/tutorials/beginner/finetuning_torchvision_models_tutorial.html
+        #todo: revisit the above. Am I doing all that needed?
         if self.args.model == 'mlp':
             return self.get_mlp_model()
         if self.args.model == 'cnn':
@@ -704,6 +709,14 @@ class TorchExample():
         if self.args.model == "resnet50":
             model = models.resnet50(pretrained=self.args.pretrained)
             model.fc = nn.Linear(512, self.num_classes)
+            return model
+        if self.args.model == "densnet":
+            model = models.densenet161(pretrained=True)
+            model.classifier = nn.Linear(1024, self.num_classes)
+            return model
+        if self.args.model =="vgg16":
+            model = models.vgg16(pretrained=True)
+            model.classifier[6] = nn.Linear(4096, self.num_classes)
             return model
 
     def train_and_eval(self):
