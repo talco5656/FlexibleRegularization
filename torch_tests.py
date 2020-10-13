@@ -712,11 +712,11 @@ class TorchExample():
             model.fc = nn.Linear(512, self.num_classes)
             return model
         if self.args.model == "densnet":
-            model = models.densenet161(pretrained=True)
+            model = models.densenet161(pretrained=self.args.pretrained)
             model.classifier = nn.Linear(1024, self.num_classes)
             return model
         if self.args.model =="vgg16":
-            model = models.vgg16(pretrained=True)
+            model = models.vgg16(pretrained=self.args.pretrained)
             model.classifier[6] = nn.Linear(4096, self.num_classes)
             return model
 
