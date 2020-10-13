@@ -738,14 +738,14 @@ class TorchExample():
                                  lr=self.args.lr, momentum=self.args.momentum,
                                            weight_decay=reg_strenght)
 
-            result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
-                                                              model_name='regular weight decay')
+            # result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
+            #                                                   model_name='regular weight decay')
 
             adaptive_model = self.get_model(reg_layers)
             adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
                                                                  momentum=self.args.momentum, nesterov=self.args.nesterov,
                                                                  weight_decay=reg_strenght, adaptive_var_weight_decay=self.args.adaptive_var_reg,
-                                                                 adaptive_avg_reg=self.args.adaptive_avg_reg, iter_length=200,
+                                                                 adaptive_avg_reg=self.args.adaptive_avg_reg, iter_length=self.args.iter_length,
                                                                  device=self.device, inverse_var=self.args.inverse_var,
                                                                  logger=self.logger)
             result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs,
