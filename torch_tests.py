@@ -8,6 +8,7 @@ import torch.nn as nn
 import torch.optim as optim
 import attr
 from tabulate import tabulate
+from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader
 from torch.utils.data import sampler
 
@@ -644,7 +645,7 @@ class TorchExample():
             print('Got %d / %d correct (%.2f)' % (num_correct, num_samples, 100 * acc))
             return num_correct, num_samples, acc
 
-    def general_train(self, model, optimizer, epochs=1, model_name=''):
+    def general_train(self, model, optimizer, epochs=1, model_name='', scheduler=None):
         """
         Train a model on CIFAR-10 using the PyTorch Module API.
 
@@ -691,11 +692,12 @@ class TorchExample():
                     if best_val_acc < val_acc:
                         best_val_acc, reported_train_acc, best_iteration = \
                             val_acc, train_acc, t + e * self.num_trains // self.args.batch_size
+            if scheduler:
+                scheduler.step()
         return best_val_acc, reported_train_acc, best_iteration
 
     def get_model(self, reg_layers):
-        #  changing num of classese: https://pytorch.org/tutorials/beginner/finetuning_torchvision_models_tutorial.html
-        #  https://pytorch.org/tutorials/beginner/finetuning_torchvision_models_tutorial.html
+        #  changing num of classes: https://pytorch.org/tutorials/beginner/finetuning_torchvision_models_tutorial.html
         #todo: revisit the above. Am I doing all that needed?
         if self.args.model == 'mlp':
             return self.get_mlp_model()
@@ -738,10 +740,16 @@ class TorchExample():
             original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
                                  lr=self.args.lr, momentum=self.args.momentum,
                                            weight_decay=reg_strenght)
-
+            if self.args.schedular:
+                exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1, last_epoch=10)
+            else:
+                exp_lr_scheduler = None
             result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
-                                                              model_name='regular weight decay')
-
+                                                              model_name='regular weight decay', scheduler=exp_lr_scheduler)
+            if self.args.schedular:
+                exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1, last_epoch=10)
+            else:
+                exp_lr_scheduler = None
             adaptive_model = self.get_model(reg_layers)
             adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
                                                                  momentum=self.args.momentum, nesterov=self.args.nesterov,
@@ -750,7 +758,7 @@ class TorchExample():
                                                                  device=self.device, inverse_var=self.args.inverse_var,
                                                                  logger=self.logger)
             result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs,
-                                                               model_name='adaptive weight decay')
+                                                               model_name='adaptive weight decay', scheduler=exp_lr_scheduler)
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
         return result_df
 
