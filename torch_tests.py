@@ -517,6 +517,7 @@ def parse_args():
     parser.add_argument("--gpu", type=int, default=1)
     parser.add_argument("--pretrained", type=int, default=1)
     parser.add_argument("--lr", type=float, default=0.001)
+    parser.add_argument("--scheduler", type=float, default=0)
     parser.add_argument("--dataset", default='cifar10', choices=['cifar10', 'cifar100', 'imagenet'])
     return parser.parse_args()
 
