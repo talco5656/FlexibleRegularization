@@ -42,12 +42,6 @@ def flatten(x):
     return x.view(N, -1)  # "flatten" the C * H * W values into a single vector per image
 
 
-def test_flatten():
-    x = torch.arange(12).view(2, 1, 3, 2)
-    print('Before flattening: ', x)
-    print('After flattening: ', flatten(x))
-
-
 import torch.nn.functional as F  # useful stateless functions
 
 
@@ -741,13 +735,13 @@ class TorchExample():
             original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
                                  lr=self.args.lr, momentum=self.args.momentum,
                                            weight_decay=reg_strenght)
-            if self.args.schedular:
+            if self.args.scheduler:
                 exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1, last_epoch=10)
             else:
                 exp_lr_scheduler = None
             result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
                                                               model_name='regular weight decay', scheduler=exp_lr_scheduler)
-            if self.args.schedular:
+            if self.args.scheduler:
                 exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1, last_epoch=10)
             else:
                 exp_lr_scheduler = None
