@@ -547,19 +547,20 @@ class TorchExample():
             T.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
         ])
-        cifar10_train = dset.imagenet('./cs231n/datasets', train=True, download=True,
+        imagenet_train = dset.ImageNet('./cs231n/datasets', train=True, download=True,
                                       transform=transform)
-        loader_train = DataLoader(cifar10_train, batch_size=self.args.batch_size,
+
+        loader_train = DataLoader(imagenet_train, batch_size=self.args.batch_size,
                                   sampler=sampler.SubsetRandomSampler(range(self.num_trains)))
 
-        cifar10_val = dset.imagenet('./cs231n/datasets', train=True, download=True,
+        imagenet_val = dset.ImageNet('./cs231n/datasets', train=True, download=True,
                                    transform=transform)
-        loader_val = DataLoader(cifar10_val, batch_size=self.args.batch_size,
+        loader_val = DataLoader(imagenet_val, batch_size=self.args.batch_size,
                                 sampler=sampler.SubsetRandomSampler(range(self.num_trains, self.num_trains + 1000)))
 
-        cifar10_test = dset.imagenet('./cs231n/datasets', train=False, download=True,
+        imagenet_test = dset.ImageNet('./cs231n/datasets', train=False, download=True,
                                     transform=transform)
-        loader_test = DataLoader(cifar10_test, batch_size=self.args.batch_size)
+        loader_test = DataLoader(imagenet_test, batch_size=self.args.batch_size)
         return DataTuple(loader_train, loader_val, loader_test), 1000
 
     def get_pytorch_cifar100_data(self):
