@@ -525,10 +525,12 @@ class TorchExample():
         self.num_trains = min(self.args.num_trains, 49000)
         if self.args.dataset == 'cifar10':
             self.data, self.num_classes = self.get_pytorch_cifar_data()
-        elif self.args.dataset == 'cifar 100':
+        elif self.args.dataset == 'cifar100':
             self.data, self.num_classes = self.get_pytorch_cifar100_data()
         elif self.args.dataset == 'imagenet':
             self.data, self.num_classes = self.get_pytorch_imagenet_data()
+        else:
+            ValueError("don't recognize class name")
         if self.args.gpu and torch.cuda.is_available():
             self.device = torch.device('cuda')
         else:
