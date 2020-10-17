@@ -738,13 +738,13 @@ class TorchExample():
                                  lr=self.args.lr, momentum=self.args.momentum,
                                            weight_decay=reg_strenght)
             if self.args.scheduler:
-                exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1, last_epoch=10)
+                exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1) #, last_epoch=10)
             else:
                 exp_lr_scheduler = None
             result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
                                                               model_name='regular weight decay', scheduler=exp_lr_scheduler)
             if self.args.scheduler:
-                exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1, last_epoch=10)
+                exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1)  # , last_epoch=10)
             else:
                 exp_lr_scheduler = None
             adaptive_model = self.get_model(reg_layers)
