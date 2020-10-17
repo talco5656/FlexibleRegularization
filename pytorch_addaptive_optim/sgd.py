@@ -134,6 +134,14 @@ class SGD(Optimizer):
                 if p.grad is None:
                     continue
                 d_p = p.grad
+
+                if self.num_of_steps > 0 and self.num_of_steps % self.iter_length == 0:
+                    parameter_name = (group_index, parameter_index)
+                    param_l2 = torch.norm(p)
+                    self.logger.report_scalar(
+                        title=f"parameter l2, {weight_decay}", series=str(parameter_name),
+                        value=float(param_l2), iteration=self.num_of_steps)
+
                 if weight_decay != 0:
                     if self.online_param_var_dict:
                         parameter_name = (group_index, parameter_index)
