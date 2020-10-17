@@ -135,7 +135,8 @@ class SGD(Optimizer):
                     continue
                 d_p = p.grad
 
-                if self.num_of_steps > 0 and self.num_of_steps % self.iter_length == 0:
+                if self.num_of_steps > 0 and self.num_of_steps % 100 == 0: #self.iter_length == 0:
+                    print("log l2")
                     parameter_name = (group_index, parameter_index)
                     param_l2 = torch.norm(p)
                     self.logger.report_scalar(
