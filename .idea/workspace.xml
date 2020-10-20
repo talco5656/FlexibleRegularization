@@ -360,7 +360,8 @@
       <workItem from="1602318314036" duration="10879000" />
       <workItem from="1602664002566" duration="16000" />
       <workItem from="1602932374540" duration="2624000" />
-      <workItem from="1603112463894" duration="1494000" />
+      <workItem from="1603112463894" duration="3574000" />
+      <workItem from="1603186226625" duration="688000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -445,9 +446,10 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="445" y="113" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1598202411214" />
-    <state x="100" y="111" width="1720" height="859" key="DiffContextDialog" timestamp="1602253589960">
-      <screen x="0" y="23" width="1920" height="1057" />
+    <state x="100" y="90" width="1720" height="878" key="DiffContextDialog" timestamp="1603187069311">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
+    <state x="100" y="90" width="1720" height="878" key="DiffContextDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1603187069311" />
     <state x="100" y="111" width="1720" height="859" key="DiffContextDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1602253589960" />
     <state x="100" y="123" width="1720" height="777" key="DiffContextDialog/0.23.1920.977@0.23.1920.977" timestamp="1595960608595" />
     <state x="1143" y="474" key="EnvironmentVariablesDialog" timestamp="1598702043322">
@@ -603,14 +605,14 @@
       <screen x="0" y="23" width="1920" height="977" />
     </state>
     <state x="505" y="112" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.23.1920.977@0.23.1920.977" timestamp="1595596994639" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1602444443497">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="432" y="90" width="1003" height="747" key="find.popup" timestamp="1603126603247">
+      <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="403" y="70" width="936" height="791" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1600691234821" />
     <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1602444443497" />
     <state x="403" y="87" width="937" height="720" key="find.popup/0.23.1792.1017@0.23.1792.1017" timestamp="1597413503529" />
     <state x="403" y="88" width="937" height="727" key="find.popup/0.23.1792.1028@0.23.1792.1028" timestamp="1597059077337" />
-    <state x="432" y="90" width="1003" height="747" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1598106629396" />
+    <state x="432" y="90" width="1003" height="747" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1603126603247" />
     <state x="432" y="84" width="1002" height="690" key="find.popup/0.23.1920.977@0.23.1920.977" timestamp="1597856289639" />
     <state x="251" y="66" width="1002" height="690" key="find.popup/0.23.1920.978@0.23.1920.978" timestamp="1595619182913" />
     <state x="807" y="309" key="refactoring.ChangeSignatureDialog" timestamp="1595593617137">
