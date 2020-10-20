@@ -25,10 +25,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_tests.py" afterDir="false" />
-    </list>
+    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -361,7 +358,7 @@
       <workItem from="1602664002566" duration="16000" />
       <workItem from="1602932374540" duration="2624000" />
       <workItem from="1603112463894" duration="3574000" />
-      <workItem from="1603186226625" duration="2654000" />
+      <workItem from="1603186226625" duration="2929000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -689,7 +686,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_tests.py</url>
-          <line>775</line>
+          <line>774</line>
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -699,7 +696,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_tests.py</url>
-          <line>757</line>
+          <line>756</line>
           <option name="timeStamp" value="226" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -709,7 +706,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_tests.py</url>
-          <line>741</line>
+          <line>740</line>
           <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

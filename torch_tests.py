@@ -754,8 +754,8 @@ class TorchExample():
                                                                  adaptive_avg_reg=self.args.adaptive_avg_reg, iter_length=self.args.iter_length,
                                                                  device=self.device, inverse_var=self.args.inverse_var,
                                                                  logger=self.logger)
-            # result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs,
-            #                                                    model_name='adaptive weight decay', scheduler=exp_lr_scheduler)
+            result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs,
+                                                               model_name='adaptive weight decay', scheduler=exp_lr_scheduler)
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
         return result_df
 
