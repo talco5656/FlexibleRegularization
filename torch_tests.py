@@ -680,6 +680,7 @@ class TorchExample():
                     print('Iteration %d, loss = %.4f' % (t, loss.item()))
                     num_correct, num_samples, val_acc = self.check_accuracy(val_loader, model)
                     _, _, train_acc = self.check_accuracy(self.data.loader_train, model)
+                    print(f"val_acc: {val_acc}, train_acc:{train_acc}, t: {t} epoch: {e}, iteration: {t + e * (self.args.num_trains / self.args.batch_size)}")
                     if self.logger:
                         iteration = t + e * (self.args.num_trains / self.args.batch_size)
                         self.logger.report_scalar(value=train_acc, title='Train accuracy', series=model_name,
