@@ -78,8 +78,9 @@ class SGD(Optimizer):
         self.online_param_var_dict, self.avg_param_dict = \
             self.create_online_param_var_dict(
                 adaptive_var_weight_decay=adaptive_var_weight_decay, adaptive_avg_reg=adaptive_avg_reg)
-        if adaptive_var_weight_decay:
-            self.num_of_steps = 0
+
+        self.num_of_steps = 0
+        if adaptive_var_weight_decay or adaptive_avg_reg:
             self.iter_length = iter_length
             self.device = device
             self.inverse_var = inverse_var,
