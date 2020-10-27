@@ -44,6 +44,7 @@ class KNNTest(TorchExample):
         features = []
         labels = []
         for x, y in dataloader:
+            x = x.to(device=self.device, dtype=torch.float32)
             features.append(model(x).detach().numpy())
             labels.append(y.detach().numpy())
         features = np.concatenate(features)
