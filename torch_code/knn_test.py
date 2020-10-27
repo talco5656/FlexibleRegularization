@@ -89,7 +89,7 @@ class KNNTest(TorchExample):
         }
         print(result_df)
 
-        if self.trains:
+        if self.args.trains:
             self.logger.report_table(title="KNN Accuracy", series="KNN Accuracy",
                                      iteration=0, table_plot=result_df)
 
