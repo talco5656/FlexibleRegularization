@@ -4,6 +4,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 from torch_code.torch_tests import TorchExample, parse_args, DataTuple
 import numpy as np
+from tabulate import tabulate
 
 from trains import Task
 task = Task.init(project_name='Flexible Regularization',
