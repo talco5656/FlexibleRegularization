@@ -5,6 +5,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from torch_code.torch_tests import TorchExample, parse_args, DataTuple
 import numpy as np
 
+from trains import Task
+task = Task.init(project_name='Flexible Regularization',
+                 task_name='KNN')
 
 class KNNTest(TorchExample):
     def __init__(self, args):
