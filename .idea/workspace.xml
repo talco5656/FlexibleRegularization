@@ -26,7 +26,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/torch_code/knn_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/knn_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_code/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/torch_tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -382,7 +384,7 @@
       <workItem from="1603611771059" duration="597000" />
       <workItem from="1603625977700" duration="462000" />
       <workItem from="1603632512916" duration="705000" />
-      <workItem from="1603636821539" duration="18442000" />
+      <workItem from="1603636821539" duration="19203000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
