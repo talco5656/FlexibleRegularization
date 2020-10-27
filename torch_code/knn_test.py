@@ -27,10 +27,12 @@ class KNNTest(TorchExample):
         neigh = KNeighborsClassifier(n_neighbors=10)
         train_knn_x = np.reshape(train_knn_x, (train_knn_x.shape[0], -1))
         neigh.fit(train_knn_x, train_knn_y)
+        train_predictions = neigh.predict(train_knn_x)
+        train_accuracy = accuracy_score(train_predictions, train_knn_y)
         val_knn_x = np.reshape(val_knn_x, (val_knn_x.shape[0], -1))
         prediction = neigh.predict(val_knn_x)
         accuracy = accuracy_score(prediction, val_knn_y)
-        return accuracy
+        return accuracy, train_accuracy
         # print(neigh.predict([[1.1]]))
         # print(neigh.predict_proba([[0.9]]))
 
@@ -74,10 +76,19 @@ class KNNTest(TorchExample):
         result_df, original_model, adaptive_model = self.train_and_eval()
         # knn results
 
-        original_accuracy = self.knn_prediction(original_model, second_datatuple)
-        adaptive_accuracy = self.knn_prediction(adaptive_model, second_datatuple)
-        print(f"original accuracy: {original_accuracy},"
-              f"adaptive accuracy: {adaptive_accuracy}")
+        original_accuracy, original_train_accuracy = self.knn_prediction(original_model, second_datatuple)
+        adaptive_accuracy, adaptive_train_accuracy = self.knn_prediction(adaptive_model, second_datatuple)
+        result_df = {
+            "original_accuracy": original_accuracy,
+            "original_train_accuracy": original_train_accuracy,
+            "adaptive_accuracy": adaptive_accuracy,
+            "adaptive_train_accuracy": adaptive_train_accuracy
+        }
+        print(result_df)
+
+        if self.trains:
+            self.logger.report_table(title="KNN Accuracy", series="KNN Accuracy",
+                                     iteration=0, table_plot=result_df)
 
 
 def test1():
