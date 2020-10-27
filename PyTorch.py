@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
-import argparse
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from attr import attr
-from tabulate import tabulate
 from torch.utils.data import DataLoader
 from torch.utils.data import sampler
 
@@ -15,10 +12,8 @@ import torchvision.transforms as T
 
 import numpy as np
 
-import torch.nn.functional as F  # useful stateless functions
 from trains import Task
 # In[2]:
-import pytorch_addaptive_optim
 
 Task.init(task_name="PyTorch", project_name="Flexible Regularization")
 NUM_TRAIN = 49000
@@ -992,7 +987,7 @@ def test_seq():
                           momentum=1, nesterov=False)
     adaptive_optimizer = optim.SGD(adaptive_model.parameters(), lr=learning_rate,
                           momentum=1, nesterov=False, weight_decay=0.05)
-    # adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
+    # adaptive_optimizer = pytorch_adaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
     #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
 
     print("regular model:")
@@ -1063,7 +1058,7 @@ def test_conv_seq():
         Flatten(),
         nn.Linear(channel_2 * 32 * 32, 10)
     )
-    # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+    # optimizer = pytorch_adaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
     #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
     #
     optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.01)
@@ -1080,7 +1075,7 @@ def test_conv_seq():
         Flatten(),
         nn.Linear(channel_2 * 32 * 32, 10)
     )
-    # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+    # optimizer = pytorch_adaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
     #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
     #
     optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.1)
@@ -1095,7 +1090,7 @@ def test_alexnet():
     model = AlexNet()
     # optimizer = optim.Adam(model.parameters())
     optimizer = optim.SGD(model.parameters(), nesterov=True, lr=learning_rate, momentum=0.9, weight_decay=0.1)
-    # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+    # optimizer = pytorch_adaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
     #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True)
     train_part34(model, optimizer, epochs=10)
 

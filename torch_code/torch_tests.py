@@ -3,6 +3,7 @@
 import argparse
 from collections import namedtuple
 
+from sklearn.neighbors import KNeighborsClassifier
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -17,23 +18,20 @@ import torchvision.transforms as T
 
 import numpy as np
 
-import torch.nn.functional as F  # useful stateless functions
 from torchvision import models
 from trains import Task
 # In[2]:
-import pytorch_addaptive_optim
 import pandas as pd
 
-DataTuple = namedtuple("DataTuple", ["loader_train", "loader_val", "loader_test"])
+from torch_code import pytorch_adaptive_optim
+from torch_code.cifar_subset import CIFARSubset
+
+DataTuple = namedtuple("DataTuple", ["train", "val", "test"])
 
 
 USE_GPU = True
 
 dtype = torch.float32  # we will be using float throughout this tutorial
-
-
-
-# print('using device:', device)
 
 
 
@@ -388,7 +386,7 @@ def test_seq():
                           momentum=1, nesterov=False)
     adaptive_optimizer = optim.SGD(adaptive_model.parameters(), lr=learning_rate,
                                    momentum=1, nesterov=False, weight_decay=0.01)
-    # adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
+    # adaptive_optimizer = pytorch_adaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=learning_rate,
     #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
 
     print("regular model:")
@@ -436,7 +434,7 @@ def test_conv_seq():
         Flatten(),
         nn.Linear(channel_2 * 32 * 32, 10)
     )
-    # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+    # optimizer = pytorch_adaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
     #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
     #
     optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.01)
@@ -453,7 +451,7 @@ def test_conv_seq():
         Flatten(),
         nn.Linear(channel_2 * 32 * 32, 10)
     )
-    # optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+    # optimizer = pytorch_adaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
     #                       momentum=0.9, nesterov=True, weight_decay=0.1, adaptive_var_weight_decay=True, iter_length=200)
     #
     optimizer = optim.SGD(model.parameters(), nesterov=False, lr=learning_rate, momentum=1, weight_decay=0.1)
@@ -467,9 +465,9 @@ def test_alexnet():
     learning_rate = 1e-3
     model = AlexNet()
     # optimizer = optim.Adam(model.parameters())
-    optimizer = pytorch_addaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
-                                                momentum=0.9, nesterov=True, weight_decay=0.1,
-                                                adaptive_var_weight_decay=True)
+    optimizer = torch_code.pytorch_adaptive_optim.sgd.SGD(model.parameters(), lr=learning_rate,
+                                                           momentum=0.9, nesterov=True, weight_decay=0.1,
+                                                           adaptive_var_weight_decay=True)
     train_part34(model, optimizer, epochs=2)
     best_model = model
     check_accuracy_part34(loader_test, best_model)
@@ -535,7 +533,7 @@ class TorchExample():
             self.device = torch.device('cuda')
         else:
             self.device = torch.device('cpu')
-        self.logger = Task.current_task().get_logger() if self.args.trains else None
+        self.logger = None #Task.current_task().get_logger() if self.args.trains else None
         self.default_reg = {'ResNet': 0.0001, 'mobilenetV2': 0.00004, 'Densenet': 0.001, 'GG': 0.005}
 
     def get_pytorch_imagenet_data(self):
@@ -601,6 +599,50 @@ class TorchExample():
         loader_test = DataLoader(cifar10_test, batch_size=self.args.batch_size)
         return DataTuple(loader_train, loader_val, loader_test), 10
 
+    def get_cifar10_data(self):
+        transform = T.Compose([
+            T.ToTensor(),
+            T.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
+        ])
+        cifar10_train = dset.CIFAR10('./cs231n/datasets', train=True, download=True,
+                                     transform=transform)
+
+        cifar10_val = dset.CIFAR10('./cs231n/datasets', train=True, download=True,
+                                   transform=transform)
+
+        cifar10_test = dset.CIFAR10('./cs231n/datasets', train=False, download=True,
+                                    transform=transform)
+        return DataTuple(cifar10_train, cifar10_val, cifar10_test), 10
+
+    def get_data_loaders(self, datatuple: DataTuple):
+        loader_train = DataLoader(datatuple.train, batch_size=self.args.batch_size,
+                                  sampler=sampler.SubsetRandomSampler(range(self.num_trains)))
+
+        loader_val = DataLoader(datatuple.val, batch_size=self.args.batch_size,
+                                sampler=sampler.SubsetRandomSampler(
+                                    range(self.num_trains, self.num_trains + 1000)))
+
+        loader_test = DataLoader(datatuple.test, batch_size=self.args.batch_size)
+
+        return DataTuple(loader_train, loader_val, loader_test)
+
+    def divide_to_sub_sets(self, dataset):
+        # trainsubset = dataset[0].train
+        divide_ratio = 0.5
+        divide_upper_label = int(self.num_classes * divide_ratio)
+        train_labels = np.asarray(dataset.targets)
+        labels_first_split = train_labels[train_labels < divide_upper_label]
+        data_first_split = dataset.data[train_labels < divide_upper_label]
+
+        labels_second_split = train_labels[train_labels >= divide_upper_label]
+        data_second_split = dataset.data[train_labels >= divide_upper_label]
+
+        return {"first split data": data_first_split,
+                "first split labels": labels_first_split,
+                "second split data": data_second_split,
+                "second split labels": labels_second_split
+                }
+
     def get_mlp_model(self):
         hidden_layer_size = 4000
         return nn.Sequential(
@@ -655,9 +697,9 @@ class TorchExample():
         """
         model = model.to(device=self.device)  # move the model parameters to CPU/GPU
         best_val_acc, reported_train_acc, best_iteration = 0, 0, 0
-        val_loader = self.data.loader_test if self.args.test else self.data.loader_val
+        val_loader = self.data.test if self.args.test else self.data.val
         for e in range(epochs):
-            for t, (x, y) in enumerate(self.data.loader_train):
+            for t, (x, y) in enumerate(self.data.train):
                 model.train()  # put model to training mode
                 x = x.to(device=self.device, dtype=dtype)  # move to device, e.g. GPU
                 y = y.to(device=self.device, dtype=torch.long)
@@ -679,7 +721,7 @@ class TorchExample():
                 if t % self.args.print_every == 0:
                     print('Iteration %d, loss = %.4f' % (t, loss.item()))
                     num_correct, num_samples, val_acc = self.check_accuracy(val_loader, model)
-                    _, _, train_acc = self.check_accuracy(self.data.loader_train, model)
+                    _, _, train_acc = self.check_accuracy(self.data.train, model)
                     if self.logger:
                         iteration = t + e * (self.args.num_trains / self.args.batch_size)
                         self.logger.report_scalar(value=train_acc, title='Train accuracy', series=model_name,
@@ -691,7 +733,7 @@ class TorchExample():
                             val_acc, train_acc, t + e * self.num_trains // self.args.batch_size
             if scheduler:
                 scheduler.step()
-        return best_val_acc, reported_train_acc, best_iteration
+        return (best_val_acc, reported_train_acc, best_iteration), model
 
     def get_model(self, reg_layers):
         #  changing num of classes: https://pytorch.org/tutorials/beginner/finetuning_torchvision_models_tutorial.html
@@ -741,23 +783,23 @@ class TorchExample():
                 exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1) #, last_epoch=10)
             else:
                 exp_lr_scheduler = None
-            result_dict["Regular model"] = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
+            result_dict["Regular model"], original_model = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
                                                               model_name='regular weight decay', scheduler=exp_lr_scheduler)
             if self.args.scheduler:
                 exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1)  # , last_epoch=10)
             else:
                 exp_lr_scheduler = None
             adaptive_model = self.get_model(reg_layers)
-            adaptive_optimizer = pytorch_addaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
-                                                                 momentum=self.args.momentum, nesterov=self.args.nesterov,
-                                                                 weight_decay=reg_strenght, adaptive_var_weight_decay=self.args.adaptive_var_reg,
-                                                                 adaptive_avg_reg=self.args.adaptive_avg_reg, iter_length=self.args.iter_length,
-                                                                 device=self.device, inverse_var=self.args.inverse_var,
-                                                                 logger=self.logger)
-            result_dict["Adaptive model"] = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs,
+            adaptive_optimizer = pytorch_adaptive_optim.sgd.SGD(adaptive_model.parameters(), lr=self.args.lr,
+                                                                            momentum=self.args.momentum, nesterov=self.args.nesterov,
+                                                                            weight_decay=reg_strenght, adaptive_var_weight_decay=self.args.adaptive_var_reg,
+                                                                            adaptive_avg_reg=self.args.adaptive_avg_reg, iter_length=self.args.iter_length,
+                                                                            device=self.device, inverse_var=self.args.inverse_var,
+                                                                            logger=self.logger)
+            result_dict["Adaptive model"], adaptive_model = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs,
                                                                model_name='adaptive weight decay', scheduler=exp_lr_scheduler)
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
-        return result_df
+        return result_df, original_model, adaptive_model
 
     def mean_and_ci_result(self):
         if self.args.trains:
@@ -767,7 +809,7 @@ class TorchExample():
             task = None
         tables = []
         for repeat_index in range(self.args.num_of_repeats):
-            result_df = self.train_and_eval()
+            result_df, _, _ = self.train_and_eval()
             tables.append(result_df)
             if self.args.trains:
                 self.logger.report_table(title="Accuracy", series="Accuracy",
@@ -813,9 +855,16 @@ def main():
     torch_example.mean_and_ci_result()
 
 
-if __name__ == "__main__":
-    main()
+def test1():
+    args = parse_args()
+    # mean_and_ci_result(args)
+    torch_example = TorchExample(args)
+    torch_example.knn_experiment()
+    # d = torch_example.get_cifar10_data()
+    # torch_example.divide_to_sub_sets(d)
+    # torch_example.mean_and_ci_result()
 
-    # test_seq()
-    # test_conv_seq()
-    # test_alexnet()
+
+if __name__ == "__main__":
+    # test1()
+    main()
