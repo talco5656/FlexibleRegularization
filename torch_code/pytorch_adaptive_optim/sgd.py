@@ -140,7 +140,7 @@ class SGD(Optimizer):
                     print("log l2")
                     parameter_name = (group_index, parameter_index)
                     param_l2 = torch.norm(p)
-                    if self.looger:
+                    if self.logger:
                         self.logger.report_scalar(
                             title=f"parameter l2, {weight_decay}", series=str(parameter_name),
                             value=float(param_l2), iteration=self.num_of_steps)
