@@ -775,36 +775,16 @@ class TorchExample():
         result_dict = {}
         reg_layers = self.args.reg_layers.split(',') if self.args.reg_layers else ['1', '2', '3']
         # for reg_strenght in reg_strenghts:
-        # original_model = self.get_model(reg_layers)
-        # original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
-        #                      lr=self.args.lr, momentum=self.args.momentum,
-        #                                weight_decay=self.args.reg_strength)
-        # if self.args.scheduler:
-        #     exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1) #, last_epoch=10)
-        # else:
-        #     exp_lr_scheduler = None
-        # result_dict["Regular model"], original_model = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
-                                                          # model_name='regular weight decay', scheduler=exp_lr_scheduler)
-        #
-        if self.args.scheduler:
-            exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1)  # , last_epoch=10)
-        else:
-            exp_lr_scheduler = None
         original_model = self.get_model(reg_layers)
-        # original_optimizer = pytorch_adaptive_optim.sgd.SGD(original_model.parameters(), lr=self.args.lr,
-        #                                                                 momentum=self.args.momentum, nesterov=self.args.nesterov,
-        #                                                                 weight_decay=self.args.reg_strength, adaptive_var_weight_decay=0,
-        #                                                                 adaptive_avg_reg=0, iter_length=self.args.iter_length,
-        #                                                                 device=self.device, inverse_var=1,
-        #                                                                 logger=self.logger)
-
         original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
                              lr=self.args.lr, momentum=self.args.momentum,
                                        weight_decay=self.args.reg_strength)
-
-        result_dict["Adaptive model"], adaptive_model = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
-                                                           model_name='original weight decay', scheduler=exp_lr_scheduler)
-#
+        if self.args.scheduler:
+            exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1) #, last_epoch=10)
+        else:
+            exp_lr_scheduler = None
+        result_dict["Regular model"], original_model = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
+                                                          model_name='regular weight decay', scheduler=exp_lr_scheduler)
         if self.args.scheduler:
             exp_lr_scheduler = lr_scheduler.StepLR(original_optimizer, step_size=1, gamma=0.1)  # , last_epoch=10)
         else:
