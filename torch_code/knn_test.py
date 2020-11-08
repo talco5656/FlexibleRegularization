@@ -82,8 +82,8 @@ class KNNTest(TorchExample):
         result_df, original_model, adaptive_model = self.train_and_eval()
         # knn results
 
-        original_accuracy, original_train_accuracy = self.knn_prediction(original_model, second_datatuple)
         adaptive_accuracy, adaptive_train_accuracy = self.knn_prediction(adaptive_model, second_datatuple)
+        original_accuracy, original_train_accuracy = self.knn_prediction(original_model, second_datatuple)
         result_df = {
             "original_val_accuracy": original_accuracy,
             "original_train_accuracy": original_train_accuracy,
