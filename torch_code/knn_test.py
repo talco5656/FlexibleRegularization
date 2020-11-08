@@ -72,8 +72,6 @@ class KNNTest(TorchExample):
         second_datatuple = DataTuple(**second_cifar_subset)
         return first_datatuple, second_datatuple
 
-
-
     def knn_experiment(self):
         first_datatuple, second_datatuple = self.create_dataloaders_subsets()
 
