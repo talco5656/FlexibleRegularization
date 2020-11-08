@@ -10,6 +10,7 @@ from trains import Task
 task = Task.init(project_name='Flexible Regularization',
                  task_name='KNN')
 
+
 class KNNTest(TorchExample):
     def __init__(self, args):
         TorchExample.__init__(self, args=args)
@@ -84,9 +85,9 @@ class KNNTest(TorchExample):
         original_accuracy, original_train_accuracy = self.knn_prediction(original_model, second_datatuple)
         adaptive_accuracy, adaptive_train_accuracy = self.knn_prediction(adaptive_model, second_datatuple)
         result_df = {
-            "original_accuracy": original_accuracy,
+            "original_val_accuracy": original_accuracy,
             "original_train_accuracy": original_train_accuracy,
-            "adaptive_accuracy": adaptive_accuracy,
+            "adaptive_val_accuracy": adaptive_accuracy,
             "adaptive_train_accuracy": adaptive_train_accuracy
         }
         print(result_df)
