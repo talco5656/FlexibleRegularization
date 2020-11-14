@@ -327,7 +327,6 @@ def mean_and_ci_result(args):
     tables = []
     for _ in range(args.num_of_repeats):
         tables.append(train_and_eval(args, task))
-    pd.concat(tables)
     content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]
     stacked_content = np.stack(content)
     mean_values = pd.DataFrame(np.mean(stacked_content, axis=0))

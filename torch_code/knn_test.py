@@ -5,7 +5,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from torch_code.torch_tests import TorchExample, parse_args, DataTuple
 import numpy as np
 from tabulate import tabulate
-
+import pandas as pd
 from trains import Task
 task = Task.init(project_name='Flexible Regularization',
                  task_name='KNN')
@@ -73,6 +73,7 @@ class KNNTest(TorchExample):
         return first_datatuple, second_datatuple
 
     def knn_experiment(self):
+        knn_df = {}
         first_datatuple, second_datatuple = self.create_dataloaders_subsets()
 
         self.data = first_datatuple  # self.get_data_loaders(datatuple=first_datatuple)
@@ -80,26 +81,101 @@ class KNNTest(TorchExample):
         result_df, original_model, adaptive_model = self.train_and_eval()
         # knn results
         print(tabulate(result_df))
-        adaptive_accuracy, adaptive_train_accuracy = self.knn_prediction(adaptive_model, second_datatuple)
-        original_accuracy, original_train_accuracy = self.knn_prediction(original_model, second_datatuple)
-        result_df = {
-            "original_val_accuracy": original_accuracy,
-            "original_train_accuracy": original_train_accuracy,
-            "adaptive_val_accuracy": adaptive_accuracy,
-            "adaptive_train_accuracy": adaptive_train_accuracy
-        }
-        print(result_df)
+        knn_df["Regular model"] = self.knn_prediction(adaptive_model, second_datatuple)
+        knn_df["Adaptive model"] = self.knn_prediction(original_model, second_datatuple)
+        # knn_df = {
+        #     "original_val_accuracy": original_accuracy,
+        #     "original_train_accuracy": original_train_accuracy,
+        #     "adaptive_val_accuracy": adaptive_accuracy,
+        #     "adaptive_train_accuracy": adaptive_train_accuracy
+        # }
+        print(knn_df)
 
         if self.args.trains:
             self.logger.report_table(title="KNN Accuracy", series="KNN Accuracy",
-                                     iteration=0, table_plot=result_df)
+                                     iteration=0, table_plot=knn_df)
+        return result_df, knn_df
+
+    def mean_and_ci_result(self):
+        if self.args.trains:
+            task = Task.init(project_name='Flexible Regularization',
+                             task_name='train_and_eval')  # , reuse_last_task_id=False)
+        else:
+            task = None
+        acc_tables, knn_tables = [], []
+        for _ in range(self.args.num_of_repeats):
+            results_df, knn_df = self.knn_experiment()
+            acc_tables.append(results_df)
+            knn_tables.append(knn_df)
+        self.report_acc_experiment_tables(acc_tables)
+        self.report_knn_experiment_tables(knn_tables)
+
+    def report_acc_experiment_tables(self, tables):
+        import pandas as pd
+        # content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]
+        tables_val = np.asarray([pd.values for pd in tables])
+        mean_vales = np.mean(tables_val, axis=0)
+        var_values = np.var(tables_val, axis=0)
+        mean_df = pd.DataFrame(mean_vales, columns=tables[0].columns)
+        var_df = pd.DataFrame(var_values, columns=tables[0].columns)
+        print("mean_df")
+        print(mean_df)
+        print("var_df")
+        print(var_df)
+        if self.args.trains:
+            task.get_logger().report_table(title='Mean values', series='Mean values',
+                                           iteration=self.args.num_trains, table_plot=mean_df)
+
+            task.get_logger().report_table(title='Mean values', series='Mean values',
+                                           iteration=self.args.num_trains, table_plot=var_df)
+
+    def report_knn_experiment_tables(self, tables):
+        import pandas as pd
+        # content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]
+        tables_val = np.asarray([pd.values for pd in tables])
+        mean_vales = np.mean(tables_val, axis=0)
+        var_values = np.var(tables_val, axis=0)
+        mean_df = pd.DataFrame(mean_vales, columns=tables[0].columns)
+        var_df = pd.DataFrame(var_values, columns=tables[0].columns)
+        print("mean_df")
+        print(mean_df)
+        print("var_df")
+        print(var_df)
+        if self.args.trains:
+            task.get_logger().report_table(title='Mean values', series='Mean values',
+                                           iteration=self.args.num_trains, table_plot=mean_df)
+
+            task.get_logger().report_table(title='Mean values', series='Mean values',
+                                           iteration=self.args.num_trains, table_plot=var_df)
+        # stacked_content = np.stack(tables)
+        # mean_values = pd.DataFrame(np.mean(stacked_content, axis=0))
+        # std = pd.DataFrame(np.std(stacked_content, axis=0))
+        # print(mean_values)
+        # print(std)
+        # second_column, third_column = tables[0]['Optimizer'], tables[0]['Adaptive?']
+        # mean_values.insert(loc=2, column='Optimizer', value=second_column)
+        # mean_values.insert(loc=3, column='Adaptive', value=third_column)
+        # mean_values.columns = tables[0].columns
+        # std.insert(loc=2, column='Optimizer', value=second_column)
+        # std.insert(loc=3, column='Adaptive', value=third_column)
+        # std.columns = tables[0].columns
+        # print("avg values")
+        # print(tabulate(mean_values, headers=mean_values.columns))
+        # if self.args.trains:
+        #     task.get_logger().report_table(title='Mean values', series='Mean values',
+        #                                    iteration=self.args.num_trains, table_plot=mean_values)
+        # print("standard deviation")
+        # print(tabulate(std, headers=std.columns))
+        # if self.args.trains:
+        #     task.get_logger().report_table(title='Standard deviation', series='Standard deviation',
+        #                                    iteration=self.args.num_trains, table_plot=std)
 
 
 def test1():
     args = parse_args()
-    # mean_and_ci_result(args)
     torch_example = KNNTest(args)
     torch_example.knn_experiment()
+    torch_example.mean_and_ci_result()
     # d = torch_example.get_cifar10_data()
     # torch_example.divide_to_sub_sets(d)
     # torch_example.mean_and_ci_result()
