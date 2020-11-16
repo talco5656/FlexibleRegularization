@@ -106,8 +106,8 @@ class KNNTest(TorchExample):
             results_df, knn_df = self.knn_experiment()
             acc_tables.append(results_df)
             knn_tables.append(knn_df)
-        self.report_experiment_tables(acc_tables, table_name='Seen classes acc', task=task)
-        self.report_experiment_tables(knn_tables, table_name='Seen classes acc', task=task)
+        self.report_experiment_tables(acc_tables, table_name='Seen classes acc')
+        self.report_experiment_tables(knn_tables, table_name='Seen classes acc')
 
     # def report_acc_experiment_tables(self, tables):
     #     import pandas as pd
@@ -128,7 +128,7 @@ class KNNTest(TorchExample):
     #         task.get_logger().report_table(title='Mean values', series='Mean values',
     #                                        iteration=self.args.num_trains, table_plot=var_df)
 
-    def report_experiment_tables(self, tables, table_name, task=None):
+    def report_experiment_tables(self, tables, table_name):
         import pandas as pd
         # content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]
         tables_val = np.asarray([pd.values for pd in tables])
