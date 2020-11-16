@@ -19,7 +19,7 @@ import torchvision.transforms as T
 import numpy as np
 
 from torchvision import models
-from trains import Task
+# from trains import Task
 # In[2]:
 import pandas as pd
 
@@ -806,6 +806,7 @@ class TorchExample():
 
     def mean_and_ci_result(self):
         if self.args.trains:
+            from trains import Task
             task = Task.init(project_name='Flexible Regularization',
                              task_name='Torch Models')
         else:

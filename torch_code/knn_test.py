@@ -2,7 +2,8 @@ import torch
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
 
-from torch_code.torch_tests import TorchExample, parse_args, DataTuple
+# from torch_code.torch_tests import TorchExample, parse_args, DataTuple
+from torch_tests import TorchExample, parse_args, DataTuple
 import numpy as np
 from tabulate import tabulate
 import pandas as pd
@@ -143,10 +144,10 @@ class KNNTest(TorchExample):
         print("var_df")
         print(var_df)
         if self.args.trains:
-            task.get_logger().report_table(title='Mean values', series='Mean values',
+            task.get_logger().report_table(title='KNN mean values', series='KNN mean values',
                                            iteration=self.args.num_trains, table_plot=mean_df)
 
-            task.get_logger().report_table(title='Mean values', series='Mean values',
+            task.get_logger().report_table(title='KNN var', series='KNN var',
                                            iteration=self.args.num_trains, table_plot=var_df)
         # stacked_content = np.stack(tables)
         # mean_values = pd.DataFrame(np.mean(stacked_content, axis=0))
