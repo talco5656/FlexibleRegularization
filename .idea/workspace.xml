@@ -25,9 +25,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/torch_code/knn_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/knn_test.py" afterDir="false" />
-    </list>
+    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -389,7 +387,7 @@
       <workItem from="1604316689954" duration="1884000" />
       <workItem from="1604764840951" duration="9411000" />
       <workItem from="1605340644463" duration="8938000" />
-      <workItem from="1605466431348" duration="6251000" />
+      <workItem from="1605466431348" duration="6644000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
