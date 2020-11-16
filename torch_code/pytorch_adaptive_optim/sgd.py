@@ -1,5 +1,4 @@
 import torch
-import trains
 from torch.optim.optimizer import Optimizer, required
 
 from online_avg import OnlineAvg

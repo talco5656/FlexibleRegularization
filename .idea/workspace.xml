@@ -28,6 +28,7 @@
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/torch_code/knn_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/knn_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_code/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/torch_tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -390,7 +391,7 @@
       <workItem from="1604316689954" duration="1884000" />
       <workItem from="1604764840951" duration="9411000" />
       <workItem from="1605340644463" duration="8938000" />
-      <workItem from="1605466431348" duration="3309000" />
+      <workItem from="1605466431348" duration="3818000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -449,11 +450,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="del it all" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605545669449">
+    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605545690665">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1605380730528" />
-    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1605545669449" />
+    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1605545690665" />
     <state x="494" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1597410675252" />
     <state x="494" y="192" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1028@0.23.1792.1028" timestamp="1597061591109" />
     <state x="742" y="404" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1598113278504" />
@@ -663,7 +664,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>820</line>
+          <line>821</line>
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
