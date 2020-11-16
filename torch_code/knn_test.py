@@ -95,7 +95,7 @@ class KNNTest(TorchExample):
                                      iteration=0, table_plot=knn_df)
         return result_df, knn_df
 
-    def mean_and_ci_result(self):
+    def mean_and_ci_result(self, task=None):
         if self.args.trains:
             task = Task.init(project_name='Flexible Regularization',
                              task_name='train_and_eval')  # , reuse_last_task_id=False)
@@ -106,10 +106,29 @@ class KNNTest(TorchExample):
             results_df, knn_df = self.knn_experiment()
             acc_tables.append(results_df)
             knn_tables.append(knn_df)
-        self.report_acc_experiment_tables(acc_tables)
-        self.report_knn_experiment_tables(knn_tables)
+        self.report_experiment_tables(acc_tables, table_name='Seen classes acc', task=task)
+        self.report_experiment_tables(knn_tables, table_name='Seen classes acc', task=task)
 
-    def report_acc_experiment_tables(self, tables):
+    # def report_acc_experiment_tables(self, tables):
+    #     import pandas as pd
+    #     # content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]
+    #     tables_val = np.asarray([pd.values for pd in tables])
+    #     mean_vales = np.mean(tables_val, axis=0)
+    #     var_values = np.var(tables_val, axis=0)
+    #     mean_df = pd.DataFrame(mean_vales, columns=tables[0].columns)
+    #     var_df = pd.DataFrame(var_values, columns=tables[0].columns)
+    #     print("mean_df")
+    #     print(mean_df)
+    #     print("var_df")
+    #     print(var_df)
+    #     if self.args.trains:
+    #         task.get_logger().report_table(title='Mean values', series='Mean values',
+    #                                        iteration=self.args.num_trains, table_plot=mean_df)
+    #
+    #         task.get_logger().report_table(title='Mean values', series='Mean values',
+    #                                        iteration=self.args.num_trains, table_plot=var_df)
+
+    def report_experiment_tables(self, tables, table_name, task=None):
         import pandas as pd
         # content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]
         tables_val = np.asarray([pd.values for pd in tables])
@@ -117,34 +136,20 @@ class KNNTest(TorchExample):
         var_values = np.var(tables_val, axis=0)
         mean_df = pd.DataFrame(mean_vales, columns=tables[0].columns)
         var_df = pd.DataFrame(var_values, columns=tables[0].columns)
+        mean_df = mean_df.transpose()
+        mean_df.columns = ["val acc", "train acc"]
+        var_df = var_df.transpose()
+        var_df.columns = ["val acc", "train acc"]
         print("mean_df")
         print(mean_df)
         print("var_df")
         print(var_df)
         if self.args.trains:
-            task.get_logger().report_table(title='Mean values', series='Mean values',
+            logger = task.get_logger()
+            logger.report_table(title='{table_name} mean values', series=f'{table_name} mean values',
                                            iteration=self.args.num_trains, table_plot=mean_df)
 
-            task.get_logger().report_table(title='Mean values', series='Mean values',
-                                           iteration=self.args.num_trains, table_plot=var_df)
-
-    def report_knn_experiment_tables(self, tables):
-        import pandas as pd
-        # content = [df.drop(columns=['Optimizer', 'Adaptive?']).values for df in tables]
-        tables_val = np.asarray([pd.values for pd in tables])
-        mean_vales = np.mean(tables_val, axis=0)
-        var_values = np.var(tables_val, axis=0)
-        mean_df = pd.DataFrame(mean_vales, columns=tables[0].columns)
-        var_df = pd.DataFrame(var_values, columns=tables[0].columns)
-        print("mean_df")
-        print(mean_df)
-        print("var_df")
-        print(var_df)
-        if self.args.trains:
-            task.get_logger().report_table(title='KNN mean values', series='KNN mean values',
-                                           iteration=self.args.num_trains, table_plot=mean_df)
-
-            task.get_logger().report_table(title='KNN var', series='KNN var',
+            logger.get_logger().report_table(title=f'{table_name} var', series='{table_name} var',
                                            iteration=self.args.num_trains, table_plot=var_df)
         # stacked_content = np.stack(tables)
         # mean_values = pd.DataFrame(np.mean(stacked_content, axis=0))
@@ -176,9 +181,11 @@ def main():
         from trains import Task
         task = Task.init(project_name='Flexible Regularization',
                          task_name='KNN')
+    else:
+        task=None
     torch_example = KNNTest(args)
     # torch_example.knn_experiment()
-    torch_example.mean_and_ci_result()
+    torch_example.mean_and_ci_result(task)
     # d = torch_example.get_cifar10_data()
     # torch_example.divide_to_sub_sets(d)
     # torch_example.mean_and_ci_result()
