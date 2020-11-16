@@ -10,7 +10,7 @@ import pandas as pd
 
 
 class KNNTest(TorchExample):
-    def __init__(self, args):
+    def __init__(self, args, task):
         TorchExample.__init__(self, args=args)
 
     def get_feature_extractor(self, model):
@@ -95,12 +95,12 @@ class KNNTest(TorchExample):
                                      iteration=0, table_plot=knn_df)
         return result_df, knn_df
 
-    def mean_and_ci_result(self, task=None):
-        if self.args.trains:
-            task = Task.init(project_name='Flexible Regularization',
-                             task_name='train_and_eval')  # , reuse_last_task_id=False)
-        else:
-            task = None
+    def mean_and_ci_result(self):
+        # if self.args.trains:
+        #     task = Task.init(project_name='Flexible Regularization',
+        #                      task_name='train_and_eval')  # , reuse_last_task_id=False)
+        # else:
+        #     task = None
         acc_tables, knn_tables = [], []
         for _ in range(self.args.num_of_repeats):
             results_df, knn_df = self.knn_experiment()
@@ -145,11 +145,11 @@ class KNNTest(TorchExample):
         print("var_df")
         print(var_df)
         if self.args.trains:
-            logger = task.get_logger()
-            logger.report_table(title='{table_name} mean values', series=f'{table_name} mean values',
+            # logger = task.get_logger()
+            self.logger.report_table(title='{table_name} mean values', series=f'{table_name} mean values',
                                            iteration=self.args.num_trains, table_plot=mean_df)
 
-            logger.get_logger().report_table(title=f'{table_name} var', series='{table_name} var',
+            self.logger.report_table(title=f'{table_name} var', series='{table_name} var',
                                            iteration=self.args.num_trains, table_plot=var_df)
         # stacked_content = np.stack(tables)
         # mean_values = pd.DataFrame(np.mean(stacked_content, axis=0))
@@ -182,10 +182,10 @@ def main():
         task = Task.init(project_name='Flexible Regularization',
                          task_name='KNN')
     else:
-        task=None
-    torch_example = KNNTest(args)
+        task = None
+    torch_example = KNNTest(args, task)
     # torch_example.knn_experiment()
-    torch_example.mean_and_ci_result(task)
+    torch_example.mean_and_ci_result()
     # d = torch_example.get_cifar10_data()
     # torch_example.divide_to_sub_sets(d)
     # torch_example.mean_and_ci_result()

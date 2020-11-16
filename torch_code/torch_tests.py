@@ -518,6 +518,7 @@ def parse_args():
 @attr.s
 class TorchExample():
     args = attr.ib()
+    task = attr.ib(None)
 
     def __attrs_post_init__(self):
         self.num_trains = min(self.args.num_trains, 49000)
@@ -533,7 +534,7 @@ class TorchExample():
             self.device = torch.device('cuda')
         else:
             self.device = torch.device('cpu')
-        self.logger = Task.current_task().get_logger() if self.args.trains else None
+        self.logger = self.task.current_task().get_logger() if self.args.trains else None
         self.default_reg = {'ResNet': 0.0001, 'mobilenetV2': 0.00004, 'Densenet': 0.001, 'GG': 0.005}
 
     def get_pytorch_imagenet_data(self):
@@ -805,12 +806,7 @@ class TorchExample():
         return result_df, original_model, adaptive_model
 
     def mean_and_ci_result(self):
-        if self.args.trains:
-            from trains import Task
-            task = Task.init(project_name='Flexible Regularization',
-                             task_name='Torch Models')
-        else:
-            task = None
+
         tables = []
         for repeat_index in range(self.args.num_of_repeats):
             result_df, _, _ = self.train_and_eval()
@@ -843,27 +839,33 @@ class TorchExample():
         print("avg values")
         print(tabulate(mean_values, headers=mean_values.columns))
         if self.args.trains:
-            task.get_logger().report_table(title='Mean values', series='Mean values',
+            self.logger.report_table(title='Mean values', series='Mean values',
                                            iteration=self.args.num_trains, table_plot=mean_values)
         print("standard deviation")
         print(tabulate(std, headers=std.columns))
         if self.args.trains:
-            task.get_logger().report_table(title='Standard deviation', series='Standard deviation',
+            self.logger.report_table(title='Standard deviation', series='Standard deviation',
                                            iteration=self.args.num_trains, table_plot=std)
 
 def main():
     args = parse_args()
     # mean_and_ci_result(args)
-    torch_example = TorchExample(args)
+    if args.trains:
+        from trains import Task
+        task = Task.init(project_name='Flexible Regularization',
+                         task_name='Torch Models')
+    else:
+        task = None
+    torch_example = TorchExample(args, task)
     # torch_example.train_and_eval()
     torch_example.mean_and_ci_result()
 
 
 def test1():
     args = parse_args()
-    # mean_and_ci_result(args)
-    torch_example = TorchExample(args)
-    torch_example.knn_experiment()
+    mean_and_ci_result(args)
+    # torch_example = TorchExample(args, task)
+    # torch_example.knn_experiment()
     # d = torch_example.get_cifar10_data()
     # torch_example.divide_to_sub_sets(d)
     # torch_example.mean_and_ci_result()
