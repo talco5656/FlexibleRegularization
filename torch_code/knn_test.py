@@ -7,9 +7,6 @@ from torch_tests import TorchExample, parse_args, DataTuple
 import numpy as np
 from tabulate import tabulate
 import pandas as pd
-from trains import Task
-task = Task.init(project_name='Flexible Regularization',
-                 task_name='KNN')
 
 
 class KNNTest(TorchExample):
@@ -173,8 +170,12 @@ class KNNTest(TorchExample):
         #                                    iteration=self.args.num_trains, table_plot=std)
 
 
-def test1():
+def main():
     args = parse_args()
+    if args.train:
+        from trains import Task
+        task = Task.init(project_name='Flexible Regularization',
+                         task_name='KNN')
     torch_example = KNNTest(args)
     # torch_example.knn_experiment()
     torch_example.mean_and_ci_result()
@@ -184,5 +185,5 @@ def test1():
 
 
 if __name__ == "__main__":
-    test1()
-    # main()
+    # test1()
+    main()
