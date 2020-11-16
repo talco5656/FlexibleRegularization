@@ -172,7 +172,7 @@ class KNNTest(TorchExample):
 
 def main():
     args = parse_args()
-    if args.train:
+    if args.trains:
         from trains import Task
         task = Task.init(project_name='Flexible Regularization',
                          task_name='KNN')
