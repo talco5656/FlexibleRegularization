@@ -90,6 +90,7 @@ class KNNTest(TorchExample):
         #     "adaptive_train_accuracy": adaptive_train_accuracy
         # }
         print(knn_df)
+        knn_df = pd.DataFrame(knn_df)
 
         if self.args.trains:
             self.logger.report_table(title="KNN Accuracy", series="KNN Accuracy",
@@ -174,7 +175,7 @@ class KNNTest(TorchExample):
 def test1():
     args = parse_args()
     torch_example = KNNTest(args)
-    torch_example.knn_experiment()
+    # torch_example.knn_experiment()
     torch_example.mean_and_ci_result()
     # d = torch_example.get_cifar10_data()
     # torch_example.divide_to_sub_sets(d)
