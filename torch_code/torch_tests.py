@@ -486,7 +486,7 @@ def parse_args():
     parser.add_argument("--num_of_repeats", default=1, type=int)
     parser.add_argument("--dropconnect", default=1, type=float)
     parser.add_argument("--adaptive_var_reg", default=1, type=int)
-    parser.add_argument("--reg_strength", default=None, type=float)
+    parser.add_argument("--reg_strength", default=0, type=float)
     parser.add_argument("--adaptive_dropconnect", default=0, type=int)
     parser.add_argument("--divide_var_by_mean_var", default=1, type=int)
     parser.add_argument("--test", default=0, type=int)

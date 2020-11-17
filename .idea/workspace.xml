@@ -25,7 +25,10 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all" />
+    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_code/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/torch_tests.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -168,7 +171,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/torch_code/knn_test.py" />
-      <option name="PARAMETERS" value="--epochs 1 --num_of_repeats 4 --model mlp --trains 0 --num_trains 50 --momentum 1 --adaptive_avg_reg 1  --reg_strength 0.001 --pretrained 1 --trains 1 --nesterov 1 --iter_length 10 --trains 0 --scheduler 1 --num_trains 100" />
+      <option name="PARAMETERS" value="--epochs 2 --num_of_repeats 4 --model cnn --trains 0 --num_trains 100 --momentum 1 --adaptive_avg_reg 1  --reg_strength 0.001 --pretrained 1 --trains 0 --nesterov 1 --iter_length 10 --trains 0 --scheduler 1 --num_trains 100" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -387,7 +390,7 @@
       <workItem from="1604316689954" duration="1884000" />
       <workItem from="1604764840951" duration="9411000" />
       <workItem from="1605340644463" duration="8938000" />
-      <workItem from="1605466431348" duration="6644000" />
+      <workItem from="1605466431348" duration="7455000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -446,11 +449,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="del it all" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605558686787">
+    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1605614770259">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1605380730528" />
-    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1605558686787" />
+    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1605614770259" />
     <state x="494" y="190" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1017@0.23.1792.1017" timestamp="1597410675252" />
     <state x="494" y="192" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1028@0.23.1792.1028" timestamp="1597061591109" />
     <state x="742" y="404" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1598113278504" />
@@ -708,6 +711,11 @@
           <line>155</line>
           <option name="timeStamp" value="280" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py</url>
+          <line>69</line>
+          <option name="timeStamp" value="282" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -721,7 +729,7 @@
     <SUITE FILE_PATH="coverage/FlexibleRegularization$torch_test.coverage" NAME="torch_test Coverage Results" MODIFIED="1603819251894" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$Nosetests_for_knn_test_test1.coverage" NAME="Nosetests for knn_test.test1 Coverage Results" MODIFIED="1603812552189" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torch_code" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$Nosetests_in_torch_tests_py.coverage" NAME="Nosetests in torch_tests.py Coverage Results" MODIFIED="1604844659688" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/FlexibleRegularization$knn_test.coverage" NAME="knn_test Coverage Results" MODIFIED="1605558688662" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/FlexibleRegularization$knn_test.coverage" NAME="knn_test Coverage Results" MODIFIED="1605614772074" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$PyTorch.coverage" NAME="PyTorch Coverage Results" MODIFIED="1601108964832" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
   </component>
 </project>
