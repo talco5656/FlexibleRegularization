@@ -106,8 +106,10 @@ class KNNTest(TorchExample):
             results_df, knn_df = self.knn_experiment()
             acc_tables.append(results_df)
             knn_tables.append(knn_df)
-        self.report_experiment_tables(acc_tables, table_name='Seen classes acc')
-        self.report_experiment_tables(knn_tables, table_name='Seen classes acc')
+        print("experiments results")
+        self.report_experiment_tables(acc_tables, table_name='experiment classes acc')
+        print("KNN results")
+        self.report_experiment_tables(knn_tables, table_name='KNN classes acc')
 
     # def report_acc_experiment_tables(self, tables):
     #     import pandas as pd
@@ -140,16 +142,17 @@ class KNNTest(TorchExample):
         mean_df.columns = ["val acc", "train acc"]
         var_df = var_df.transpose()
         var_df.columns = ["val acc", "train acc"]
-        print("mean_df")
+        print("mean df")
+        print(tabulate(mean_df, headers=mean_df.columns))
         print(mean_df)
-        print("var_df")
-        print(var_df)
+        print("var df")
+        print(tabulate(var_df, headers=var_df.columns))
         if self.args.trains:
             # logger = task.get_logger()
-            self.logger.report_table(title='{table_name} mean values', series=f'{table_name} mean values',
+            self.logger.report_table(title=f'{table_name} mean values', series=f'{table_name} mean values',
                                            iteration=self.args.num_trains, table_plot=mean_df)
 
-            self.logger.report_table(title=f'{table_name} var', series='{table_name} var',
+            self.logger.report_table(title=f'{table_name} var', series=f'{table_name} var',
                                            iteration=self.args.num_trains, table_plot=var_df)
         # stacked_content = np.stack(tables)
         # mean_values = pd.DataFrame(np.mean(stacked_content, axis=0))
