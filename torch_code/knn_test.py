@@ -11,7 +11,7 @@ import pandas as pd
 
 class KNNTest(TorchExample):
     def __init__(self, args, task):
-        TorchExample.__init__(self, args=args)
+        TorchExample.__init__(self, args=args, task=task)
 
     def get_feature_extractor(self, model):
         # model_ft = models.resnet18(pretrained=True)
@@ -147,7 +147,7 @@ class KNNTest(TorchExample):
         print(mean_df)
         print("var df")
         print(tabulate(var_df, headers=var_df.columns))
-        if self.args.trains:
+        if self.args.logger:
             # logger = task.get_logger()
             self.logger.report_table(title=f'{table_name} mean values', series=f'{table_name} mean values',
                                            iteration=self.args.num_trains, table_plot=mean_df)
