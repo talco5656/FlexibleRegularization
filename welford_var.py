@@ -17,6 +17,7 @@ class Welford:
     var_normalizer = attr.ib(1)
     # device = attr.ib('cpu')
     package = attr.ib('np')
+    reinitiate_every_step = attr.ib(True)
     
     def __attrs_post_init__(self):
         self.tensor_package = torch if self.package == 'torch' else np
@@ -34,7 +35,12 @@ class Welford:
 
     def update_var(self):
         self.var = self._get_var()
-    
+        if self.reinitiate_every_step:
+            self.count = 0
+            self.mean = self.tensor_package.zeros(self.dim)
+            self.M2 = self.tensor_package.zeros(self.dim)
+            self.var = self.tensor_package.ones(self.dim)
+
     def get_mean(self):
         return self.mean
     

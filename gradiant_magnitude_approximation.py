@@ -13,6 +13,8 @@ class GMA:
     divide_var_by_mean_var = attr.ib(True)
     var_normalizer = attr.ib(1)
     beta = attr.ib(0.1)
+    reinitiate_every_step = attr.ib(True)
+
     
     def __attrs_post_init__(self):
         self.count = 0
@@ -30,6 +32,12 @@ class GMA:
     
     def update_var(self):
         self.var = self._get_var()
+        if self.reinitiate_every_step:
+            self.count = 0
+            # self.avg = np.zeros(self.dim)
+            # self.M2 = np.zeros(self.dim)
+            self.var = np.ones(self.dim)
+            self.dynamic_var = np.ones(self.dim)
     
     def get_var(self):
         if self.static_var:

@@ -153,7 +153,8 @@ class SGD(Optimizer):
                         # reg_p = d_p.add(self.avg_param_dict[parameter_name].get_static_mean.to(device=self.device), alpha=-1)
                         # reg_p = reg_p.mul(reg_p)
                         reg_p = p.mul(var_tensor)  # todo: does it yields per-coordinate multiplication?  YES IT IS!
-                        d_p = d_p.add(reg_p, alpha=weight_decay)
+                        d_p = d_p.add(reg_p, alpha=weight_decay/2)
+                        d_p = d_p.add(p, alpha=weight_decay/2)
                     else:
                         d_p = d_p.add(p, alpha=weight_decay)
                 if momentum != 0:
@@ -172,6 +173,7 @@ class SGD(Optimizer):
                 if self.online_param_var_dict and weight_decay != 0:
                     self.online_param_var_dict[parameter_name].update(p.to(device='cpu'))
                     if self.num_of_steps > 0 and self.num_of_steps % self.iter_length == 0:
+                    # if self.num_of_steps > self.iter_length and self.num_of_steps % self.iter_length == 0: #don't update first iter
                         self.online_param_var_dict[parameter_name].update_var()
                         print("updating var")
                         # report var

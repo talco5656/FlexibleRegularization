@@ -14,6 +14,7 @@ class OnlineAvg:
     dim = attr.ib()
     static_calculation = attr.ib(True)
     package = attr.ib('np')
+    reinitiate_every_step = attr.ib(True)
 
     def __attrs_post_init__(self):
         self.tensor_package = torch if self.package == 'torch' else np
@@ -28,6 +29,10 @@ class OnlineAvg:
 
     def update_static_mean(self):
         self.static_avg = self._get_avg()
+        if self.reinitiate_every_step:
+            self.count = 0
+            self.avg = self.tensor_package.zeros(self.dim)
+            self.static_avg = self.tensor_package.zeros(self.dim)
 
     def _get_avg(self):
         return self.avg
