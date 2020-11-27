@@ -147,7 +147,7 @@ class KNNTest(TorchExample):
         print(mean_df)
         print("var df")
         print(tabulate(var_df, headers=var_df.columns))
-        if self.args.logger:
+        if self.logger:
             # logger = task.get_logger()
             self.logger.report_table(title=f'{table_name} mean values', series=f'{table_name} mean values',
                                            iteration=self.args.num_trains, table_plot=mean_df)
