@@ -138,10 +138,14 @@ class KNNTest(TorchExample):
         var_values = np.var(tables_val, axis=0)
         mean_df = pd.DataFrame(mean_vales, columns=tables[0].columns)
         var_df = pd.DataFrame(var_values, columns=tables[0].columns)
+        # mean_df.columns = ["val acc", "train acc"]
+        mean_df.index = ["Adaptive model", "Regular model"]
         mean_df = mean_df.transpose()
-        mean_df.columns = ["val acc", "train acc"]
+
+        var_df.index = ["Adaptive model", "Regular model"]
         var_df = var_df.transpose()
-        var_df.columns = ["val acc", "train acc"]
+
+        # var_df.columns = ["val acc", "train acc"]
         print("mean df")
         print(tabulate(mean_df, headers=mean_df.columns))
         print(mean_df)
