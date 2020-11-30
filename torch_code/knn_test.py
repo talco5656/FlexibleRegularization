@@ -89,7 +89,8 @@ class KNNTest(TorchExample):
         # }
         print(knn_df)
         knn_df = pd.DataFrame(knn_df)
-
+        knn_df = knn_df.transpose()
+        knn_df.columns = ["Train KNN acc", "Val KNN acc"]
         if self.logger:
             self.logger.report_table(title="KNN Accuracy", series="KNN Accuracy",
                                      iteration=0, table_plot=knn_df)
