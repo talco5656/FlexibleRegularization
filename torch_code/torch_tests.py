@@ -2,6 +2,7 @@
 # coding: utf-8
 import argparse
 from collections import namedtuple
+from pathlib import Path
 
 from sklearn.neighbors import KNeighborsClassifier
 import torch
@@ -511,6 +512,7 @@ def parse_args():
     parser.add_argument("--lr", type=float, default=0.001)
     parser.add_argument("--scheduler", type=float, default=0)
     parser.add_argument("--dataset", default='cifar10', choices=['cifar10', 'cifar100', 'imagenet'])
+    parser.add_argument("--output_dir", default=Path('/tmp'))  # /cs/labs/gavish/gal.hyams/data/out/dr
     return parser.parse_args()
 
 

@@ -159,6 +159,10 @@ class KNNTest(TorchExample):
 
             self.logger.report_table(title=f'{table_name} var', series=f'{table_name} var',
                                            iteration=self.args.num_trains, table_plot=var_df)
+        else:
+            mean_df.to_csv(self.output_dir / f"{table_name}.csv")
+            var_df.to_csv(f"{table_name}.csv")
+
         # stacked_content = np.stack(tables)
         # mean_values = pd.DataFrame(np.mean(stacked_content, axis=0))
         # std = pd.DataFrame(np.std(stacked_content, axis=0))
