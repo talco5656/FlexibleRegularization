@@ -18,6 +18,7 @@ import torchvision.datasets as dset
 import torchvision.transforms as T
 
 import numpy as np
+import os
 
 from torchvision import models
 # from trains import Task
@@ -538,6 +539,8 @@ class TorchExample():
             self.device = torch.device('cpu')
         self.logger = self.task.current_task().get_logger() if self.task else None  # self.args.trains else None
         self.default_reg = {'ResNet': 0.0001, 'mobilenetV2': 0.00004, 'Densenet': 0.001, 'GG': 0.005}
+        if not os.path.exists(self.args.output_dir):
+            os.makedirs(self.args.output_dir)
 
     def get_pytorch_imagenet_data(self):
         #todo: change hard wired arguments
