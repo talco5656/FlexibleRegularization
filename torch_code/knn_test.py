@@ -1,3 +1,4 @@
+import seaborn
 import torch
 from sklearn.metrics import accuracy_score
 from sklearn.neighbors import KNeighborsClassifier
@@ -5,8 +6,20 @@ from sklearn.neighbors import KNeighborsClassifier
 # from torch_code.torch_tests import TorchExample, parse_args, DataTuple
 from torch_tests import TorchExample, parse_args, DataTuple
 import numpy as np
-from tabulate import tabulate
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn
+from tabulate import tabulate
+from numpy import linalg as la
+
+
+def disply_param_histogram(model, model_type):
+    for param_name, param in model.params.items():
+        if 'W' in param_name:
+            norm = la.norm(param)
+            seaborn.distplot(param)  # , label=f"{param_name}, {reg_strength}")
+            plt.title(f"{param_name}, reg: {model.reg}, {model_type}, norm: {norm}")
+            plt.show()
 
 
 class KNNTest(TorchExample):

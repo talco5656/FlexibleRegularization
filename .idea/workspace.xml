@@ -27,8 +27,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiment classes acc.csv" beforeDir="false" afterPath="$PROJECT_DIR$/experiment classes acc.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/torch_code/knn_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/knn_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_code/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/torch_tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +173,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/torch_code/knn_test.py" />
-      <option name="PARAMETERS" value="--epochs 2 --num_of_repeats 4 --model cnn --trains 0 --num_trains 100 --momentum 1 --adaptive_avg_reg 1  --reg_strength 0.001 --pretrained 1 --trains 0 --nesterov 1 --iter_length 10 --trains 0 --scheduler 1 --num_trains 100" />
+      <option name="PARAMETERS" value="--epochs 2 --num_of_repeats 4 --model cnn --trains 0 --num_trains 100 --momentum 1 --adaptive_avg_reg 1  --reg_strength 0.0 --pretrained 1 --trains 0 --nesterov 1 --iter_length 10 --trains 0 --scheduler 1 --num_trains 100" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -395,7 +396,8 @@
       <workItem from="1606222810778" duration="8352000" />
       <workItem from="1606680220036" duration="6762000" />
       <workItem from="1608033245058" duration="2530000" />
-      <workItem from="1608217454519" duration="2898000" />
+      <workItem from="1608217454519" duration="4701000" />
+      <workItem from="1608556336563" duration="2200000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -454,66 +456,66 @@
     <option name="LAST_COMMIT_MESSAGE" value="del it all" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608217724482">
+    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608401591151">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1605380730528" />
-    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1608217724482" />
+    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1608401591151" />
     <state x="100" y="90" width="1720" height="878" key="DiffContextDialog" timestamp="1603187069311">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="100" y="90" width="1720" height="878" key="DiffContextDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1603187069311" />
     <state x="100" y="111" width="1720" height="859" key="DiffContextDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1602253589960" />
-    <state width="1878" height="283" key="GridCell.Tab.0.bottom" timestamp="1608400125434">
+    <state width="1878" height="283" key="GridCell.Tab.0.bottom" timestamp="1608558051326">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="347" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1606563521002" />
-    <state width="1878" height="283" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1608400125434" />
+    <state width="1878" height="283" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1608558051326" />
     <state width="1878" height="320" key="GridCell.Tab.0.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1603998561913" />
-    <state width="1878" height="283" key="GridCell.Tab.0.center" timestamp="1608400125432">
+    <state width="1878" height="283" key="GridCell.Tab.0.center" timestamp="1608558051323">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="347" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1606563521001" />
-    <state width="1878" height="283" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1608400125432" />
+    <state width="1878" height="283" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1608558051323" />
     <state width="1878" height="320" key="GridCell.Tab.0.center/0.23.1792.1097@0.23.1792.1097" timestamp="1603998561872" />
-    <state width="1878" height="283" key="GridCell.Tab.0.left" timestamp="1608400125431">
+    <state width="1878" height="283" key="GridCell.Tab.0.left" timestamp="1608558051322">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="347" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1606563521001" />
-    <state width="1878" height="283" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1608400125431" />
+    <state width="1878" height="283" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1608558051322" />
     <state width="1878" height="320" key="GridCell.Tab.0.left/0.23.1792.1097@0.23.1792.1097" timestamp="1603998561870" />
-    <state width="1878" height="283" key="GridCell.Tab.0.right" timestamp="1608400125433">
+    <state width="1878" height="283" key="GridCell.Tab.0.right" timestamp="1608558051324">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="347" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1606563521002" />
-    <state width="1878" height="283" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1608400125433" />
+    <state width="1878" height="283" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1608558051324" />
     <state width="1878" height="320" key="GridCell.Tab.0.right/0.23.1792.1097@0.23.1792.1097" timestamp="1603998561873" />
-    <state width="1878" height="283" key="GridCell.Tab.1.bottom" timestamp="1608400125437">
+    <state width="1878" height="283" key="GridCell.Tab.1.bottom" timestamp="1608558051329">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="347" key="GridCell.Tab.1.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1606563521005" />
-    <state width="1878" height="283" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1608400125437" />
+    <state width="1878" height="283" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1608558051329" />
     <state width="1878" height="320" key="GridCell.Tab.1.bottom/0.23.1792.1097@0.23.1792.1097" timestamp="1603998561920" />
     <state width="1878" height="283" key="GridCell.Tab.1.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1608391251484" />
-    <state width="1878" height="283" key="GridCell.Tab.1.center" timestamp="1608400125435">
+    <state width="1878" height="283" key="GridCell.Tab.1.center" timestamp="1608558051327">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="347" key="GridCell.Tab.1.center/0.0.1792.1120@0.0.1792.1120" timestamp="1606563521004" />
-    <state width="1878" height="283" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1608400125435" />
+    <state width="1878" height="283" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1608558051327" />
     <state width="1878" height="320" key="GridCell.Tab.1.center/0.23.1792.1097@0.23.1792.1097" timestamp="1603998561917" />
     <state width="1878" height="283" key="GridCell.Tab.1.center/0.23.1920.1057@0.23.1920.1057" timestamp="1608391251482" />
-    <state width="1878" height="283" key="GridCell.Tab.1.left" timestamp="1608400125435">
+    <state width="1878" height="283" key="GridCell.Tab.1.left" timestamp="1608558051326">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="347" key="GridCell.Tab.1.left/0.0.1792.1120@0.0.1792.1120" timestamp="1606563521003" />
-    <state width="1878" height="283" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1608400125435" />
+    <state width="1878" height="283" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1608558051326" />
     <state width="1878" height="320" key="GridCell.Tab.1.left/0.23.1792.1097@0.23.1792.1097" timestamp="1603998561915" />
     <state width="1878" height="283" key="GridCell.Tab.1.left/0.23.1920.1057@0.23.1920.1057" timestamp="1608391251481" />
-    <state width="1878" height="283" key="GridCell.Tab.1.right" timestamp="1608400125436">
+    <state width="1878" height="283" key="GridCell.Tab.1.right" timestamp="1608558051328">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1750" height="347" key="GridCell.Tab.1.right/0.0.1792.1120@0.0.1792.1120" timestamp="1606563521004" />
-    <state width="1878" height="283" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1608400125436" />
+    <state width="1878" height="283" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1608558051328" />
     <state width="1878" height="320" key="GridCell.Tab.1.right/0.23.1792.1097@0.23.1792.1097" timestamp="1603998561919" />
     <state width="1878" height="283" key="GridCell.Tab.1.right/0.23.1920.1057@0.23.1920.1057" timestamp="1608391251483" />
     <state x="401" y="83" key="SettingsEditor" timestamp="1606809954193">
@@ -529,11 +531,11 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="0" y="0" width="1920" height="1038" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1603744087145" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1608217574285">
+    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1608556457711">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="403" y="70" width="936" height="791" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1600691234821" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1608217574285" />
+    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1608556457711" />
     <state x="432" y="90" width="1003" height="747" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1603126603247" />
   </component>
   <component name="XDebuggerManager">
@@ -601,7 +603,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>822</line>
+          <line>847</line>
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -611,73 +613,88 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>805</line>
+          <line>828</line>
           <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>624</line>
+          <line>647</line>
           <option name="timeStamp" value="241" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>627</line>
+          <line>650</line>
           <option name="timeStamp" value="242" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>560</line>
+          <line>583</line>
           <option name="timeStamp" value="247" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>616</line>
+          <line>639</line>
           <option name="timeStamp" value="254" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/knn_test.py</url>
-          <line>38</line>
+          <line>51</line>
           <option name="timeStamp" value="266" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/knn_test.py</url>
-          <line>112</line>
+          <line>125</line>
           <option name="timeStamp" value="277" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/knn_test.py</url>
-          <line>167</line>
+          <line>180</line>
           <option name="timeStamp" value="280" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/knn_test.py</url>
-          <line>110</line>
+          <line>123</line>
           <option name="timeStamp" value="284" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/knn_test.py</url>
-          <line>140</line>
+          <line>153</line>
           <option name="timeStamp" value="287" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/knn_test.py</url>
-          <line>162</line>
+          <line>175</line>
           <option name="timeStamp" value="290" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/knn_test.py</url>
-          <line>161</line>
+          <line>174</line>
           <option name="timeStamp" value="291" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/knn_test.py</url>
-          <line>106</line>
+          <line>119</line>
           <option name="timeStamp" value="292" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/knn_test.py</url>
-          <line>90</line>
+          <line>103</line>
           <option name="timeStamp" value="293" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
+          <line>486</line>
+          <option name="timeStamp" value="297" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py</url>
+          <line>65</line>
+          <option name="timeStamp" value="298" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
+          <line>489</line>
+          <option name="timeStamp" value="299" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -692,7 +709,7 @@
     <SUITE FILE_PATH="coverage/FlexibleRegularization$torch_test.coverage" NAME="torch_test Coverage Results" MODIFIED="1603819251894" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$Nosetests_for_knn_test_test1.coverage" NAME="Nosetests for knn_test.test1 Coverage Results" MODIFIED="1603812552189" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torch_code" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$Nosetests_in_torch_tests_py.coverage" NAME="Nosetests in torch_tests.py Coverage Results" MODIFIED="1604844659688" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/FlexibleRegularization$knn_test.coverage" NAME="knn_test Coverage Results" MODIFIED="1608399973228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/FlexibleRegularization$knn_test.coverage" NAME="knn_test Coverage Results" MODIFIED="1608557885572" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$PyTorch.coverage" NAME="PyTorch Coverage Results" MODIFIED="1601108964832" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
   </component>
 </project>

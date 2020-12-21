@@ -475,6 +475,29 @@ def test_alexnet():
     check_accuracy_part34(loader_test, best_model)
 
 
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn
+from tabulate import tabulate
+from numpy import linalg as la
+
+
+def disply_param_histogram(model, model_type, reg_strength):
+    norm_array = []
+    for index, parameter in enumerate(model.parameters()):
+        # if 'W' in param_name:
+        detached_parameter = parameter.detach().numpy()
+        norm = la.norm(detached_parameter)
+        norm_array.append(norm)
+        seaborn.distplot(detached_parameter)  # , label=f"{param_name}, {reg_strength}")
+        plt.title(f"{index}, reg: {reg_strength}, {model_type}, norm: {norm}")
+        plt.show()
+    norm_array = np.asarray(norm_array)
+    print(f"{model_type} norm array: {norm_array}")
+    print(f"{model_type} mean: {np.mean(norm_array)}, var: {np.var(norm_array)}")
+    return norm_array
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Simple CNN')
     parser.add_argument('--epochs', type=int, default=10)
@@ -796,7 +819,7 @@ class TorchExample():
         result_dict["Adaptive model"], adaptive_model = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs,
                                                                            model_name='adaptive weight decay', scheduler=exp_lr_scheduler)
 
-
+        adaptive_norm_array = disply_param_histogram(adaptive_model, reg_strength=self.args.reg_strength, model_type='adaptive_model')
         original_model = self.get_model(reg_layers)
         original_optimizer = optim.SGD(original_model.parameters(), nesterov=self.args.nesterov,
                              lr=self.args.lr, momentum=self.args.momentum,
@@ -807,6 +830,8 @@ class TorchExample():
             exp_lr_scheduler = None
         result_dict["Regular model"], original_model = self.general_train(original_model, original_optimizer, epochs=self.args.epochs,
                                                           model_name='regular weight decay', scheduler=exp_lr_scheduler)
+        original_norm_array = disply_param_histogram(original_model, reg_strength=self.args.reg_strength, model_type='original model')
+
         result_df = pd.DataFrame(result_dict, index=["Val acc", "Train acc", "iteration"]).transpose()
         return result_df, original_model, adaptive_model
 
