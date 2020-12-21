@@ -486,7 +486,7 @@ def disply_param_histogram(model, model_type, reg_strength):
     norm_array = []
     for index, parameter in enumerate(model.parameters()):
         # if 'W' in param_name:
-        detached_parameter = parameter.detach().numpy()
+        detached_parameter = parameter.cpu().detach().numpy()
         norm = la.norm(detached_parameter)
         norm_array.append(norm)
         seaborn.distplot(detached_parameter)  # , label=f"{param_name}, {reg_strength}")

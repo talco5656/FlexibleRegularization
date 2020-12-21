@@ -26,9 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torch_code/knn_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/knn_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KNN classes acc.csv" beforeDir="false" afterPath="$PROJECT_DIR$/KNN classes acc.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiment classes acc.csv" beforeDir="false" afterPath="$PROJECT_DIR$/experiment classes acc.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/torch_code/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/torch_tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -397,7 +396,7 @@
       <workItem from="1606680220036" duration="6762000" />
       <workItem from="1608033245058" duration="2530000" />
       <workItem from="1608217454519" duration="4701000" />
-      <workItem from="1608556336563" duration="2200000" />
+      <workItem from="1608556336563" duration="2811000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
