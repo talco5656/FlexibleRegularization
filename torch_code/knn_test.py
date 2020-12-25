@@ -17,7 +17,7 @@ def disply_param_histogram(model, model_type):
     for param_name, param in model.params.items():
         if 'W' in param_name:
             norm = la.norm(param)
-            seaborn.distplot(param)  # , label=f"{param_name}, {reg_strength}")
+            seaborn.histplot(param)  # , label=f"{param_name}, {reg_strength}")
             plt.title(f"{param_name}, reg: {model.reg}, {model_type}, norm: {norm}")
             plt.show()
 

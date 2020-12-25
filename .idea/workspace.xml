@@ -26,9 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/KNN classes acc.csv" beforeDir="false" afterPath="$PROJECT_DIR$/KNN classes acc.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiment classes acc.csv" beforeDir="false" afterPath="$PROJECT_DIR$/experiment classes acc.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torch_code/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/torch_tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,6 +163,9 @@
       <module name="assignment2" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="$PROJECT_DIR$/../../venv/DR/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -172,7 +173,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/torch_code/knn_test.py" />
-      <option name="PARAMETERS" value="--epochs 2 --num_of_repeats 4 --model cnn --trains 0 --num_trains 100 --momentum 1 --adaptive_avg_reg 1  --reg_strength 0.0 --pretrained 1 --trains 0 --nesterov 1 --iter_length 10 --trains 0 --scheduler 1 --num_trains 100" />
+      <option name="PARAMETERS" value="--iter_length 10 --num_trains 100 --epochs 40 --reg_strength 0.00 --trains 1" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -396,7 +397,8 @@
       <workItem from="1606680220036" duration="6762000" />
       <workItem from="1608033245058" duration="2530000" />
       <workItem from="1608217454519" duration="4701000" />
-      <workItem from="1608556336563" duration="2811000" />
+      <workItem from="1608556336563" duration="4664000" />
+      <workItem from="1608650219356" duration="1677000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -455,11 +457,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="del it all" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608401591151">
+    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608580645082">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1605380730528" />
-    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1608401591151" />
+    <state x="723" y="90" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1608580645082" />
     <state x="100" y="90" width="1720" height="878" key="DiffContextDialog" timestamp="1603187069311">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -530,12 +532,12 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="0" y="0" width="1920" height="1038" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1603744087145" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1608556457711">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="432" y="90" width="1003" height="747" key="find.popup" timestamp="1608894707651">
+      <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="403" y="70" width="936" height="791" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1600691234821" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1608556457711" />
-    <state x="432" y="90" width="1003" height="747" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1603126603247" />
+    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1608711659306" />
+    <state x="432" y="90" width="1003" height="747" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1608894707651" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
