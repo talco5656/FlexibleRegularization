@@ -534,6 +534,7 @@ def parse_args():
     parser.add_argument("--gpu", type=int, default=1)
     parser.add_argument("--pretrained", type=int, default=1)
     parser.add_argument("--lr", type=float, default=0.001)
+    parser.add_argument("--static_var_calculation", type=int, default=1)
     parser.add_argument("--scheduler", type=float, default=0)
     parser.add_argument("--dataset", default='cifar10', choices=['cifar10', 'cifar100', 'imagenet'])
     parser.add_argument("--output_dir", default=Path('/tmp'))  # /cs/labs/gavish/gal.hyams/data/out/dr
@@ -811,7 +812,7 @@ class TorchExample():
                                                             weight_decay=self.args.reg_strength, adaptive_var_weight_decay=self.args.adaptive_var_reg,
                                                             adaptive_avg_reg=self.args.adaptive_avg_reg, iter_length=self.args.iter_length,
                                                             device=self.device, inverse_var=self.args.inverse_var,
-                                                            logger=self.logger)
+                                                            logger=self.logger, static_var_calculation=self.args.static_var_calculation)
         if self.args.scheduler:
             exp_lr_scheduler = lr_scheduler.StepLR(adaptive_optimizer, step_size=1, gamma=0.1)  # , last_epoch=10)
         else:

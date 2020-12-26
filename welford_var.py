@@ -12,7 +12,7 @@ class Welford:
     count aggregates the number of samples seen so far
     """
     dim = attr.ib()
-    static_var = attr.ib(True)
+    static_calculation = attr.ib(True)
     divide_var_by_mean_var = attr.ib(True)
     var_normalizer = attr.ib(1)
     # device = attr.ib('cpu')
@@ -53,7 +53,7 @@ class Welford:
 
 
     def get_var(self):
-        if self.static_var:
+        if self.static_calculation:
             return self.var
         return self._get_var()
     

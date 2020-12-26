@@ -62,7 +62,7 @@ class SGD(Optimizer):
 
     def __init__(self, params, lr=required, momentum=0, dampening=0,
                  weight_decay=0, nesterov=False, adaptive_var_weight_decay=False, iter_length=100, device=device,
-                 inverse_var=False, adaptive_avg_reg=False, logger=None):
+                 inverse_var=False, adaptive_avg_reg=False, logger=None, static_var_calculation=True):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
         if momentum < 0.0:
@@ -76,7 +76,8 @@ class SGD(Optimizer):
         super(SGD, self).__init__(params, defaults)
         self.online_param_var_dict, self.avg_param_dict = \
             self.create_online_param_var_dict(
-                adaptive_var_weight_decay=adaptive_var_weight_decay, adaptive_avg_reg=adaptive_avg_reg)
+                adaptive_var_weight_decay=adaptive_var_weight_decay, adaptive_avg_reg=adaptive_avg_reg,
+                static_var_calculation=static_var_calculation)
 
         self.num_of_steps = 0
         if adaptive_var_weight_decay or adaptive_avg_reg:
@@ -94,7 +95,7 @@ class SGD(Optimizer):
         for group in self.param_groups:
             group.setdefault('nesterov', False)
 
-    def create_online_param_var_dict(self, adaptive_var_weight_decay, adaptive_avg_reg):
+    def create_online_param_var_dict(self, adaptive_var_weight_decay, adaptive_avg_reg, static_var_calculation):
         # todo: implement in Pytorch instead numpy
         online_param_var = {} if adaptive_var_weight_decay else None
         avg_param_dict = {} if adaptive_avg_reg else None
@@ -107,9 +108,9 @@ class SGD(Optimizer):
                 # if self.adaptive_var_reg and 'W' in k:  # or (self.adaptive_dropconnect and k in ('W1', 'W2')):
                     # if self.variance_calculation_method == 'welford':
                 if adaptive_var_weight_decay:
-                    online_param_var[param_name] = Welford(dim=param.shape, package='torch')
+                    online_param_var[param_name] = Welford(dim=param.shape, static_calculation=static_var_calculation, package='torch')
                 if adaptive_avg_reg:
-                    avg_param_dict[param_name] = OnlineAvg(dim=param.shape, static_calculation=True, package='torch')
+                    avg_param_dict[param_name] = OnlineAvg(dim=param.shape, static_calculation=static_var_calculation, package='torch')
         return online_param_var, avg_param_dict
 
     @torch.no_grad()
