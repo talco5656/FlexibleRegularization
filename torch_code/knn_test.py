@@ -64,8 +64,6 @@ class KNNTest(TorchExample):
         return features, labels
 
     def create_dataloaders_subsets(self):
-        first_subset_dict = {}
-        second_subset_dict = {}
         first_cifar_subset = self.get_pytorch_cifar_data()[
             0]._asdict()  # CIFARSubset(subsets["first split data"], subsets["first split labels"])
         second_cifar_subset = self.get_pytorch_cifar_data()[

@@ -499,7 +499,7 @@ def disply_param_histogram(model, model_type, reg_strength):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Simple CNN')
+    parser = argparse.ArgumentParser(description='adaptive regularization')
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--fc_width', type=int, default=200)
     parser.add_argument("--print_every", type=int, default=10)
@@ -538,6 +538,8 @@ def parse_args():
     parser.add_argument("--scheduler", type=float, default=0)
     parser.add_argument("--dataset", default='cifar10', choices=['cifar10', 'cifar100', 'imagenet'])
     parser.add_argument("--output_dir", default=Path('/tmp'))  # /cs/labs/gavish/gal.hyams/data/out/dr
+    parser.add_argument("--uniform_prior_strength", type=float, default=0.5)
+    parser.add_argument("--knn_class_ratio", type=float, default=0.5, help="seen classes / all classes")
     return parser.parse_args()
 
 
@@ -658,7 +660,7 @@ class TorchExample():
 
     def divide_to_sub_sets(self, dataset):
         # trainsubset = dataset[0].train
-        divide_ratio = 0.5
+        divide_ratio = self.args.knn_class_ratio  # 0.5
         divide_upper_label = int(self.num_classes * divide_ratio)
         train_labels = np.asarray(dataset.targets)
         labels_first_split = train_labels[train_labels < divide_upper_label]

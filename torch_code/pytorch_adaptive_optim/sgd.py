@@ -62,7 +62,8 @@ class SGD(Optimizer):
 
     def __init__(self, params, lr=required, momentum=0, dampening=0,
                  weight_decay=0, nesterov=False, adaptive_var_weight_decay=False, iter_length=100, device=device,
-                 inverse_var=False, adaptive_avg_reg=False, logger=None, static_var_calculation=True):
+                 inverse_var=False, adaptive_avg_reg=False, logger=None, static_var_calculation=True,
+                 uniform_prior_strength=0.5):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
         if momentum < 0.0:
@@ -83,7 +84,8 @@ class SGD(Optimizer):
         if adaptive_var_weight_decay or adaptive_avg_reg:
             self.iter_length = iter_length
             self.device = device
-            self.inverse_var = inverse_var,
+            self.inverse_var = inverse_var
+            self.uniform_prior_strength = uniform_prior_strength
             self.logger = logger
         # if adaptive_avg_reg:
         #     self.avg_dict =
@@ -154,8 +156,8 @@ class SGD(Optimizer):
                         # reg_p = d_p.add(self.avg_param_dict[parameter_name].get_static_mean.to(device=self.device), alpha=-1)
                         # reg_p = reg_p.mul(reg_p)
                         reg_p = p.mul(var_tensor)  # todo: does it yields per-coordinate multiplication?  YES IT IS!
-                        d_p = d_p.add(reg_p, alpha=weight_decay/2)
-                        d_p = d_p.add(p, alpha=weight_decay/2)
+                        d_p = d_p.add(reg_p, alpha=weight_decay*(1-self.uniform_prior_strength))
+                        d_p = d_p.add(p, alpha=weight_decay * self.uniform_prior_strength)
                     else:
                         d_p = d_p.add(p, alpha=weight_decay)
                 if momentum != 0:
