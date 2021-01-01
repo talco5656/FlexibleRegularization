@@ -1,4 +1,4 @@
 ,Adaptive model,Regular model
-Val acc,7.418749999999994e-05,8.474999999999997e-05
-Train acc,0.0005249999999999999,0.00022499999999999994
-iteration,0.1875,0.1875
+Val acc,0.0,0.0
+Train acc,0.0,0.0
+iteration,0.0,0.0
