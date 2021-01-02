@@ -58,7 +58,7 @@ class Welford:
         return self._get_var()
     
     def _get_var(self):
-        var = self.M2 / (self.count - 1)
+        var = self.M2 / max((self.count - 1), 1)
         if self.divide_var_by_mean_var:
             var = var/self.tensor_package.mean(var)
         var = var * self.var_normalizer

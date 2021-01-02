@@ -90,8 +90,8 @@ class KNNTest(TorchExample):
         result_df, original_model, adaptive_model = self.train_and_eval()
         # knn results
         print(tabulate(result_df))
-        knn_df["Adaptive model"] = self.knn_prediction(original_model, second_datatuple)
-        knn_df["Regular model"] = self.knn_prediction(adaptive_model, second_datatuple)
+        knn_df["Adaptive model"] = self.knn_prediction(adaptive_model, second_datatuple)
+        knn_df["Regular model"] = self.knn_prediction(original_model, second_datatuple)
         # knn_df = {
         #     "original_val_accuracy": original_accuracy,
         #     "original_train_accuracy": original_train_accuracy,
@@ -203,7 +203,7 @@ def main():
     if args.trains:
         from trains import Task
         task = Task.init(project_name='Flexible Regularization',
-                         task_name='KNN, 3 seen classes')
+                         task_name='KNN, 5 seen classes reg 0.1 resnet18 1000 trains 20 epoch')
     else:
         task = None
     torch_example = KNNTest(args, task)
