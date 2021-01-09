@@ -538,7 +538,7 @@ def parse_args():
     parser.add_argument("--scheduler", type=float, default=0)
     parser.add_argument("--dataset", default='cifar10', choices=['cifar10', 'cifar100', 'imagenet'])
     parser.add_argument("--output_dir", default=Path('/cs/labs/gavish/gal.hyams/data/out/dr'))    #  /tmp))  # /cs/labs/gavish/gal.hyams/data/out/dr
-    parser.add_argument("--uniform_prior_strength", type=float, default=0.5)
+    parser.add_argument("--uniform_prior_strength", type=float, default=0)
     parser.add_argument("--knn_class_ratio", type=float, default=0.5, help="seen classes / all classes")
     parser.add_argument("--random_train_val", type=float, default=0)
     return parser.parse_args()
@@ -551,6 +551,7 @@ class TorchExample():
     task = attr.ib(None)
 
     def __attrs_post_init__(self):
+        print(self.args)
         self.num_trains = min(self.args.num_trains, 49000)
         if self.args.dataset == 'cifar10':
             self.data, self.num_classes = self.get_pytorch_cifar_data()
