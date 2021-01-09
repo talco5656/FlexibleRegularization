@@ -540,6 +540,7 @@ def parse_args():
     parser.add_argument("--output_dir", default=Path('/cs/labs/gavish/gal.hyams/data/out/dr'))    #  /tmp))  # /cs/labs/gavish/gal.hyams/data/out/dr
     parser.add_argument("--uniform_prior_strength", type=float, default=0)
     parser.add_argument("--knn_class_ratio", type=float, default=0.5, help="seen classes / all classes")
+    parser.add_argument("--weight_decay_decay", type=float, default=1.0)
     parser.add_argument("--random_train_val", type=float, default=0)
     return parser.parse_args()
 
@@ -738,7 +739,7 @@ class TorchExample():
             print('Got %d / %d correct (%.2f)' % (num_correct, num_samples, 100 * acc))
             return num_correct, num_samples, acc
 
-    def general_train(self, model, optimizer, epochs=1, model_name='', scheduler=None):
+    def general_train(self, model, optimizer, epochs=1, model_name='', scheduler=None, weight_decay_decay=1):
         """
         Train a model on CIFAR-10 using the PyTorch Module API.
 
@@ -785,6 +786,9 @@ class TorchExample():
                     if best_val_acc < val_acc:
                         best_val_acc, reported_train_acc, best_iteration = \
                             val_acc, train_acc, t + e * self.num_trains // self.args.batch_size
+            for group in optimizer.param_groups:
+                group_weight_decay = group['weight_decay']
+                group['weight_decay'] = group_weight_decay * weight_decay_decay
             if scheduler:
                 scheduler.step()
         return (best_val_acc, reported_train_acc, best_iteration), model
@@ -842,7 +846,8 @@ class TorchExample():
         else:
             exp_lr_scheduler = None
         result_dict["Adaptive model"], adaptive_model = self.general_train(adaptive_model, adaptive_optimizer, epochs=self.args.epochs,
-                                                                           model_name='adaptive weight decay', scheduler=exp_lr_scheduler)
+                                                                           model_name='adaptive weight decay', scheduler=exp_lr_scheduler,
+                                                                           weight_decay_decay=self.args.weight_decay_decay)
 
         adaptive_norm_array = disply_param_histogram(adaptive_model, reg_strength=self.args.reg_strength, model_type='adaptive_model')
         original_model = self.get_model(reg_layers)

@@ -26,7 +26,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/torch_code/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/torch_tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -402,7 +401,7 @@
       <workItem from="1608650219356" duration="4753000" />
       <workItem from="1609065717622" duration="223000" />
       <workItem from="1609163071351" duration="11894000" />
-      <workItem from="1610187606129" duration="6658000" />
+      <workItem from="1610187606129" duration="7149000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -538,10 +537,10 @@
     </state>
     <state width="896" height="560" key="XDebugger.FullValuePopup/0.0.1792.1120@0.0.1792.1120" timestamp="1603394789367" />
     <state width="960" height="540" key="XDebugger.FullValuePopup/0.0.1920.1080@0.0.1920.1080" timestamp="1601966716926" />
-    <state x="22" y="0" width="1920" height="1038" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1610219213832">
+    <state x="0" y="0" width="1920" height="1038" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1610227510079">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="22" y="0" width="1920" height="1038" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1610219213832" />
+    <state x="0" y="0" width="1920" height="1038" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1610227510079" />
     <state x="0" y="23" width="1792" height="1055" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1610188631551" />
     <state x="432" y="90" width="1003" height="747" key="find.popup" timestamp="1608979507040">
       <screen x="0" y="23" width="1920" height="1057" />
@@ -609,7 +608,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>872</line>
+          <line>877</line>
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -619,27 +618,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>853</line>
+          <line>858</line>
           <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>672</line>
+          <line>673</line>
           <option name="timeStamp" value="241" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>675</line>
+          <line>676</line>
           <option name="timeStamp" value="242" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>596</line>
+          <line>597</line>
           <option name="timeStamp" value="247" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>664</line>
+          <line>665</line>
           <option name="timeStamp" value="254" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -724,7 +723,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>833</line>
+          <line>837</line>
           <option name="timeStamp" value="326" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
