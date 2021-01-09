@@ -59,9 +59,10 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="ROOT_SYNC" value="SYNC" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_COMMON_BRANCH" value="without_dropconnect" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="JupyterTrust" id="2b8a9906-3dde-4ef3-bdbe-240fd8f2154b" />
   <component name="ProjectId" id="1f8GF2u8kiUBeUlHM5FqXMLhUGj" />
@@ -398,7 +399,7 @@
       <workItem from="1608650219356" duration="4753000" />
       <workItem from="1609065717622" duration="223000" />
       <workItem from="1609163071351" duration="11894000" />
-      <workItem from="1610187606129" duration="5572000" />
+      <workItem from="1610187606129" duration="5829000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
