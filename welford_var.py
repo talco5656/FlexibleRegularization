@@ -18,13 +18,16 @@ class Welford:
     # device = attr.ib('cpu')
     package = attr.ib('np')
     reinitiate_every_step = attr.ib(True)
-    
+    initial_param = attr.ib(None)
+
     def __attrs_post_init__(self):
         self.tensor_package = torch if self.package == 'torch' else np
+        self.initial_param = self.tensor_package.clone(self.initial_param)
         self.count = 0
-        self.mean = self.tensor_package.zeros(self.dim)
+        self.mean = self.initial_param or self.tensor_package.zeros(self.dim)
         self.M2 = self.tensor_package.zeros(self.dim)
         self.var = self.tensor_package.ones(self.dim)
+
         
     def update(self, new_value):
         self.count += 1

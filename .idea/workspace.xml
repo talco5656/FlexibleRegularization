@@ -27,9 +27,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KNN classes acc.csv" beforeDir="false" afterPath="$PROJECT_DIR$/KNN classes acc.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiment classes acc.csv" beforeDir="false" afterPath="$PROJECT_DIR$/experiment classes acc.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/torch_code/knn_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/knn_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/online_avg.py" beforeDir="false" afterPath="$PROJECT_DIR$/online_avg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/pytorch_adaptive_optim/sgd.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/welford_var.py" beforeDir="false" afterPath="$PROJECT_DIR$/welford_var.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,6 +76,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="web.server" />
@@ -167,6 +168,9 @@
       <module name="assignment2" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="$PROJECT_DIR$/../../venv/DR/bin/python" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -402,6 +406,7 @@
       <workItem from="1608650219356" duration="4753000" />
       <workItem from="1609065717622" duration="223000" />
       <workItem from="1609163071351" duration="11894000" />
+      <workItem from="1610187606129" duration="352000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -607,7 +612,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/welford_var.py</url>
-          <line>49</line>
+          <line>52</line>
           <option name="timeStamp" value="208" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -707,7 +712,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/welford_var.py</url>
-          <line>31</line>
+          <line>34</line>
           <option name="timeStamp" value="323" />
         </line-breakpoint>
       </breakpoints>

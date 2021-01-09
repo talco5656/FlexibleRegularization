@@ -110,9 +110,9 @@ class SGD(Optimizer):
                 # if self.adaptive_var_reg and 'W' in k:  # or (self.adaptive_dropconnect and k in ('W1', 'W2')):
                     # if self.variance_calculation_method == 'welford':
                 if adaptive_var_weight_decay:
-                    online_param_var[param_name] = Welford(dim=param.shape, static_calculation=static_var_calculation, package='torch')
+                    online_param_var[param_name] = Welford(dim=param.shape, static_calculation=static_var_calculation, package='torch', initial_param=param)
                 if adaptive_avg_reg:
-                    avg_param_dict[param_name] = OnlineAvg(dim=param.shape, static_calculation=static_var_calculation, package='torch')
+                    avg_param_dict[param_name] = OnlineAvg(dim=param.shape, static_calculation=static_var_calculation, package='torch', initial_param=param)
         return online_param_var, avg_param_dict
 
     @torch.no_grad()
