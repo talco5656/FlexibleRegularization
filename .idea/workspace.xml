@@ -25,14 +25,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs231n/datasets/cifar-100-python.tar.gz" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs231n/datasets/cifar-100-python/meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs231n/datasets/cifar-100-python/test" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cs231n/datasets/cifar-100-python/train" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/torch_code/torch_tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/torch_tests.py" afterDir="false" />
-    </list>
+    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -177,7 +170,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/torch_code/knn_test.py" />
-      <option name="PARAMETERS" value="--uniform_prior_strength 0.5 --iter_length 10 --static_var_calculation 1 --num_trains 1000 --epochs 20 --knn_class_ratio 0.5 --reg_strength 0.1 --trains 1 --num_of_repeats 5 --model resnet18" />
+      <option name="PARAMETERS" value="--uniform_prior_strength 0.5 --iter_length 10 --static_var_calculation 1 --num_trains 100 --epochs 20 --knn_class_ratio 0.5 --reg_strength 0.1 --output_dir /tmp --trains 1 --num_of_repeats 10 --model mlp" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -405,7 +398,7 @@
       <workItem from="1608650219356" duration="4753000" />
       <workItem from="1609065717622" duration="223000" />
       <workItem from="1609163071351" duration="11894000" />
-      <workItem from="1610187606129" duration="1906000" />
+      <workItem from="1610187606129" duration="5572000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -464,12 +457,17 @@
     <option name="LAST_COMMIT_MESSAGE" value="del it all" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1609608177658">
+    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1610219785590">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1609600272424" />
-    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1609608177658" />
+    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1610219785590" />
+    <state x="511" y="354" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1610203416919" />
     <state x="723" y="111" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1608975217403" />
+    <state x="698" y="294" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1610219703375">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="698" y="294" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1610219703375" />
     <state x="100" y="90" width="1720" height="878" key="DiffContextDialog" timestamp="1603187069311">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -536,10 +534,10 @@
     </state>
     <state width="896" height="560" key="XDebugger.FullValuePopup/0.0.1792.1120@0.0.1792.1120" timestamp="1603394789367" />
     <state width="960" height="540" key="XDebugger.FullValuePopup/0.0.1920.1080@0.0.1920.1080" timestamp="1601966716926" />
-    <state x="0" y="23" width="1792" height="1055" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1610188631551">
-      <screen x="0" y="23" width="1792" height="1097" />
+    <state x="22" y="0" width="1920" height="1038" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1610219213832">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="0" y="0" width="1920" height="1038" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1603744087145" />
+    <state x="22" y="0" width="1920" height="1038" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1610219213832" />
     <state x="0" y="23" width="1792" height="1055" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1610188631551" />
     <state x="432" y="90" width="1003" height="747" key="find.popup" timestamp="1608979507040">
       <screen x="0" y="23" width="1920" height="1057" />
@@ -607,7 +605,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>869</line>
+          <line>871</line>
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -617,27 +615,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>850</line>
+          <line>852</line>
           <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>669</line>
+          <line>671</line>
           <option name="timeStamp" value="241" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>672</line>
+          <line>674</line>
           <option name="timeStamp" value="242" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>593</line>
+          <line>595</line>
           <option name="timeStamp" value="247" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>661</line>
+          <line>663</line>
           <option name="timeStamp" value="254" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -722,7 +720,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/torch_code/torch_tests.py</url>
-          <line>830</line>
+          <line>832</line>
           <option name="timeStamp" value="326" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

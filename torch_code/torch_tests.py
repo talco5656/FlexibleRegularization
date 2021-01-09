@@ -537,9 +537,10 @@ def parse_args():
     parser.add_argument("--static_var_calculation", type=int, default=1)
     parser.add_argument("--scheduler", type=float, default=0)
     parser.add_argument("--dataset", default='cifar10', choices=['cifar10', 'cifar100', 'imagenet'])
-    parser.add_argument("--output_dir", default=Path('/tmp'))  # /cs/labs/gavish/gal.hyams/data/out/dr
+    parser.add_argument("--output_dir", default=Path('/cs/labs/gavish/gal.hyams/data/out/dr'))    #  /tmp))  # /cs/labs/gavish/gal.hyams/data/out/dr
     parser.add_argument("--uniform_prior_strength", type=float, default=0.5)
     parser.add_argument("--knn_class_ratio", type=float, default=0.5, help="seen classes / all classes")
+    parser.add_argument("--random_train_val", type=float, default=0)
     return parser.parse_args()
 
 
@@ -569,9 +570,10 @@ class TorchExample():
             os.makedirs(self.args.output_dir)
             os.makedirs(f"{self.args.output_dir}/datasets")
 
-    @staticmethod
-    def get_samples_order(train_dataset):
-        return np.random.permutation(range(len(train_dataset)))
+    def get_samples_order(self, train_dataset):
+        if self.args.random_train_val:
+            return np.random.permutation(range(len(train_dataset)))
+        return range(len(train_dataset))
 
     def get_pytorch_imagenet_data(self):
         #todo: change hard wired arguments
@@ -604,18 +606,18 @@ class TorchExample():
             T.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
         ])
 
-        cifar100_train = dset.CIFAR100('./cs231n/datasets', train=True, download=True,
+        cifar100_train = dset.CIFAR100(f"{self.output_dir}/datasets", train=True, download=True,
                                      transform=transform)
         samples_order = self.get_samples_order(cifar100_train)
         loader_train = DataLoader(cifar100_train, batch_size=self.args.batch_size,
                                   sampler=sampler.SubsetRandomSampler(samples_order[:self.num_trains]))
 
-        cifar100_val = dset.CIFAR100('./cs231n/datasets', train=True, download=True,
+        cifar100_val = dset.CIFAR100(f"{self.output_dir}/datasets", train=True, download=True,
                                    transform=transform)
         loader_val = DataLoader(cifar100_val, batch_size=self.args.batch_size,
                                 sampler=sampler.SubsetRandomSampler(samples_order[self.num_trains: self.num_trains + 1000]))
 
-        cifar100_test = dset.CIFAR100('./cs231n/datasets', train=False, download=True,
+        cifar100_test = dset.CIFAR100(f"{self.output_dir}/datasets", train=False, download=True,
                                     transform=transform)
         loader_test = DataLoader(cifar100_test, batch_size=self.args.batch_size)
         return DataTuple(loader_train, loader_val, loader_test), 100
@@ -625,14 +627,14 @@ class TorchExample():
             T.ToTensor(),
             T.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010))
         ])
-        cifar10_train = dset.CIFAR10('./cs231n/datasets', train=True, download=True,
+        cifar10_train = dset.CIFAR10(f"{self.output_dir}/datasets", train=True, download=True,
                                      transform=transform)
 
         samples_order = self.get_samples_order(cifar10_train)
         loader_train = DataLoader(cifar10_train, batch_size=self.args.batch_size,
                                   sampler=sampler.SubsetRandomSampler(samples_order[:self.num_trains]))
 
-        cifar10_val = dset.CIFAR100('./cs231n/datasets', train=True, download=True,
+        cifar10_val = dset.CIFAR100(f"{self.output_dir}/datasets", train=True, download=True,
                                    transform=transform)
         loader_val = DataLoader(cifar10_val, batch_size=self.args.batch_size,
                                 sampler=sampler.SubsetRandomSampler(samples_order[self.num_trains: self.num_trains + 1000]))
@@ -645,7 +647,7 @@ class TorchExample():
         # loader_val = DataLoader(cifar10_val, batch_size=self.args.batch_size,
         #                         sampler=sampler.SubsetRandomSampler(range(self.num_trains, self.num_trains + 1000)))
 
-        cifar10_test = dset.CIFAR10('./cs231n/datasets', train=False, download=True,
+        cifar10_test = dset.CIFAR10(f"{self.output_dir}/datasets", train=False, download=True,
                                     transform=transform)
         loader_test = DataLoader(cifar10_test, batch_size=self.args.batch_size)
         return DataTuple(loader_train, loader_val, loader_test), 10
