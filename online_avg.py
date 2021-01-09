@@ -21,7 +21,7 @@ class OnlineAvg:
         self.tensor_package = torch if self.package == 'torch' else np
         self.initial_param = self.tensor_package.clone(self.initial_param)
         self.count = 0
-        self.avg = self.initial_param or self.tensor_package.zeros(self.dim)
+        self.avg = self.initial_param #or self.tensor_package.zeros(self.dim)
         self.static_avg = self.tensor_package.zeros(self.dim)
 
     def update(self, new_value):
