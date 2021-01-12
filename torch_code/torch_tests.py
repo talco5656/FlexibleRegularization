@@ -636,7 +636,7 @@ class TorchExample():
         loader_train = DataLoader(cifar10_train, batch_size=self.args.batch_size,
                                   sampler=sampler.SubsetRandomSampler(samples_order[:self.num_trains]))
 
-        cifar10_val = dset.CIFAR100(f"{self.args.output_dir}/datasets", train=True, download=True,
+        cifar10_val = dset.CIFAR10(f"{self.args.output_dir}/datasets", train=True, download=True,
                                    transform=transform)
         loader_val = DataLoader(cifar10_val, batch_size=self.args.batch_size,
                                 sampler=sampler.SubsetRandomSampler(samples_order[self.num_trains: self.num_trains + 1000]))
