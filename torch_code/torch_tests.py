@@ -913,7 +913,7 @@ def main():
     if args.trains:
         from trains import Task
         task = Task.init(project_name='Flexible Regularization',
-                         task_name='Torch Models')
+                         task_name='5 seen classes MLP reg 0.1 iterlength 10')    #  'Torch Models')
     else:
         task = None
     torch_example = TorchExample(args, task)
