@@ -25,7 +25,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all" />
+    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -428,7 +430,7 @@
       <workItem from="1610311278112" duration="12569000" />
       <workItem from="1610539931428" duration="599000" />
       <workItem from="1610702116823" duration="388000" />
-      <workItem from="1610953387114" duration="6623000" />
+      <workItem from="1610953387114" duration="7422000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -487,11 +489,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="del it all" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611054096074">
+    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611304640933">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1610527638516" />
-    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1611054096074" />
+    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1611304640933" />
     <state x="511" y="354" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1610203416919" />
     <state x="723" y="111" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1608975217403" />
     <state x="698" y="294" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1610219703375">
@@ -572,10 +574,10 @@
     <state x="0" y="0" width="1792" height="1077" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1610389372652" />
     <state x="25" y="0" width="1920" height="1080" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1610429824285" />
     <state x="0" y="23" width="1792" height="1055" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1610188631551" />
-    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1611053136237">
+    <state x="432" y="68" width="1003" height="763" key="find.popup" timestamp="1611303919346">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1611053136237" />
+    <state x="432" y="68" width="1003" height="763" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1611303919346" />
     <state x="432" y="90" width="1003" height="747" key="find.popup/0.23.1920.1057@0.23.1920.1057" timestamp="1608979507040" />
   </component>
   <component name="XDebuggerManager">

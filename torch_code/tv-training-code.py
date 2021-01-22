@@ -114,7 +114,7 @@ def get_transform(train):
 
 def main():
     args = parse_args()
-    root = args.root() # "/Users/hyamsga/Projects/others/un/Data/PennFudanPed"
+    root = args.root # "/Users/hyamsga/Projects/others/un/Data/PennFudanPed"
     # train on the GPU or on the CPU, if a GPU is not available
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     weight_decay = 0.0005
