@@ -26,7 +26,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
-      <change beforePath="$PROJECT_DIR$/torch_code/tv-training-code.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/tv-training-code.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_code/detection/engine.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/detection/engine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/torch_code/tv_finetune.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/tv_finetune.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +59,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
@@ -66,7 +69,11 @@
     <option name="RESET_MODE" value="MIXED" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
-  <component name="JupyterTrust" id="2b8a9906-3dde-4ef3-bdbe-240fd8f2154b" />
+  <component name="JupyterTrust" id="2b8a9906-3dde-4ef3-bdbe-240fd8f2154b">
+    <option name="files">
+      <option value="torch_code/tv_finetune.ipynb" />
+    </option>
+  </component>
   <component name="ProjectId" id="1f8GF2u8kiUBeUlHM5FqXMLhUGj" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -90,6 +97,7 @@
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/torch_code" />
+      <recent name="$PROJECT_DIR$/torch_code/detection" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -271,7 +279,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="tv-training-code" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="tv-training-code" type="PythonConfigurationType" factoryName="Python" singleton="false" temporary="true" nameIsGenerated="true">
       <module name="assignment2" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -344,10 +352,10 @@
       <item itemvalue="Python.torch_test" />
       <item itemvalue="Python.PyTorch" />
       <item itemvalue="Python.train_and_eval" />
+      <item itemvalue="Python.tv-training-code" />
       <item itemvalue="Python tests.Nosetests in PyTorch.py" />
       <item itemvalue="Python tests.Nosetests in torch_tests.py" />
       <item itemvalue="Python tests.Nosetests for knn_test.test1" />
-      <item itemvalue="Python.tv-training-code" />
     </list>
     <recent_temporary>
       <list>
@@ -430,7 +438,7 @@
       <workItem from="1610311278112" duration="12569000" />
       <workItem from="1610539931428" duration="599000" />
       <workItem from="1610702116823" duration="388000" />
-      <workItem from="1610953387114" duration="12175000" />
+      <workItem from="1610953387114" duration="13628000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>
@@ -489,11 +497,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="del it all" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611304640933">
+    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611345100023">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="494" y="185" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1610527638516" />
-    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1611304640933" />
+    <state x="547" y="326" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1611345100023" />
     <state x="511" y="354" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1610203416919" />
     <state x="723" y="111" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1608975217403" />
     <state x="698" y="294" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1610219703375">
@@ -758,11 +766,27 @@
           <line>208</line>
           <option name="timeStamp" value="332" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/torch_code/detection/engine.py</url>
+          <line>85</line>
+          <option name="timeStamp" value="333" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/torch_code/detection/engine.py</url>
+          <line>86</line>
+          <option name="timeStamp" value="334" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/torch_code/detection/engine.py</url>
+          <line>87</line>
+          <option name="timeStamp" value="335" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/FlexibleRegularization$Nosetests_in_PyTorch_py.coverage" NAME="Nosetests in PyTorch.py Coverage Results" MODIFIED="1600776596656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/FlexibleRegularization$tv_training_code.coverage" NAME="tv-training-code Coverage Results" MODIFIED="1611345162557" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/torch_code" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$data_utils.coverage" NAME="data_utils Coverage Results" MODIFIED="1595619655496" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cs231n" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$train_and_eval__1_.coverage" NAME="train_and_eval Coverage Results" MODIFIED="1597854212421" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/FlexibleRegularization$train_and_eval.coverage" NAME="train_and_eval Coverage Results" MODIFIED="1600708461158" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
