@@ -1,6 +1,6 @@
 # Sample code from the TorchVision 0.3 Object Detection Finetuning Tutorial
 # http://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
-
+import argparse
 import os
 import numpy as np
 import torch
@@ -113,7 +113,8 @@ def get_transform(train):
 
 
 def main():
-    root = "/Users/hyamsga/Projects/others/un/Data/PennFudanPed"
+    args = parse_args()
+    root = args.root() # "/Users/hyamsga/Projects/others/un/Data/PennFudanPed"
     # train on the GPU or on the CPU, if a GPU is not available
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     weight_decay = 0.0005
@@ -173,6 +174,53 @@ def main():
             evaluate(model, data_loader_test, device=device)
 
     print("That's it!")
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='adaptive regularization')
+    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--root', default="/Users/hyamsga/Projects/others/un/Data/PennFudanPed")
+    # parser.add_argument("--print_every", type=int, default=10)
+    # parser.add_argument("--verbose", type=int, default=0)
+    # parser.add_argument("--iter_length", type=int, default=100)
+    # parser.add_argument("--batch_size", type=int, default=100)
+    # parser.add_argument("--model", default='mlp') #, choices=['mlp', 'cnn', 'alexnet',])
+    # parser.add_argument("--num_trains", default=49000, type=int)
+    # parser.add_argument("--num_of_repeats", default=1, type=int)
+    # parser.add_argument("--dropconnect", default=1, type=float)
+    # parser.add_argument("--adaptive_var_reg", default=1, type=int)
+    # parser.add_argument("--reg_strength", default=0, type=float)
+    # parser.add_argument("--adaptive_dropconnect", default=0, type=int)
+    # parser.add_argument("--divide_var_by_mean_var", default=1, type=int)
+    # parser.add_argument("--test", default=0, type=int)
+    # parser.add_argument("--variance_calculation_method", default="welford", choices=["naive", "welford", "GMA"])
+    # parser.add_argument("--static_variance_update", default=1, type=int)
+    # parser.add_argument("--var_normalizer", default=1, type=float)  # todo: make sure this is the right value to put
+    # parser.add_argument("--batchnorm", default=0, type=int, help="Available only for MLP.")
+    # parser.add_argument("--optimizer", default='sgd', choices=['sgd', 'sgd_momentum', 'adam', 'rmsprop', None])
+    # parser.add_argument("--baseline_as_well", default=1, type=int)
+    # parser.add_argument("--eval_distribution_sample", default=0, type=float)
+    # parser.add_argument("--inverse_var", default=1, type=int)
+    # parser.add_argument("--adaptive_avg_reg", default=0, type=int)
+    # parser.add_argument("--mean_mean", default=0, type=int)
+    # parser.add_argument("--trains", default=1, type=int)
+    # parser.add_argument("--hidden_layers", default=5, type=int)
+    # parser.add_argument("--lnn", default=0, type=int)
+    # parser.add_argument("--reg_layers", default='1,2,3')
+    # parser.add_argument("--momentum", type=int, default=0)
+    # parser.add_argument("--nesterov", type=int, default=0)
+    # parser.add_argument("--gpu", type=int, default=1)
+    # parser.add_argument("--pretrained", type=int, default=1)
+    # parser.add_argument("--lr", type=float, default=0.001)
+    # parser.add_argument("--static_var_calculation", type=int, default=1)
+    # parser.add_argument("--scheduler", type=float, default=0)
+    # parser.add_argument("--dataset", default='cifar10', choices=['cifar10', 'cifar100', 'imagenet'])
+    # parser.add_argument("--output_dir", default=Path('/cs/labs/gavish/gal.hyams/data/out/dr'))    #  /tmp))  # /cs/labs/gavish/gal.hyams/data/out/dr
+    # parser.add_argument("--uniform_prior_strength", type=float, default=0)
+    # parser.add_argument("--knn_class_ratio", type=float, default=0.5, help="seen classes / all classes")
+    # parser.add_argument("--weight_decay_decay", type=float, default=1.0)
+    # parser.add_argument("--random_train_val", type=float, default=0)
+    return parser.parse_args()
 
 
 if __name__ == "__main__":
