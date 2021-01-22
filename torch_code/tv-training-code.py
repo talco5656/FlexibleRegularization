@@ -116,7 +116,7 @@ def main():
     args = parse_args()
     root = args.root # "/Users/hyamsga/Projects/others/un/Data/PennFudanPed"
     # train on the GPU or on the CPU, if a GPU is not available
-    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    device = torch.device('cuda') if torch.cuda.is_available() and args.cuda else torch.device('cpu')
     weight_decay = 0.0005
     # our dataset has two classes only - background and person
     num_classes = 2
@@ -179,6 +179,7 @@ def main():
 def parse_args():
     parser = argparse.ArgumentParser(description='adaptive regularization')
     parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--root', default="/Users/hyamsga/Projects/others/un/Data/PennFudanPed")
     # parser.add_argument("--print_every", type=int, default=10)
     # parser.add_argument("--verbose", type=int, default=0)
