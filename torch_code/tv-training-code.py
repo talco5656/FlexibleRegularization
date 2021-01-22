@@ -152,8 +152,8 @@ def main():
     # and a learning rate scheduler
 
     optimizers = {
-        "adaptive wd optimizer": SGD(params, lr=0.005,
-                                momentum=0.9, weight_decay=weight_decay),
+        # "adaptive wd optimizer": SGD(params, lr=0.005,
+        #                         momentum=0.9, weight_decay=weight_decay),
         "regular optimizer": torch.optim.SGD(params, lr=0.005,
                                 momentum=0.9, weight_decay=weight_decay)
     }
