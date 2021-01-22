@@ -123,8 +123,8 @@ class TVFinetune:
         self.logger = None
         self.num_classes = 2
         self.root = self.args.root  # "/Users/hyamsga/Projects/others/un/Data/PennFudanPed"
-        # self.device = torch.device('cuda') if torch.cuda.is_available() and self.args.gpu else torch.device('cpu')
-        self.device = torch.device('cpu')  # torch.device('cuda') if torch.cuda.is_available() and self.args.gpu else torch.device('cpu')
+        self.device = torch.device('cuda') if torch.cuda.is_available() and self.args.gpu else torch.device('cpu')
+        # self.device = torch.device('cpu')  # torch.device('cuda') if torch.cuda.is_available() and self.args.gpu else torch.device('cpu')
         # weight_decay = 0.0005
         if self.args.trains:
             from trains import Task
