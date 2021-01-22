@@ -545,7 +545,6 @@ def parse_args():
     return parser.parse_args()
 
 
-
 @attr.s
 class TorchExample():
     args = attr.ib()

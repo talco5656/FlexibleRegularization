@@ -7,6 +7,7 @@ import torch
 from PIL import Image
 
 import torchvision
+import attr
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 
@@ -111,59 +112,132 @@ def get_transform(train):
         transforms.append(T.RandomHorizontalFlip(0.5))
     return T.Compose(transforms)
 
+@attr.s
+class TVFinetune:
+    # def __init__(self, args):
+    args = attr.ib()
+    task = attr.ib(None)
 
-def main():
-    args = parse_args()
-    root = args.root # "/Users/hyamsga/Projects/others/un/Data/PennFudanPed"
-    # train on the GPU or on the CPU, if a GPU is not available
-    device = torch.device('cuda') if torch.cuda.is_available() and args.cuda else torch.device('cpu')
-    weight_decay = 0.0005
-    # our dataset has two classes only - background and person
-    num_classes = 2
-    # use our dataset and defined transformations
-    dataset = PennFudanDataset(root, get_transform(train=True))
-    dataset_test = PennFudanDataset(root, get_transform(train=False))
 
-    # split the dataset in train and test set
-    indices = torch.randperm(len(dataset)).tolist()
-    dataset = torch.utils.data.Subset(dataset, indices[:-50])
-    dataset_test = torch.utils.data.Subset(dataset_test, indices[-50:])
+    def __attrs_post_init__(self):
+        self.logger = None
+        self.num_classes = 2
+        self.root = self.args.root  # "/Users/hyamsga/Projects/others/un/Data/PennFudanPed"
+        self.device = torch.device('cuda') if torch.cuda.is_available() and self.args.gpu else torch.device('cpu')
+        # weight_decay = 0.0005
 
-    # define training and validation data loaders
-    data_loader = torch.utils.data.DataLoader(
-        dataset, batch_size=2, shuffle=True, num_workers=4,
-        collate_fn=utils.collate_fn)
+        self.train_data_loader, self.test_data_loader = self.get_dataloaders()
 
-    data_loader_test = torch.utils.data.DataLoader(
-        dataset_test, batch_size=1, shuffle=False, num_workers=4,
-        collate_fn=utils.collate_fn)
+    # def execute(self):
+        # train on the GPU or on the CPU, if a GPU is not available
+        # our dataset has two classes only - background and person
+        # use our dataset and defined transformations
+        # dataset = PennFudanDataset(root, get_transform(train=True))
+        # dataset_test = PennFudanDataset(root, get_transform(train=False))
+        #
+        # # split the dataset in train and test set
+        # indices = torch.randperm(len(dataset)).tolist()
+        # dataset = torch.utils.data.Subset(dataset, indices[:-50])
+        # dataset_test = torch.utils.data.Subset(dataset_test, indices[-50:])
+        #
+        # # define training and validation data loaders
+        # data_loader = torch.utils.data.DataLoader(
+        #     dataset, batch_size=2, shuffle=True, num_workers=4,
+        #     collate_fn=utils.collate_fn)
+        #
+        # data_loader_test = torch.utils.data.DataLoader(
+        #     dataset_test, batch_size=1, shuffle=False, num_workers=4,
+        #     collate_fn=utils.collate_fn)
 
-    # get the model using our helper function
-    model = get_model_instance_segmentation(num_classes)
+        # get the model using our helper function
+        # model = get_model_instance_segmentation(num_classes)
+        #
+        # # move model to the right device
+        # model.to(device)
+        #
+        # # construct an optimizer
+        # params = [p for p in model.parameters() if p.requires_grad]
+        # if not self.args.adaptive_var_reg and not self.args.adaptive_avg_reg:
+        #     optimizer = torch.optim.SGD(params, lr=0.005,
+        #                                 momentum=0.9, weight_decay=0.0005)
+        # else:
+        #     optimizer = SGD(params, lr=0.005,
+        #                     momentum=0.9, weight_decay=0.0005,
+        #                     nesterov=self.args.neterov, adaptive_var_weight_decay=self.args.adaptive_var_reg,
+        #                     iter_length=self.args.iter_length, device=device,
+        #                     inverse_var=self.args.inverse_var, adaptive_avg_reg=self.args.adaptive_avg_reg,
+        #                     logger=self.logger, static_var_calculation=self.args.static_var_calculation,
+        #                     uniform_prior_strength=0.5
+        #                     )
+        # and a learning rate scheduler
 
-    # move model to the right device
-    model.to(device)
+        # optimizers = {
+        #     "adaptive wd optimizer": SGD(params, lr=0.005,
+        #                             momentum=0.9, weight_decay=weight_decay),
+        #     "regular optimizer": torch.optim.SGD(params, lr=0.005,
+        #                                          momentum=0.9, weight_decay=weight_decay)
+        # }
+        # for optimizer_name, optimizer in optimizers.items():
+            # lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
+            #                                                step_size=3,
+            #                                                gamma=0.1)
+            # # let's train it for 10 epochs
+            # num_epochs = self.args.epochs # 10
+            #
+            # for epoch in range(num_epochs):
+            #     # train for one epoch, printing every 10 iterations
+            #     train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq=10)
+            #     # update the learning rate
+            #     lr_scheduler.step()
+            #     # evaluate on the test dataset
+            #     evaluate(model, data_loader_test, device=device)
 
-    # construct an optimizer
-    params = [p for p in model.parameters() if p.requires_grad]
-    # optimizer = torch.optim.SGD(params, lr=0.005,
-    #                             momentum=0.9, weight_decay=0.0005)
-    optimizer = SGD(params, lr=0.005,
-                                momentum=0.9, weight_decay=0.0005)
-    # and a learning rate scheduler
+            # print("That's it!")
 
-    optimizers = {
-        # "adaptive wd optimizer": SGD(params, lr=0.005,
-        #                         momentum=0.9, weight_decay=weight_decay),
-        "regular optimizer": torch.optim.SGD(params, lr=0.005,
-                                momentum=0.9, weight_decay=weight_decay)
-    }
-    for optimizer_name, optimizer in optimizers.items():
+    def get_dataloaders(self):
+        dataset = PennFudanDataset(self.root, get_transform(train=True))
+        dataset_test = PennFudanDataset(self.root, get_transform(train=False))
+
+        # split the dataset in train and test set
+        indices = torch.randperm(len(dataset)).tolist()
+        dataset = torch.utils.data.Subset(dataset, indices[:-50])
+        dataset_test = torch.utils.data.Subset(dataset_test, indices[-50:])
+
+        # define training and validation data loaders
+        train_data_loader = torch.utils.data.DataLoader(
+            dataset, batch_size=2, shuffle=True, num_workers=4,
+            collate_fn=utils.collate_fn)
+
+        test_data_loader = torch.utils.data.DataLoader(
+            dataset_test, batch_size=1, shuffle=False, num_workers=4,
+            collate_fn=utils.collate_fn)
+        return train_data_loader, test_data_loader
+
+    def train_and_eval(self):
+        model = get_model_instance_segmentation(self.num_classes)
+
+        # move model to the right device
+        model.to(self.device)
+
+        # construct an optimizer
+        params = [p for p in model.parameters() if p.requires_grad]
+        if not self.args.adaptive_var_reg and not self.args.adaptive_avg_reg:
+            optimizer = torch.optim.SGD(params, lr=0.005,
+                                        momentum=0.9, weight_decay=self.args.reg_strength)
+        else:
+            optimizer = SGD(params, lr=0.005,
+                            momentum=0.9, weight_decay=self.args.reg_strength,
+                            nesterov=self.args.neterov, adaptive_var_weight_decay=self.args.adaptive_var_reg,
+                            iter_length=self.args.iter_length, device=self.device,
+                            inverse_var=self.args.inverse_var, adaptive_avg_reg=self.args.adaptive_avg_reg,
+                            logger=self.logger, static_var_calculation=self.args.static_var_calculation,
+                            uniform_prior_strength=0.5
+                            )
         lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer,
                                                        step_size=3,
                                                        gamma=0.1)
         # let's train it for 10 epochs
-        num_epochs = 10
+        num_epochs = self.args.epochs  # 10
 
         for epoch in range(num_epochs):
             # train for one epoch, printing every 10 iterations
@@ -173,24 +247,29 @@ def main():
             # evaluate on the test dataset
             evaluate(model, data_loader_test, device=device)
 
-    print("That's it!")
+
+
+def main():
+    args = parse_args()
+    tv_fintune = TVFinetune(args)
+    tv_fintune.train_and_eval()
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='adaptive regularization')
     parser.add_argument('--epochs', type=int, default=10)
-    parser.add_argument('--cuda', type=int, default=0)
+    # parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--root', default="/Users/hyamsga/Projects/others/un/Data/PennFudanPed")
     # parser.add_argument("--print_every", type=int, default=10)
     # parser.add_argument("--verbose", type=int, default=0)
-    # parser.add_argument("--iter_length", type=int, default=100)
+    parser.add_argument("--iter_length", type=int, default=100)
     # parser.add_argument("--batch_size", type=int, default=100)
     # parser.add_argument("--model", default='mlp') #, choices=['mlp', 'cnn', 'alexnet',])
     # parser.add_argument("--num_trains", default=49000, type=int)
     # parser.add_argument("--num_of_repeats", default=1, type=int)
     # parser.add_argument("--dropconnect", default=1, type=float)
-    # parser.add_argument("--adaptive_var_reg", default=1, type=int)
-    # parser.add_argument("--reg_strength", default=0, type=float)
+    parser.add_argument("--adaptive_var_reg", default=1, type=int)
+    parser.add_argument("--reg_strength", default=0.0005, type=float)
     # parser.add_argument("--adaptive_dropconnect", default=0, type=int)
     # parser.add_argument("--divide_var_by_mean_var", default=1, type=int)
     # parser.add_argument("--test", default=0, type=int)
@@ -201,19 +280,19 @@ def parse_args():
     # parser.add_argument("--optimizer", default='sgd', choices=['sgd', 'sgd_momentum', 'adam', 'rmsprop', None])
     # parser.add_argument("--baseline_as_well", default=1, type=int)
     # parser.add_argument("--eval_distribution_sample", default=0, type=float)
-    # parser.add_argument("--inverse_var", default=1, type=int)
-    # parser.add_argument("--adaptive_avg_reg", default=0, type=int)
+    parser.add_argument("--inverse_var", default=1, type=int)
+    parser.add_argument("--adaptive_avg_reg", default=0, type=int)
     # parser.add_argument("--mean_mean", default=0, type=int)
     # parser.add_argument("--trains", default=1, type=int)
     # parser.add_argument("--hidden_layers", default=5, type=int)
     # parser.add_argument("--lnn", default=0, type=int)
     # parser.add_argument("--reg_layers", default='1,2,3')
     # parser.add_argument("--momentum", type=int, default=0)
-    # parser.add_argument("--nesterov", type=int, default=0)
-    # parser.add_argument("--gpu", type=int, default=1)
+    parser.add_argument("--neterov", type=int, default=0)
+    parser.add_argument("--gpu", type=int, default=0)
     # parser.add_argument("--pretrained", type=int, default=1)
     # parser.add_argument("--lr", type=float, default=0.001)
-    # parser.add_argument("--static_var_calculation", type=int, default=1)
+    parser.add_argument("--static_var_calculation", type=int, default=1)
     # parser.add_argument("--scheduler", type=float, default=0)
     # parser.add_argument("--dataset", default='cifar10', choices=['cifar10', 'cifar100', 'imagenet'])
     # parser.add_argument("--output_dir", default=Path('/cs/labs/gavish/gal.hyams/data/out/dr'))    #  /tmp))  # /cs/labs/gavish/gal.hyams/data/out/dr
