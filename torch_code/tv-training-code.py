@@ -290,7 +290,7 @@ def parse_args():
     parser.add_argument("--inverse_var", default=1, type=int)
     parser.add_argument("--adaptive_avg_reg", default=0, type=int)
     # parser.add_argument("--mean_mean", default=0, type=int)
-    # parser.add_argument("--trains", default=1, type=int)
+    parser.add_argument("--trains", default=1, type=int)
     # parser.add_argument("--hidden_layers", default=5, type=int)
     # parser.add_argument("--lnn", default=0, type=int)
     # parser.add_argument("--reg_layers", default='1,2,3')
