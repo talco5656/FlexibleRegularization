@@ -25,7 +25,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all" />
+    <list default="true" id="d0338c1b-f452-4e6a-96f3-bd381915f33e" name="Default Changelist" comment="del it all">
+      <change beforePath="$PROJECT_DIR$/torch_code/tv-training-code.py" beforeDir="false" afterPath="$PROJECT_DIR$/torch_code/tv-training-code.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -428,7 +430,7 @@
       <workItem from="1610311278112" duration="12569000" />
       <workItem from="1610539931428" duration="599000" />
       <workItem from="1610702116823" duration="388000" />
-      <workItem from="1610953387114" duration="10935000" />
+      <workItem from="1610953387114" duration="11296000" />
     </task>
     <task id="LOCAL-00001" summary="Third commit">
       <created>1592314894946</created>

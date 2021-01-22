@@ -125,7 +125,14 @@ class TVFinetune:
         self.root = self.args.root  # "/Users/hyamsga/Projects/others/un/Data/PennFudanPed"
         self.device = torch.device('cuda') if torch.cuda.is_available() and self.args.gpu else torch.device('cpu')
         # weight_decay = 0.0005
-
+        if self.args.trains:
+            from trains import Task
+            self.task = Task.init(project_name='Flexible Regularization',
+                             task_name='Finetune Maskrcnn')  # 'Torch Models')
+        else:
+            self.task = None
+        # task = attr.ib(None)
+        self.logger = self.task.current_task().get_logger() if self.task else None  # self.args.trains else None
         self.train_data_loader, self.test_data_loader = self.get_dataloaders()
 
     # def execute(self):
