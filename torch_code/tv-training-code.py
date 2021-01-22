@@ -212,7 +212,7 @@ class TVFinetune:
 
         # define training and validation data loaders
         train_data_loader = torch.utils.data.DataLoader(
-            dataset, batch_size=2, shuffle=True, num_workers=4,
+            dataset, batch_size=self.args.batch_size, shuffle=True, num_workers=4,
             collate_fn=utils.collate_fn)
 
         test_data_loader = torch.utils.data.DataLoader(
@@ -254,9 +254,13 @@ class TVFinetune:
             # evaluate on the test dataset
             evaluate(model, self.test_data_loader, device=self.device)
 
-
+def clean_gpu():
+    import gc
+    gc.collect()
+    torch.cuda.empty_cache()
 
 def main():
+    clean_gpu()
     args = parse_args()
     tv_fintune = TVFinetune(args)
     tv_fintune.train_and_eval()
@@ -270,7 +274,7 @@ def parse_args():
     # parser.add_argument("--print_every", type=int, default=10)
     # parser.add_argument("--verbose", type=int, default=0)
     parser.add_argument("--iter_length", type=int, default=100)
-    # parser.add_argument("--batch_size", type=int, default=100)
+    parser.add_argument("--batch_size", type=int, default=1)
     # parser.add_argument("--model", default='mlp') #, choices=['mlp', 'cnn', 'alexnet',])
     # parser.add_argument("--num_trains", default=49000, type=int)
     # parser.add_argument("--num_of_repeats", default=1, type=int)
