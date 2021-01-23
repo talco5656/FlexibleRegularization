@@ -255,14 +255,17 @@ class TVFinetune:
             # evaluate on the test dataset
             evaluate(model, self.test_data_loader, device=self.device)
 
+
 def clean_gpu():
     import gc
     gc.collect()
     torch.cuda.empty_cache()
 
+
 def main():
-    clean_gpu()
+    # clean_gpu()
     args = parse_args()
+    print(args)
     tv_fintune = TVFinetune(args)
     tv_fintune.train_and_eval()
 
