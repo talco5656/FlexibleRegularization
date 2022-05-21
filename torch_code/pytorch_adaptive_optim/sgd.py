@@ -1,8 +1,8 @@
 import torch
 from torch.optim.optimizer import Optimizer, required
 
-import OnlineAvg
-import Welford
+from FlexibleRegularization.online_avg import OnlineAvg
+from FlexibleRegularization.welford_var import Welford
 
 if torch.cuda.is_available():
     device = torch.device('cuda')
