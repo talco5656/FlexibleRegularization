@@ -25,8 +25,8 @@ from torchvision import models
 # In[2]:
 import pandas as pd
 
-import pytorch_adaptive_optim
-from cifar_subset import CIFARSubset
+from torch_code import pytorch_adaptive_optim
+from torch_code.cifar_subset import CIFARSubset
 
 DataTuple = namedtuple("DataTuple", ["train", "val", "test"])
 
